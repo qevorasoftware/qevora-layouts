@@ -883,8 +883,52 @@ body.qevora-preview-open {
 }
 
 .qevora-demo-card__info {
-	display: block;
-	padding: 16px 18px 18px;
+	display: grid;
+	grid-template-columns: minmax( 260px, 1.25fr ) minmax( 220px, 0.9fr ) minmax( 300px, 1.1fr );
+	gap: 20px;
+	padding: 18px 22px 22px;
+	align-items: start;
+}
+
+.qevora-demo-card__facts dl {
+	margin: 0;
+	padding: 12px 14px;
+	border: 1px solid var( --qevora-border-soft, #dcdcde );
+	border-radius: 10px;
+	background: var( --qevora-surface, #fff );
+}
+
+.qevora-demo-card__facts dt {
+	margin: 0 0 2px;
+	font-size: 10.5px;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	color: var( --qevora-muted, #50575e );
+}
+
+.qevora-demo-card__facts dd {
+	margin: 0 0 10px;
+	font-size: 12.5px;
+	line-height: 1.5;
+}
+
+.qevora-demo-card__facts dd:last-child {
+	margin-bottom: 0;
+}
+
+.qevora-demo-card__facts code {
+	font-size: 11.5px;
+}
+
+.qevora-demo-card__actions .qevora-template__form {
+	margin: 0;
+}
+
+@media ( max-width: 1100px ) {
+
+	.qevora-demo-card__info {
+		grid-template-columns: 1fr;
+	}
 }
 
 .qevora-demo-card .qevora-template__body {

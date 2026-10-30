@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Qevora Layouts 1.0.0\n"
 "Report-Msgid-Bugs-To: https://github.com/qevorasoftware/qevora-layouts/issues\n"
-"POT-Creation-Date: 2026-10-30T11:20:20+00:00\n"
+"POT-Creation-Date: 2026-10-30T11:44:16+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -390,8 +390,8 @@ msgid "Auto detect"
 msgstr ""
 
 #: includes/Admin/Layout_Columns.php:232
-#: includes/Admin/Views/template-library.php:331
-#: includes/Admin/Views/template-library.php:344
+#: includes/Admin/Views/template-library.php:348
+#: includes/Admin/Views/template-library.php:361
 #: includes/Import/Template.php:270
 msgid "Block editor"
 msgstr ""
@@ -460,6 +460,7 @@ msgid "Preview"
 msgstr ""
 
 #: includes/Admin/Layout_Columns.php:76
+#: includes/Admin/Views/template-library.php:239
 msgid "Type"
 msgstr ""
 
@@ -536,7 +537,7 @@ msgid ""
 msgstr ""
 
 #: includes/Admin/Meta_Boxes.php:218
-#: includes/Admin/Views/template-library.php:425
+#: includes/Admin/Views/template-library.php:442
 msgid "Hide the theme header/footer while this layout is displayed"
 msgstr ""
 
@@ -1544,8 +1545,8 @@ msgid "Template file (.json)"
 msgstr ""
 
 #: includes/Admin/Views/template-library.php:114
-#: includes/Admin/Views/template-library.php:249
-#: includes/Admin/Views/template-library.php:431
+#: includes/Admin/Views/template-library.php:265
+#: includes/Admin/Views/template-library.php:448
 msgid "Import as"
 msgstr ""
 
@@ -1554,13 +1555,13 @@ msgid "Enabled (published)"
 msgstr ""
 
 #: includes/Admin/Views/template-library.php:117
-#: includes/Admin/Views/template-library.php:252
-#: includes/Admin/Views/template-library.php:434
+#: includes/Admin/Views/template-library.php:268
+#: includes/Admin/Views/template-library.php:451
 msgid "Disabled (draft)"
 msgstr ""
 
 #: includes/Admin/Views/template-library.php:122
-#: includes/Admin/Views/template-library.php:437
+#: includes/Admin/Views/template-library.php:454
 msgid "If already imported"
 msgstr ""
 
@@ -1569,7 +1570,7 @@ msgid "Skip"
 msgstr ""
 
 #: includes/Admin/Views/template-library.php:125
-#: includes/Admin/Views/template-library.php:440
+#: includes/Admin/Views/template-library.php:457
 msgid "Import a copy"
 msgstr ""
 
@@ -1632,37 +1633,58 @@ msgstr ""
 msgid "Preview larger"
 msgstr ""
 
-#: includes/Admin/Views/template-library.php:230
+#: includes/Admin/Views/template-library.php:231
 msgid "PHP demo"
 msgstr ""
 
-#: includes/Admin/Views/template-library.php:242
-#: includes/Admin/Views/template-library.php:412
+#: includes/Admin/Views/template-library.php:241
+msgid "Template file"
+msgstr ""
+
+#: includes/Admin/Views/template-library.php:243
+#: templates/demos/header-dark-bar.php:388
+msgid "Menu"
+msgstr ""
+
+#: includes/Admin/Views/template-library.php:244
+msgid "No menu needed"
+msgstr ""
+
+#: includes/Admin/Views/template-library.php:245
+msgid "Responsive"
+msgstr ""
+
+#: includes/Admin/Views/template-library.php:246
+msgid "Desktop, tablet and phone"
+msgstr ""
+
+#: includes/Admin/Views/template-library.php:258
+#: includes/Admin/Views/template-library.php:429
 msgid "Display on"
 msgstr ""
 
-#: includes/Admin/Views/template-library.php:251
-#: includes/Admin/Views/template-library.php:433
+#: includes/Admin/Views/template-library.php:267
+#: includes/Admin/Views/template-library.php:450
 msgid "Enabled (display now)"
 msgstr ""
 
-#: includes/Admin/Views/template-library.php:261
+#: includes/Admin/Views/template-library.php:277
 msgid "Create a sample menu"
 msgstr ""
 
-#: includes/Admin/Views/template-library.php:270
+#: includes/Admin/Views/template-library.php:286
 msgid "Hide the theme header/footer while this demo is displayed"
 msgstr ""
 
-#: includes/Admin/Views/template-library.php:275
+#: includes/Admin/Views/template-library.php:291
 msgid "Import demo"
 msgstr ""
 
-#: includes/Admin/Views/template-library.php:291
+#: includes/Admin/Views/template-library.php:308
 msgid "No templates to show"
 msgstr ""
 
-#: includes/Admin/Views/template-library.php:293
+#: includes/Admin/Views/template-library.php:310
 msgid ""
 "No importable JSON templates are registered right now - the bundled demos"
 "above cover headers, footers and sections without any editor content."
@@ -1671,58 +1693,54 @@ msgid ""
 "in Settings."
 msgstr ""
 
-#: includes/Admin/Views/template-library.php:296
+#: includes/Admin/Views/template-library.php:313
 msgid "Open import settings"
 msgstr ""
 
-#: includes/Admin/Views/template-library.php:331
-#: includes/Admin/Views/template-library.php:344
+#: includes/Admin/Views/template-library.php:348
+#: includes/Admin/Views/template-library.php:361
 #: includes/Import/Template.php:267
 msgid "Requires Elementor"
 msgstr ""
 
-#: includes/Admin/Views/template-library.php:347
+#: includes/Admin/Views/template-library.php:364
 msgid "Bundled"
 msgstr ""
 
-#: includes/Admin/Views/template-library.php:347
+#: includes/Admin/Views/template-library.php:364
 msgid "Remote"
 msgstr ""
 
-#: includes/Admin/Views/template-library.php:356
+#: includes/Admin/Views/template-library.php:373
 msgid "Displays on:"
 msgstr ""
 
 #. translators: %s: comma separated list of missing plugins.
-#: includes/Admin/Views/template-library.php:380
+#: includes/Admin/Views/template-library.php:397
 msgid "Not available yet: %s must be active."
-msgstr ""
-
-#. translators: %d: number of existing layouts.
-#: includes/Admin/Views/template-library.php:394
-msgid "Already imported once."
-msgid_plural "Already imported %d times."
-msgstr[0] ""
-msgstr[1] ""
-
-#: includes/Admin/Views/template-library.php:399
-msgid "Edit the existing layout"
 msgstr ""
 
 #: includes/Admin/Views/template-library.php:41
 msgid "Import settings"
 msgstr ""
 
-#: includes/Admin/Views/template-library.php:439
+#. translators: %d: number of existing layouts.
+#: includes/Admin/Views/template-library.php:411
+msgid "Already imported once."
+msgid_plural "Already imported %d times."
+msgstr[0] ""
+msgstr[1] ""
+
+#: includes/Admin/Views/template-library.php:416
+msgid "Edit the existing layout"
+msgstr ""
+
+#: includes/Admin/Views/template-library.php:456
 msgid "Skip duplicates"
 msgstr ""
 
-#: includes/Admin/Views/template-library.php:445
+#: includes/Admin/Views/template-library.php:462
 msgid "Import"
-msgstr ""
-
-#: includes/Admin/Views/template-library.php:461
-msgid "Close preview"
 msgstr ""
 
 #: includes/Admin/Views/template-library.php:47
@@ -1731,6 +1749,10 @@ msgid ""
 ".json template. Imports never overwrite an existing layout: a template"
 "that was imported before is skipped unless you choose to import a second"
 "copy."
+msgstr ""
+
+#: includes/Admin/Views/template-library.php:478
+msgid "Close preview"
 msgstr ""
 
 #: includes/Admin/Views/template-library.php:52
@@ -2641,7 +2663,7 @@ msgstr ""
 msgid "Qevora Layouts is inactive:"
 msgstr ""
 
-#: templates/demos/header-dark-bar.php:312
+#: templates/demos/header-dark-bar.php:322
 msgid "Book a call"
 msgstr ""
 
@@ -2649,7 +2671,7 @@ msgstr ""
 msgid "Dark Bar Header"
 msgstr ""
 
-#: templates/demos/header-dark-bar.php:338
+#: templates/demos/header-dark-bar.php:349
 msgid "Primary menu"
 msgstr ""
 
@@ -2659,10 +2681,6 @@ msgid ""
 "with dot separators and a light call-to-action button. Rendered entirely"
 "by the plugin from this one PHP file - responsive, with a tap-friendly"
 "slide-down menu on phones."
-msgstr ""
-
-#: templates/demos/header-dark-bar.php:362
-msgid "Menu"
 msgstr ""
 
 #: templates/demos/header-dark-bar.php:37

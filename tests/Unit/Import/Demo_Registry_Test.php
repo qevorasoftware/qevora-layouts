@@ -105,7 +105,9 @@ class Demo_Registry_Test extends TestCase {
 
 		$this->assertStringContainsString( 'class="qhdb"', $preview );
 		$this->assertStringContainsString( '<style id="qevora-demo-preview-css-header-dark-bar-0">', $preview );
-		$this->assertStringNotContainsString( '<nav', $preview, 'Previews render without a menu.' );
+		$this->assertStringContainsString( '<ul class="qhdb__menu">', $preview, 'Previews show a representative sample menu.' );
+		$this->assertStringContainsString( 'Home', $preview );
+		$this->assertStringNotContainsString( 'data-qhdb-toggle', $preview, 'Previews never show the mobile toggle.' );
 		$this->assertStringContainsString( 'qhdb__cta', $preview, 'The call-to-action button previews too.' );
 
 		$dialog = Demo_Registry::preview_html( 'header-dark-bar', 1 );

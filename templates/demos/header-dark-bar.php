@@ -164,6 +164,15 @@ return array(
 	padding: 9px 2px;
 }
 
+.qhdb .qhdb__menu li > span {
+	color: #fff;
+	text-transform: uppercase;
+	letter-spacing: 0.12em;
+	font-size: 11.5px;
+	font-weight: 600;
+	padding: 9px 2px;
+}
+
 .qhdb__menu a:hover,
 .qhdb__menu a:focus,
 .qhdb__menu .current-menu-item > a {
@@ -172,6 +181,7 @@ return array(
 
 .qhdb .qhdb__cta {
 	flex: 0 0 auto;
+	margin-left: auto;
 	background: #fff;
 	color: #101012;
 	border-radius: 8px;
@@ -323,6 +333,7 @@ QEVORA_DEMO_CSS,
 
 		$qhdb_menu_id  = $qhdb_chosen > 0 ? $qhdb_chosen : (int) $qevora_menu_id;
 		$qhdb_has_menu = $qhdb_menu_id > 0 && function_exists( 'wp_nav_menu' );
+		$qhdb_preview  = is_object( $qevora_layout ) && ! empty( $qevora_layout->preview );
 		?>
 <div class="qhdb">
 	<div class="qhdb__bar">
@@ -347,6 +358,21 @@ QEVORA_DEMO_CSS,
 					)
 				);
 				?>
+			</nav>
+		<?php endif; ?>
+
+		<?php
+		if ( ! $qhdb_has_menu && $qhdb_preview ) :
+			// Previews show a representative sample menu so the card, the
+			// dialog and the metabox look like the finished header. The
+			// front end never invents links.
+			?>
+			<nav class="qhdb__nav" aria-hidden="true">
+				<ul class="qhdb__menu">
+					<?php foreach ( array( 'Home', 'About', 'Service', 'Gallery', 'Contact' ) as $qhdb_sample ) : ?>
+						<li><span><?php echo esc_html( $qhdb_sample ); ?></span></li>
+					<?php endforeach; ?>
+				</ul>
 			</nav>
 		<?php endif; ?>
 

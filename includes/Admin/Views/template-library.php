@@ -224,14 +224,30 @@ $qevora_scopes    = Importer::display_scopes();
 						</div>
 
 						<div class="qevora-demo-card__info">
+							<div class="qevora-demo-card__head">
 							<div class="qevora-template__body">
 							<h2 class="qevora-template__title"><?php echo esc_html( (string) $qevora_demo['name'] ); ?></h2>
 							<p class="qevora-template__meta">
 								<?php echo esc_html( (string) $qevora_demo['type_label'] ); ?> &middot; <?php esc_html_e( 'PHP demo', 'qevora-layouts' ); ?>
 							</p>
 							<p><?php echo esc_html( (string) $qevora_demo['description'] ); ?></p>
-						</div>
+							</div>
+							</div>
 
+							<div class="qevora-demo-card__facts">
+								<dl>
+									<dt><?php esc_html_e( 'Type', 'qevora-layouts' ); ?></dt>
+									<dd><?php echo esc_html( (string) $qevora_demo['type_label'] ); ?></dd>
+									<dt><?php esc_html_e( 'Template file', 'qevora-layouts' ); ?></dt>
+									<dd><code>templates/demos/<?php echo esc_html( (string) $qevora_demo['id'] ); ?>.php</code></dd>
+									<dt><?php esc_html_e( 'Menu', 'qevora-layouts' ); ?></dt>
+									<dd><?php echo ! empty( $qevora_demo['menu'] ) ? esc_html( (string) $qevora_demo['menu_label'] ) : esc_html__( 'No menu needed', 'qevora-layouts' ); ?></dd>
+									<dt><?php esc_html_e( 'Responsive', 'qevora-layouts' ); ?></dt>
+									<dd><?php esc_html_e( 'Desktop, tablet and phone', 'qevora-layouts' ); ?></dd>
+								</dl>
+							</div>
+
+							<div class="qevora-demo-card__actions">
 						<?php if ( $qevora_can ) : ?>
 							<form class="qevora-template__form" method="post" action="<?php echo esc_url( $qevora_import ); ?>" data-qevora-import="template">
 								<input type="hidden" name="action" value="<?php echo esc_attr( Actions::IMPORT_ACTION ); ?>" />
@@ -279,6 +295,7 @@ $qevora_scopes    = Importer::display_scopes();
 								<p class="description qevora-template__message" role="status" aria-live="polite"></p>
 							</form>
 						<?php endif; ?>
+							</div>
 						</div>
 					</article>
 				<?php endforeach; ?>

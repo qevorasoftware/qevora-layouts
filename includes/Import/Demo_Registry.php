@@ -244,7 +244,10 @@ class Demo_Registry {
 			return '';
 		}
 
-		$layout   = (object) array( 'id' => (int) $instance_id );
+		$layout   = (object) array(
+			'id'      => (int) $instance_id,
+			'preview' => true,
+		);
 		$settings = is_array( $settings ) ? self::get_settings( (string) $def['manifest']['id'], $settings ) : self::get_settings( (string) $def['manifest']['id'] );
 		$html     = (string) call_user_func( $def['render'], $layout, $def['manifest'], 0, $settings );
 
