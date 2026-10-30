@@ -7,6 +7,8 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 
 ### Changed
 
+- The All Layouts list now hides the Priority, Placement and Source columns by default (they stay one Screen Options click away), so the layout name and preview get the room they need; a saved screen preference from an older version is reset once so the new defaults actually apply.
+
 - Dark Bar Header settings now match real sites: the colour picker is replaced by a logo image field with a media-library picker (the site initial tile remains as the fallback), and a new menu chooser decides which WordPress menu the bar displays - any menu from Appearance → Menus, defaulting to the menu created at import and falling back to it if the chosen menu is deleted. The mobile bar was tightened with a smaller-phone breakpoint.
 - The preview popup is now a modern modal: a white header bar carries the title, an uppercase meta line and a round x close button; the scrollable body frames the live demo in a rounded dotted canvas; a footer bar adds an "Import this demo" shortcut that closes the popup and scrolls to (and focuses) that card's import form. The panel rises and fades in over a blurred dark backdrop.
 - The whole Template Library screen now ships its design inline with the page: a boxed filter toolbar, a two-column sources grid, the demos panel and a polished preview popup (rounded panel, pill close button, uppercase meta, no horizontal scrollbar thanks to border-box sizing and overflow-x guard) - the layout no longer depends on the admin stylesheet reaching the browser uncached.

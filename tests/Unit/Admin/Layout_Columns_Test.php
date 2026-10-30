@@ -12,6 +12,7 @@ use QevoraLayouts\Admin\Layout_Columns;
 use QevoraLayouts\Core\Layout_Repository;
 use QevoraLayouts\Import\Demo_Registry;
 use QevoraLayouts\Tests\TestCase;
+use Qevora_Test_Env;
 
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
@@ -105,5 +106,45 @@ class Layout_Columns_Test extends TestCase {
 		$dash = (string) ob_get_clean();
 
 		$this->assertStringNotContainsString( 'qevora-demo-live', $dash );
+	}
+
+	/**
+	 * Priority, placement and source stay available but hidden by default.
+	 *
+	 * @return void
+	 */
+	public function test_secondary_columns_are_hidden_by_default() {
+		$hidden = Layout_Columns::default_hidden_columns( array(), (object) array( 'id' => 'edit-qevora_layout' ) );
+
+		$this->assertContains( 'ql_priority', $hidden );
+		$this->assertContains( 'ql_placement', $hidden );
+		$this->assertContains( 'ql_source', $hidden );
+
+		$other = Layout_Columns::default_hidden_columns( array(), (object) array( 'id' => 'edit-post' ) );
+
+		$this->assertSame( array(), $other );
+	}
+
+	/**
+	 * A saved screen preference is dropped once so the new defaults apply.
+	 *
+	 * @return void
+	 */
+	public function test_saved_column_preference_is_reset_once() {
+		Qevora_Test_Env::$user_id = 7;
+
+		update_user_option( 7, 'manageedit-qevora_layoutcolumnshidden', array(), true );
+
+		Layout_Columns::migrate_hidden_columns();
+
+		$this->assertSame( '', get_user_option( 'manageedit-qevora_layoutcolumnshidden', true ) );
+		$this->assertSame( 1, get_user_meta( 7, 'qevora_layouts_columns_reset', true ) );
+
+		// A preference saved after the migration is respected.
+		update_user_option( 7, 'manageedit-qevora_layoutcolumnshidden', array( 'title' ), true );
+
+		Layout_Columns::migrate_hidden_columns();
+
+		$this->assertSame( array( 'title' ), get_user_option( 'manageedit-qevora_layoutcolumnshidden', true ) );
 	}
 }

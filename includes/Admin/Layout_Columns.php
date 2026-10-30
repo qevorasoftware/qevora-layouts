@@ -56,6 +56,63 @@ class Layout_Columns {
 		add_filter( 'post_row_actions', array( __CLASS__, 'row_actions' ), 10, 2 );
 		add_filter( 'display_post_states', array( __CLASS__, 'post_states' ), 10, 2 );
 		add_filter( 'bulk_actions-edit-' . $post_type, array( __CLASS__, 'bulk_actions' ) );
+		add_filter( 'default_hidden_columns', array( __CLASS__, 'default_hidden_columns' ), 10, 2 );
+		add_action( 'admin_init', array( __CLASS__, 'migrate_hidden_columns' ) );
+	}
+
+	/**
+	 * Columns that stay available but hidden on first visit.
+	 *
+	 * @since 1.0.0
+	 * @var   string[]
+	 */
+	const DEFAULT_HIDDEN = array( 'ql_priority', 'ql_placement', 'ql_source' );
+
+	/**
+	 * Hides the secondary columns by default on the layouts screen.
+	 *
+	 * Priority, placement and source remain toggleable from Screen Options,
+	 * they simply no longer squeeze the layout title on a first visit.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param string[] $hidden Default hidden column keys.
+	 * @param object   $screen Current screen object.
+	 * @return string[]
+	 */
+	public static function default_hidden_columns( $hidden, $screen ) {
+		$hidden = is_array( $hidden ) ? $hidden : array();
+
+		if ( ! is_object( $screen ) || ! isset( $screen->id ) || 'edit-' . Layout_Post_Type::POST_TYPE !== $screen->id ) {
+			return $hidden;
+		}
+
+		return array_values( array_unique( array_merge( $hidden, self::DEFAULT_HIDDEN ) ) );
+	}
+
+	/**
+	 * Drops a saved screen preference once so the new defaults apply.
+	 *
+	 * WordPress remembers column visibility per user as soon as Screen Options
+	 * are touched; without this one-time reset an existing preference would
+	 * keep the secondary columns visible forever.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return void
+	 */
+	public static function migrate_hidden_columns() {
+		$user_id = get_current_user_id();
+
+		if ( ! $user_id || get_user_meta( $user_id, 'qevora_layouts_columns_reset', true ) ) {
+			return;
+		}
+
+		$option = 'manageedit-' . Layout_Post_Type::POST_TYPE . 'columnshidden';
+
+		delete_user_option( $user_id, $option, true );
+		delete_user_option( $user_id, $option, false );
+		update_user_meta( $user_id, 'qevora_layouts_columns_reset', 1 );
 	}
 
 	/**

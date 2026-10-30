@@ -31,6 +31,9 @@ class Qevora_Test_Env {
 	/** @var array<string,mixed> Options. */
 	public static $options = array();
 
+	/** @var array<int,array<string,array<int,mixed>>> User meta, keyed by user ID then meta key. */
+	public static $user_meta = array();
+
 	/** @var array<string,mixed> Transients. */
 	public static $transients = array();
 
@@ -213,6 +216,7 @@ class Qevora_Test_Env {
 	 */
 	public static function reset() {
 		self::$options        = array();
+		self::$user_meta      = array();
 		self::$transients     = array();
 		self::$cache          = array();
 		self::$cache_ttl      = array();
@@ -2463,6 +2467,88 @@ function user_can( $user, $capability ) {
  */
 function get_current_user_id() {
 	return (int) Qevora_Test_Env::$user_id;
+}
+
+/**
+ * Retrieves a user meta value.
+ *
+ * @param int    $user_id User ID.
+ * @param string $key     Meta key.
+ * @param bool   $single  Whether to return a single value.
+ * @return mixed
+ */
+function get_user_meta( $user_id, $key, $single = false ) {
+	$values = isset( Qevora_Test_Env::$user_meta[ (int) $user_id ][ $key ] ) ? Qevora_Test_Env::$user_meta[ (int) $user_id ][ $key ] : array();
+
+	if ( $single ) {
+		return $values ? $values[0] : '';
+	}
+
+	return $values;
+}
+
+/**
+ * Updates a user meta value.
+ *
+ * @param int    $user_id User ID.
+ * @param string $key     Meta key.
+ * @param mixed  $value   Meta value.
+ * @return bool
+ */
+function update_user_meta( $user_id, $key, $value ) {
+	Qevora_Test_Env::$user_meta[ (int) $user_id ][ $key ] = array( $value );
+
+	return true;
+}
+
+/**
+ * Reads a user option (user meta, optionally site-prefixed).
+ *
+ * @param string $option Option name.
+ * @param bool   $global Whether the option is site-wide.
+ * @return mixed
+ */
+function get_user_option( $option, $global = false ) {
+	if ( $global ) {
+		$option = 'wp_' . $option;
+	}
+
+	return get_user_meta( get_current_user_id(), $option, true );
+}
+
+/**
+ * Updates a user option (user meta, optionally site-prefixed).
+ *
+ * @param int    $user_id User ID.
+ * @param string $option  Option name.
+ * @param mixed  $value   Option value.
+ * @param bool   $global  Whether the option is site-wide.
+ * @return bool
+ */
+function update_user_option( $user_id, $option, $value, $global = false ) {
+	if ( $global ) {
+		$option = 'wp_' . $option;
+	}
+
+	return update_user_meta( $user_id, $option, $value );
+}
+
+/**
+ * Deletes a user option (user meta, optionally site-prefixed).
+ *
+ * @param int    $user_id User ID.
+ * @param string $option  Option name.
+ * @param bool   $global  Whether the option is site-wide.
+ * @return bool
+ */
+function delete_user_option( $user_id, $option, $global = false ) {
+	if ( $global ) {
+		$option = 'wp_' . $option;
+	}
+
+	unset( Qevora_Test_Env::$user_meta[ (int) $user_id ][ $option ] );
+
+	return true;
 }
 
 /**
