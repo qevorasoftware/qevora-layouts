@@ -373,7 +373,7 @@ class Template_Library {
 		$out            = array();
 
 		foreach ( $templates as $template ) {
-			if ( 'bundled' === $args['origin'] && 'bundled' !== $template->origin ) {
+			if ( '' !== $args['origin'] && $args['origin'] !== $template->origin ) {
 				continue;
 			}
 

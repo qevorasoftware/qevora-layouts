@@ -270,6 +270,10 @@ class Qevora_Test_Env {
 			)
 		);
 
+		// Anything else the caller supplied (post_excerpt, menu_order, ...) is
+		// applied through the constructor, which ignores unknown keys.
+		$post = new WP_Post( array_merge( get_object_vars( $post ), $args, array( 'ID' => $id ) ) );
+
 		self::$posts[ $id ] = $post;
 
 		return $id;
@@ -318,6 +322,39 @@ class WP_Post {
 
 	/** @var int */
 	public $post_parent = 0;
+
+	/** @var string */
+	public $post_excerpt = '';
+
+	/** @var string */
+	public $post_date_gmt = '';
+
+	/** @var string */
+	public $post_modified = '';
+
+	/** @var string */
+	public $post_modified_gmt = '';
+
+	/** @var string */
+	public $guid = '';
+
+	/** @var string */
+	public $post_mime_type = '';
+
+	/** @var string */
+	public $post_password = '';
+
+	/** @var string */
+	public $comment_status = 'open';
+
+	/** @var string */
+	public $ping_status = 'open';
+
+	/** @var int */
+	public $menu_order = 0;
+
+	/** @var int */
+	public $comment_count = 0;
 
 	/**
 	 * Constructor.
@@ -1276,8 +1313,15 @@ function esc_url_raw( $url, $protocols = null ) {
  */
 function wp_kses_post( $content ) {
 	$content = (string) $content;
+
+	// Whole tags WordPress never allows in post content.
 	$content = preg_replace( '#<\s*script[^>]*>.*?<\s*/\s*script\s*>#is', '', $content );
 	$content = preg_replace( '#<\s*iframe[^>]*>.*?<\s*/\s*iframe\s*>#is', '', $content );
+	$content = preg_replace( '#<\s*(object|embed)[^>]*>.*?<\s*/\s*\1\s*>#is', '', $content );
+	$content = preg_replace( '#<\s*/?\s*(script|iframe|object|embed)[^>]*>#is', '', $content );
+
+	// Inline event handlers are not on the allow list either.
+	$content = preg_replace( "/\son[a-z]{3,20}\s*=\s*(\"[^\"]*\"|'[^']*'|[^\s>]+)/is", '', $content );
 
 	return (string) $content;
 }
@@ -1800,6 +1844,23 @@ function get_posts( array $args = array() ) {
  * @return int|WP_Error
  */
 function wp_insert_post( array $args, $wp_error = false ) {
+	/**
+	 * Core hands the sanitized post array to `wp_insert_post_data` and stops
+	 * when a filter returns an error, so the stub does the same.
+	 */
+	$filtered = apply_filters( 'wp_insert_post_data', $args, $args );
+
+	if ( $filtered instanceof WP_Error ) {
+		return $wp_error ? $filtered : 0;
+	}
+
+	if ( is_array( $filtered ) ) {
+		$args = array_merge( $args, $filtered );
+	}
+
+	// Core stores unslashed content, so callers are expected to slash it first.
+	$args = wp_unslash( $args );
+
 	if ( empty( $args['post_type'] ) ) {
 		$args['post_type'] = 'post';
 	}

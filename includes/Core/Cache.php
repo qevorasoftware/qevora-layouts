@@ -74,7 +74,17 @@ class Cache {
 	 */
 	public static function bump_version() {
 		self::$request_cache = array();
-		self::$version       = (int) gmdate( 'U' );
+
+		/*
+		 * Two invalidations inside the same second still have to produce two
+		 * different versions. Otherwise a persistent object cache would keep
+		 * serving the previous candidate list, which matters when importing a
+		 * starter pack: that saves several layouts in a single request. The
+		 * version therefore never moves backwards.
+		 */
+		$now           = (int) gmdate( 'U' );
+		$previous      = (int) self::get_version();
+		self::$version = max( $now, $previous + 1 );
 
 		update_option( self::VERSION_OPTION, self::$version, false );
 

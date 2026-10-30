@@ -456,6 +456,11 @@ class Frontend {
 	 * @return string Sanitized CSS or an empty string.
 	 */
 	private function sanitize_css_block( $css ) {
+		// The value can come back from a filter, so it may not even be a string.
+		if ( ! is_string( $css ) && ! is_numeric( $css ) ) {
+			return '';
+		}
+
 		$css = trim( (string) $css );
 
 		if ( '' === $css || strlen( $css ) > 4000 ) {

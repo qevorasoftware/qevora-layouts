@@ -181,6 +181,16 @@ class Layout_Repository {
 
 		$content = str_replace( array( "\r\n", "\r" ), "\n", $content );
 
+		/*
+		 * Layout markup is rendered, never evaluated, so a PHP tag has no
+		 * legitimate use here. Drop them even for users who are allowed to
+		 * save unfiltered HTML: this keeps copied markup and imported files
+		 * from smuggling code into the database.
+		 */
+		$content = preg_replace( '/<\?(?:php\b|=)?[\s\S]*?\?>/i', '', $content );
+		$content = preg_replace( '/<\?(?:php\b|=)?/i', '', $content );
+		$content = str_replace( '?>', '', $content );
+
 		$max_bytes = max( 1024, (int) Settings::get( 'max_import_size_kb', 2048 ) * 1024 );
 
 		if ( strlen( $content ) > $max_bytes ) {

@@ -111,9 +111,27 @@ class Cache_Test extends TestCase {
 		Cache::bump_version();
 
 		$this->assertNotSame( $before, Cache::key( 'candidates_header' ) );
-		$this->assertSame( gmdate( 'U' ), (string) Cache::get_version() );
+		$this->assertGreaterThan( 1, Cache::get_version() );
 		$this->assertSame( 0, Cache::request_cache_size(), 'Bumping the version clears the request cache.' );
 		$this->assertNull( Cache::get( 'candidates_header' ), 'The old key no longer resolves.' );
+	}
+
+	/**
+	 * Two invalidations in the same second must not share a version.
+	 *
+	 * Importing a starter pack saves several layouts in one request; a stale
+	 * candidate list would survive until the TTL expired.
+	 *
+	 * @return void
+	 */
+	public function test_consecutive_bumps_never_collide() {
+		$first  = Cache::bump_version();
+		$second = Cache::bump_version();
+		$third  = Cache::bump_version();
+
+		$this->assertGreaterThan( $first, $second );
+		$this->assertGreaterThan( $second, $third );
+		$this->assertSame( $third, Cache::get_version() );
 	}
 
 	/**
