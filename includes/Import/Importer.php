@@ -80,11 +80,11 @@ class Importer {
 	 */
 	public static function display_scopes() {
 		$scopes = array(
-			'template'    => __( 'Where the demo says', 'qevora-layouts' ),
+			'template'    => __( 'Where the demo says - recommended', 'qevora-layouts' ),
 			'entire_site' => __( 'Entire site', 'qevora-layouts' ),
 			'front_page'  => __( 'Front page only', 'qevora-layouts' ),
-			'singular'    => __( 'Posts and pages', 'qevora-layouts' ),
-			'archives'    => __( 'Archives and blog lists', 'qevora-layouts' ),
+			'singular'    => __( 'Single posts and pages', 'qevora-layouts' ),
+			'archives'    => __( 'Blog and archive listings', 'qevora-layouts' ),
 		);
 
 		/**
@@ -120,7 +120,7 @@ class Importer {
 				'exclude' => array(),
 			),
 			'archives'    => array(
-				'include' => array( 'archive', 'post_type_archive', 'posts_page' ),
+				'include' => array( 'archive', 'posts_page' ),
 				'exclude' => array(),
 			),
 		);
@@ -527,7 +527,20 @@ class Importer {
 		}
 
 		$conditions = isset( $options['conditions'] ) && is_array( $options['conditions'] ) ? $options['conditions'] : null;
-		$policy     = (string) $options['on_duplicate'];
+
+		/*
+		 * A quick display scope chosen on an import form also applies when the
+		 * caller reaches this method directly - single library imports, the
+		 * REST route and the admin AJAX endpoint - not only through the batch
+		 * importer. Without this the scope is silently ignored and the demo
+		 * keeps the conditions it shipped with.
+		 */
+		if ( null === $conditions && ! empty( $options['display_scope'] ) ) {
+			$scope_conditions = self::scope_conditions( (string) $options['display_scope'] );
+			$conditions       = is_array( $scope_conditions ) ? $scope_conditions : null;
+		}
+
+		$policy = (string) $options['on_duplicate'];
 
 		if ( '' === $policy ) {
 			$policy = (string) \QevoraLayouts\Core\Settings::get( 'duplicate_import_policy', 'skip' );

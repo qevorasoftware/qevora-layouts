@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Qevora Layouts 1.0.0\n"
 "Report-Msgid-Bugs-To: https://github.com/qevorasoftware/qevora-layouts/issues\n"
-"POT-Creation-Date: 2026-10-30T06:27:05+00:00\n"
+"POT-Creation-Date: 2026-10-30T06:46:21+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -303,60 +303,65 @@ msgstr ""
 msgid "Your session has expired. Please reload the page and try again."
 msgstr ""
 
-#: includes/Admin/Import_Handler.php:109
+#: includes/Admin/Import_Handler.php:110
 msgid ""
 "Uploading template files is disabled in Settings → Template library and"
 "imports."
 msgstr ""
 
-#: includes/Admin/Import_Handler.php:115
+#: includes/Admin/Import_Handler.php:116
 msgid "Choose a .json template file to import."
 msgstr ""
 
-#: includes/Admin/Import_Handler.php:128
+#: includes/Admin/Import_Handler.php:129
 msgid "The file contains no usable template."
 msgstr ""
 
 #. translators: %s: template name.
-#: includes/Admin/Import_Handler.php:268
+#: includes/Admin/Import_Handler.php:290
 msgid "The template \"%s\" could not be imported."
 msgstr ""
 
-#: includes/Admin/Import_Handler.php:297
+#: includes/Admin/Import_Handler.php:319
 msgid "The import did not finish."
 msgstr ""
 
 #. translators: 1: template name, 2: what happened.
-#: includes/Admin/Import_Handler.php:318
+#: includes/Admin/Import_Handler.php:340
 msgid "%1$s — %2$s"
 msgstr ""
 
+#. translators: %s: where the imported layout displays.
+#: includes/Admin/Import_Handler.php:350
+msgid "Displays on: %s"
+msgstr ""
+
 #. translators: 1: number imported, 2: number skipped, 3: number failed.
-#: includes/Admin/Import_Handler.php:347
+#: includes/Admin/Import_Handler.php:381
 msgid "Import finished: %1$d imported, %2$d skipped, %3$d failed."
 msgstr ""
 
-#: includes/Admin/Import_Handler.php:369
+#: includes/Admin/Import_Handler.php:403
 msgid "layout created"
 msgstr ""
 
-#: includes/Admin/Import_Handler.php:370
+#: includes/Admin/Import_Handler.php:404
 msgid "second copy created"
 msgstr ""
 
-#: includes/Admin/Import_Handler.php:371
+#: includes/Admin/Import_Handler.php:405
 msgid "existing layout replaced"
 msgstr ""
 
-#: includes/Admin/Import_Handler.php:372
+#: includes/Admin/Import_Handler.php:406
 msgid "skipped (already imported)"
 msgstr ""
 
-#: includes/Admin/Import_Handler.php:373
+#: includes/Admin/Import_Handler.php:407
 msgid "failed"
 msgstr ""
 
-#: includes/Admin/Import_Handler.php:43
+#: includes/Admin/Import_Handler.php:44
 #: includes/Admin/Views/template-library.php:202
 #: includes/Import/Importer.php:265
 #: includes/Import/Importer.php:421
@@ -364,7 +369,7 @@ msgstr ""
 msgid "You are not allowed to import templates."
 msgstr ""
 
-#: includes/Admin/Import_Handler.php:68
+#: includes/Admin/Import_Handler.php:69
 msgid "The remote template library is disabled."
 msgstr ""
 
@@ -509,8 +514,10 @@ msgstr ""
 
 #: includes/Admin/Meta_Boxes.php:184
 msgid ""
-"The placement decides where the layout is injected. On block themes only"
-"wp_body_open, wp_footer, a custom hook or the manual placement work."
+"The placement chooses where on the page this layout appears. Modern block"
+"themes do not have a classic header or footer, so a choice made for"
+"classic themes is moved automatically to the closest position that works"
+"there."
 msgstr ""
 
 #: includes/Admin/Meta_Boxes.php:191
@@ -1770,19 +1777,24 @@ msgid ""
 msgstr ""
 
 #: includes/Conditions/Condition_Registry.php:54
-msgid "Posts page (blog)"
+msgid "Blog listing (latest posts)"
 msgstr ""
 
 #: includes/Conditions/Condition_Registry.php:55
-msgid "The page assigned under Settings → Reading → Posts page."
+msgid ""
+"The blog listing with your latest posts, including when it appears at the"
+"site root."
 msgstr ""
 
 #: includes/Conditions/Condition_Registry.php:61
-msgid "All singular content"
+#: includes/Import/Importer.php:86
+msgid "Single posts and pages"
 msgstr ""
 
 #: includes/Conditions/Condition_Registry.php:62
-msgid "Any single post, page or attachment."
+msgid ""
+"One single item: a post, a page or an attachment - not listings like the"
+"blog or archives."
 msgstr ""
 
 #: includes/Conditions/Condition_Registry.php:68
@@ -1951,30 +1963,35 @@ msgid "A reusable block of content inserted with a shortcode or a block."
 msgstr ""
 
 #: includes/Core/Layout_Post_Type.php:417
-msgid "Start of the theme footer (get_footer)"
+msgid "Above the site footer - best for most themes"
 msgstr ""
 
 #: includes/Core/Layout_Post_Type.php:418
-msgid "End of the page, after the theme footer (wp_footer)"
+msgid "At the very bottom of the page"
 msgstr ""
 
 #: includes/Core/Layout_Post_Type.php:419
-#: includes/Core/Layout_Post_Type.php:425
-msgid "Top of the body (wp_body_open)"
+msgid "At the top of the page - rarely useful for a footer"
 msgstr ""
 
 #: includes/Core/Layout_Post_Type.php:420
 #: includes/Core/Layout_Post_Type.php:427
-msgid "Custom theme hook"
+msgid "A custom position - advanced, choose the hook below"
 msgstr ""
 
 #: includes/Core/Layout_Post_Type.php:421
 #: includes/Core/Layout_Post_Type.php:428
-msgid "Manual only (shortcode, block or template tag)"
+msgid ""
+"Do not show automatically - place it with the shortcode, block or template"
+"tag"
+msgstr ""
+
+#: includes/Core/Layout_Post_Type.php:425
+msgid "At the top of the page, before the theme header - best for most themes"
 msgstr ""
 
 #: includes/Core/Layout_Post_Type.php:426
-msgid "Start of the theme header (get_header)"
+msgid "Inside the theme header - classic themes only"
 msgstr ""
 
 #: includes/Core/Layout_Repository.php:256
@@ -2129,46 +2146,42 @@ msgstr ""
 msgid "Invalid template object."
 msgstr ""
 
-#: includes/Import/Importer.php:547
+#: includes/Import/Importer.php:560
 msgid "You are not allowed to overwrite that layout."
 msgstr ""
 
 #. translators: %s: template name.
-#: includes/Import/Importer.php:573
+#: includes/Import/Importer.php:586
 msgid "\"%s\" was imported before and already exists. Nothing was changed."
 msgstr ""
 
 #. translators: %s: template name.
-#: includes/Import/Importer.php:595
+#: includes/Import/Importer.php:608
 msgid "\"%s\" already existed, a second copy was created."
 msgstr ""
 
-#: includes/Import/Importer.php:654
+#: includes/Import/Importer.php:667
 msgid "The template library is not available."
 msgstr ""
 
-#: includes/Import/Importer.php:660
+#: includes/Import/Importer.php:673
 msgid "Unknown template."
 msgstr ""
 
-#: includes/Import/Importer.php:668
+#: includes/Import/Importer.php:681
 msgid "That template could not be found."
 msgstr ""
 
 #: includes/Import/Importer.php:83
-msgid "Where the demo says"
+msgid "Where the demo says - recommended"
 msgstr ""
 
 #: includes/Import/Importer.php:85
 msgid "Front page only"
 msgstr ""
 
-#: includes/Import/Importer.php:86
-msgid "Posts and pages"
-msgstr ""
-
 #: includes/Import/Importer.php:87
-msgid "Archives and blog lists"
+msgid "Blog and archive listings"
 msgstr ""
 
 #: includes/Import/Remote_Source.php:146

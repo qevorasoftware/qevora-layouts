@@ -8,6 +8,7 @@
 
 namespace QevoraLayouts\Admin;
 
+use QevoraLayouts\Conditions\Condition_Sanitizer;
 use QevoraLayouts\Core\Capabilities;
 use QevoraLayouts\Core\Layout_Post_Type;
 use QevoraLayouts\Core\Plugin;
@@ -142,6 +143,27 @@ class Import_Handler {
 		}
 
 		return self::normalize( $result );
+	}
+
+	/**
+	 * Plain language summary of where an imported layout will appear.
+	 *
+	 * Shown straight after the import so a user immediately knows whether
+	 * the demo will show on the page they are looking at.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param int $layout_id Layout post ID.
+	 * @return string Summary, empty when it cannot be determined.
+	 */
+	private static function display_summary_for( $layout_id ) {
+		if ( $layout_id <= 0 || ! function_exists( 'get_post_meta' ) ) {
+			return '';
+		}
+
+		$conditions = get_post_meta( $layout_id, '_qevora_layout_conditions', true );
+
+		return Condition_Sanitizer::summarize( is_array( $conditions ) ? $conditions : array() );
 	}
 
 	/**
@@ -313,12 +335,24 @@ class Import_Handler {
 				continue;
 			}
 
-			$details[] = sprintf(
+			$line = sprintf(
 				/* translators: 1: template name, 2: what happened. */
 				__( '%1$s — %2$s', 'qevora-layouts' ),
 				(string) $entry['name'],
 				self::action_label( isset( $entry['action'] ) ? (string) $entry['action'] : '' )
 			);
+
+			$display = self::display_summary_for( isset( $entry['id'] ) ? (int) $entry['id'] : 0 );
+
+			if ( '' !== $display ) {
+				$line .= ' · ' . sprintf(
+					/* translators: %s: where the imported layout displays. */
+					__( 'Displays on: %s', 'qevora-layouts' ),
+					$display
+				);
+			}
+
+			$details[] = $line;
 		}
 
 		foreach ( $skipped as $entry ) {

@@ -5,7 +5,16 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 
 ## [Unreleased]
 
-Nothing yet.
+### Fixed
+
+- A display scope chosen on a single-template import (library card form, admin AJAX or REST) was silently ignored and the template's own conditions were kept - importing a footer with *Entire site* could still land on *Single posts and pages*. Scope resolution now happens in `Importer::import_template()`, so every import path honours it (regression-tested and verified on a real WordPress 7.1.4 install).
+- The `posts_page` condition now also matches a blog shown at the site root (no static front page), so *Blog and archive listings* covers the most common blog setup.
+
+### Changed
+
+- Placement, condition and display-scope options use plain language for non-developers: hook names like `get_footer` or `wp_body_open` no longer appear in any label (*Above the site footer - best for most themes*, *At the top of the page, before the theme header - best for most themes*, …). Stored values are unchanged.
+- *All singular content* is now *Single posts and pages* and spells out that listings are not included; *Posts page (blog)* is now *Blog listing (latest posts)*.
+- Import confirmations state where each imported layout will display (*Displays on: Entire site*).
 
 ## [1.0.0] - 2026-10-30
 

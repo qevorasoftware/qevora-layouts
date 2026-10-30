@@ -414,18 +414,18 @@ class Layout_Post_Type {
 	public static function get_placements( $type ) {
 		if ( 'footer' === $type ) {
 			$placements = array(
-				'get_footer'   => __( 'Start of the theme footer (get_footer)', 'qevora-layouts' ),
-				'wp_footer'    => __( 'End of the page, after the theme footer (wp_footer)', 'qevora-layouts' ),
-				'wp_body_open' => __( 'Top of the body (wp_body_open)', 'qevora-layouts' ),
-				'custom_hook'  => __( 'Custom theme hook', 'qevora-layouts' ),
-				'manual'       => __( 'Manual only (shortcode, block or template tag)', 'qevora-layouts' ),
+				'get_footer'   => __( 'Above the site footer - best for most themes', 'qevora-layouts' ),
+				'wp_footer'    => __( 'At the very bottom of the page', 'qevora-layouts' ),
+				'wp_body_open' => __( 'At the top of the page - rarely useful for a footer', 'qevora-layouts' ),
+				'custom_hook'  => __( 'A custom position - advanced, choose the hook below', 'qevora-layouts' ),
+				'manual'       => __( 'Do not show automatically - place it with the shortcode, block or template tag', 'qevora-layouts' ),
 			);
 		} else {
 			$placements = array(
-				'wp_body_open' => __( 'Top of the body (wp_body_open)', 'qevora-layouts' ),
-				'get_header'   => __( 'Start of the theme header (get_header)', 'qevora-layouts' ),
-				'custom_hook'  => __( 'Custom theme hook', 'qevora-layouts' ),
-				'manual'       => __( 'Manual only (shortcode, block or template tag)', 'qevora-layouts' ),
+				'wp_body_open' => __( 'At the top of the page, before the theme header - best for most themes', 'qevora-layouts' ),
+				'get_header'   => __( 'Inside the theme header - classic themes only', 'qevora-layouts' ),
+				'custom_hook'  => __( 'A custom position - advanced, choose the hook below', 'qevora-layouts' ),
+				'manual'       => __( 'Do not show automatically - place it with the shortcode, block or template tag', 'qevora-layouts' ),
 			);
 		}
 

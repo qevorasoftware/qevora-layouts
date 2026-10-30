@@ -631,6 +631,24 @@ class Importer_Test extends TestCase {
 	}
 
 	/**
+	 * The import summary tells the user where the new layout will display,
+	 * in plain words, straight after the import.
+	 *
+	 * @return void
+	 */
+	public function test_import_summary_states_where_the_layout_displays() {
+		$result = $this->importer->import_templates(
+			array( $this->template() ),
+			array( 'display_scope' => 'front_page' )
+		);
+
+		$summary = \QevoraLayouts\Admin\Import_Handler::summarize( $result );
+
+		$this->assertStringContainsString( 'Displays on:', implode( ' ', (array) $summary['details'] ) );
+		$this->assertStringContainsString( 'Front page', implode( ' ', (array) $summary['details'] ) );
+	}
+
+	/**
 	 * A batch import can pull its policy from the settings.
 	 *
 	 * @return void
@@ -668,6 +686,37 @@ class Importer_Test extends TestCase {
 		$again = $this->importer->import_from_library( 'qevora-section-hero' );
 
 		$this->assertSame( 'skipped', $again['action'], 'A repeat import never overwrites.' );
+	}
+
+	/**
+	 * A single library import (admin card, AJAX and REST all take this path)
+	 * honours the quick display scope too, otherwise the demo silently keeps
+	 * its bundled conditions and never shows where the user asked for it.
+	 *
+	 * @return void
+	 */
+	public function test_import_from_library_applies_display_scope() {
+		$result = $this->importer->import_from_library(
+			'qevora-footer-minimal',
+			array( 'display_scope' => 'entire_site' )
+		);
+
+		$this->assertSame( 'created', $result['action'] );
+
+		$layout = Importer::layout_from_result( $result );
+
+		$this->assertSame( array(), $layout->conditions['include'], 'Entire site means no include conditions.' );
+		$this->assertSame( array(), $layout->conditions['exclude'] );
+
+		$result = $this->importer->import_from_library(
+			'qevora-header-simple',
+			array( 'display_scope' => 'front_page' )
+		);
+
+		$layout = Importer::layout_from_result( $result );
+
+		$this->assertCount( 1, $layout->conditions['include'] );
+		$this->assertSame( 'front_page', $layout->conditions['include'][0]['type'] );
 	}
 
 	/**

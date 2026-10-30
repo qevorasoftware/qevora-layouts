@@ -16,7 +16,7 @@ Qevora Layouts lets you create any number of headers, footers and reusable secti
 
 = Headers and footers that follow your content =
 
-* Choose where a layout applies: entire site, front page, posts page, singular, archives, search, 404, a post type, a post type archive, a taxonomy, specific terms, specific posts or pages, an author, logged-in visitors, logged-out visitors or user roles.
+* Choose where a layout applies in plain words: entire site, front page, blog listing, single posts and pages, archives, search, 404, a post type, a post type archive, a taxonomy, specific terms, specific posts or pages, an author, logged-in visitors, logged-out visitors or user roles.
 * Include and exclude rules combine, and exclusions always win.
 * Priority ordering decides which layout renders when several match; on equal priority the more specific one wins, then the older one, so the result is always predictable.
 * Enable or disable a layout with one click from the list table - nothing is deleted.

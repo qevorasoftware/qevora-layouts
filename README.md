@@ -127,7 +127,7 @@ Every layout stores conditions as:
 | `logged_in` | none | Any logged-in visitor | 1 |
 | `logged_out` | none | Any logged-out visitor | 1 |
 | `front_page` | none | The front page (static page or posts page) | 2 |
-| `posts_page` | none | The blog posts index | 2 |
+| `posts_page` | none | The blog posts index, including when it is the site root | 2 |
 | `singular` | none | Any single post, page or attachment | 2 |
 | `archive` | none | Any archive | 2 |
 | `search` | none | Search results | 2 |
@@ -177,6 +177,8 @@ This exact scenario is asserted end-to-end in `tests/Integration/Starter_Templat
 | --- | --- | --- |
 | Header / Section | `wp_body_open`, `get_header`, `custom_hook`, `manual` | `wp_body_open` |
 | Footer | `get_footer`, `wp_footer`, `wp_body_open`, `custom_hook`, `manual` | `get_footer` |
+
+The admin UI never shows these internal slugs: every placement is offered with a plain-language label (for example *Above the site footer - best for most themes*), and the table above documents the stored values for developers.
 
 * `custom_hook` prints through `add_action( $hook, …, $priority )`. Core lifecycle hooks (`init`, `plugins_loaded`, `wp_head`, `wp_footer`, `template_redirect`, `shutdown`, …) are on a block list, and hook names must match `^[a-zA-Z0-9_\-\/.]{3,80}$`.
 * `manual` never renders automatically; use the shortcode, the block or a template tag.
@@ -336,7 +338,7 @@ Off by default, with no built-in or hard-coded endpoint. When an administrator e
 The library screen is built so a non-technical user can put a complete demo live in one click:
 
 * **One-click demo packs** - `Complete header and footer demo` imports one header and one footer starter and displays both immediately; `Full demo site` adds the three reusable sections. Packs are definitions, not files: `Importer::demo_packs()` with the `qevora_layouts_demo_packs` filter.
-* **Display scope on every import** - each template card (and the pack form) offers a *Display on* select: *Where the demo says*, *Entire site*, *Front page only*, *Posts and pages*, *Archives and blog lists*. The chosen scope becomes the layout's conditions at import time, so the default header/footer appears exactly where the user picked, without opening the editor. Scopes map to condition sets through `qevora_layouts_display_scope_conditions`, and the list itself is filterable (`qevora_layouts_display_scopes`). The REST route accepts the same `display_scope` key, or a full `conditions` object (`{include:[],exclude:[]}`) for programmatic imports.
+* **Display scope on every import** - each template card (and the pack form) offers a *Display on* select: *Where the demo says - recommended*, *Entire site*, *Front page only*, *Single posts and pages*, *Blog and archive listings*. The chosen scope becomes the layout's conditions at import time - for every import path (library card, one-click demo pack, admin AJAX and REST), so the default header/footer appears exactly where the user picked, without opening the editor. The import confirmation repeats it in plain words (*Displays on: Entire site*). Scopes map to condition sets through `qevora_layouts_display_scope_conditions`, and the list itself is filterable (`qevora_layouts_display_scopes`). The REST route accepts the same `display_scope` key, or a full `conditions` object (`{include:[],exclude:[]}`) for programmatic imports.
 * **Previews for every demo** - each card shows its preview image and a *Preview* button that opens an accessible dialog (focus moved in, Escape or *Close* moves it back) with the large image, the type, the builder requirement and the display rules the demo ships with. Cards without a preview image fall back to the bundled placeholder, so a preview always exists.
 * **Enabled vs draft** - every import form keeps the *Enabled (display now)* / *Disabled (draft)* choice; "display now" simply means the layout is stored published with the chosen conditions.
 

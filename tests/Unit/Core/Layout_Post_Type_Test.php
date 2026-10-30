@@ -24,6 +24,20 @@ if ( ! defined( 'ABSPATH' ) ) {
 class Layout_Post_Type_Test extends TestCase {
 
 	/**
+	 * Placement choices speak plain language: no hook names, no code.
+	 *
+	 * @return void
+	 */
+	public function test_placement_labels_are_plain_language() {
+		foreach ( array( 'header', 'footer' ) as $type ) {
+			foreach ( Layout_Post_Type::get_placements( $type ) as $slug => $label ) {
+				$this->assertStringNotContainsString( '(', (string) $label );
+				$this->assertStringNotContainsString( $slug, (string) $label );
+			}
+		}
+	}
+
+	/**
 	 * The data model is open for future template types.
 	 *
 	 * @return void

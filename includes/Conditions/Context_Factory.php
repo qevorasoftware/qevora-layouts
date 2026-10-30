@@ -105,7 +105,12 @@ class Context_Factory {
 		}
 
 		$context->is_front_page = is_front_page();
-		$context->is_posts_page = is_home() && ! is_front_page();
+		/*
+		 * The blog listing is the posts page even when WordPress shows it at
+		 * the site root (no static front page), otherwise "blog" conditions
+		 * silently miss the most common blog setup.
+		 */
+		$context->is_posts_page = is_home();
 		$context->is_singular   = is_singular();
 		$context->is_single     = is_single();
 		$context->is_page       = is_page();

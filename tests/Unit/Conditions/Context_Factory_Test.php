@@ -95,6 +95,13 @@ class Context_Factory_Test extends TestCase {
 
 		$this->assertFalse( $context->is_front_page );
 		$this->assertTrue( $context->is_posts_page );
+
+		// A blog at the site root (no static front page) is still the blog.
+		Qevora_Test_Env::$query['front_page'] = true;
+		$context = Context_Factory::build();
+
+		$this->assertTrue( $context->is_front_page );
+		$this->assertTrue( $context->is_posts_page );
 	}
 
 	/**

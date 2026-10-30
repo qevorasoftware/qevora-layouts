@@ -181,7 +181,7 @@ class Meta_Boxes {
 
 		echo '</select></p>';
 
-		echo '<p class="description" data-qevora-placement-note>' . esc_html__( 'The placement decides where the layout is injected. On block themes only wp_body_open, wp_footer, a custom hook or the manual placement work.', 'qevora-layouts' ) . '</p>';
+		echo '<p class="description" data-qevora-placement-note>' . esc_html__( 'The placement chooses where on the page this layout appears. Modern block themes do not have a classic header or footer, so a choice made for classic themes is moved automatically to the closest position that works there.', 'qevora-layouts' ) . '</p>';
 
 		echo '</div>'; // data-qevora-placement-fields
 
