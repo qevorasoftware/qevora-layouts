@@ -102,7 +102,7 @@ return array(
 	text-decoration: none;
 }
 
-.qhdb__mark {
+.qhdb .qhdb__mark {
 	width: 40px;
 	height: 40px;
 	border-radius: 10px;
@@ -116,7 +116,7 @@ return array(
 	text-transform: uppercase;
 }
 
-.qhdb__logo-img {
+.qhdb .qhdb__logo-img {
 	width: 40px;
 	height: 40px;
 	border-radius: 10px;
@@ -131,8 +131,8 @@ return array(
 	min-width: 0;
 }
 
-.qhdb__menu,
-.qhdb__menu ul {
+.qhdb .qhdb__menu,
+.qhdb .qhdb__menu ul {
 	display: flex;
 	flex-wrap: wrap;
 	align-items: center;
@@ -141,7 +141,7 @@ return array(
 	padding: 0;
 }
 
-.qhdb__menu li {
+.qhdb .qhdb__menu li {
 	position: relative;
 	display: flex;
 	align-items: center;
@@ -154,7 +154,7 @@ return array(
 	font-size: 10px;
 }
 
-.qhdb__menu a {
+.qhdb .qhdb__menu a {
 	color: #fff;
 	text-decoration: none;
 	text-transform: uppercase;
@@ -170,7 +170,7 @@ return array(
 	color: #f4511e;
 }
 
-.qhdb__cta {
+.qhdb .qhdb__cta {
 	flex: 0 0 auto;
 	background: #fff;
 	color: #101012;
@@ -184,13 +184,15 @@ return array(
 	white-space: nowrap;
 }
 
-.qhdb__cta:hover,
-.qhdb__cta:focus {
+.qhdb .qhdb__cta:hover,
+.qhdb .qhdb__cta:focus {
 	filter: brightness( 0.94 );
 	color: #101012;
 }
 
-.qhdb__toggle {
+/* Doubled selectors keep theme reset stylesheets (which often target
+   bare buttons) from overriding the toggle or its bars. */
+.qhdb .qhdb__toggle {
 	display: none;
 	flex-direction: column;
 	justify-content: center;
@@ -205,7 +207,7 @@ return array(
 	cursor: pointer;
 }
 
-.qhdb__toggle-bar {
+.qhdb .qhdb__toggle-bar {
 	display: block;
 	height: 2px;
 	width: 100%;
@@ -224,57 +226,58 @@ return array(
 	border: 0;
 }
 
-/* Phones and small tablets: the menu slides down under the bar. */
+/* Phones and small tablets: the bar wraps and the menu opens inside it,
+   in normal flow, so no ancestor can clip an absolute dropdown. */
 @media ( max-width: 782px ) {
 	.qhdb {
 		padding: 10px 10px;
 	}
 
-	.qhdb__bar {
+	.qhdb .qhdb__bar {
 		gap: 10px;
 		padding: 8px 10px;
+		flex-wrap: wrap;
 	}
 
-	.qhdb__toggle {
+	.qhdb .qhdb__toggle {
 		display: flex;
 	}
 
-	.qhdb__nav {
+	.qhdb .qhdb__nav {
 		display: none;
-		position: absolute;
-		top: 100%;
-		left: 0;
-		right: 0;
-		background: #0b0b0d;
-		border-radius: 12px;
-		box-shadow: 0 12px 32px rgba( 0, 0, 0, 0.28 );
-		margin-top: 8px;
-		padding: 8px 14px;
+		order: 3;
+		flex: 1 1 100%;
+		position: static;
+		margin: 4px 0 0;
+		padding: 6px 4px 4px;
+		background: transparent;
+		border-top: 1px solid rgba( 255, 255, 255, 0.16 );
+		border-radius: 0;
+		box-shadow: none;
 		justify-content: flex-start;
-		z-index: 9990;
 	}
 
-	.qhdb__nav.is-open {
+	.qhdb .qhdb__nav.is-open {
 		display: block;
 	}
 
-	.qhdb__menu,
-	.qhdb__menu ul {
+	.qhdb .qhdb__menu,
+	.qhdb .qhdb__menu ul {
 		flex-direction: column;
 		align-items: stretch;
 		width: 100%;
 	}
 
-	.qhdb__menu li + li::before {
+	.qhdb .qhdb__menu li + li::before {
 		content: none;
 	}
 
-	.qhdb__menu a {
+	.qhdb .qhdb__menu a {
 		padding: 12px 4px;
 		font-size: 12.5px;
 	}
 
-	.qhdb__cta {
+	.qhdb .qhdb__cta {
 		margin-left: auto;
 		padding: 10px 14px;
 	}
@@ -282,19 +285,19 @@ return array(
 
 /* Very small phones: keep the bar to one tidy row. */
 @media ( max-width: 480px ) {
-	.qhdb__cta {
+	.qhdb .qhdb__cta {
 		padding: 9px 10px;
 		font-size: 10px;
 		letter-spacing: 0.06em;
 	}
 
-	.qhdb__mark,
-	.qhdb__logo-img {
+	.qhdb .qhdb__mark,
+	.qhdb .qhdb__logo-img {
 		width: 34px;
 		height: 34px;
 	}
 
-	.qhdb__toggle {
+	.qhdb .qhdb__toggle {
 		width: 38px;
 		height: 38px;
 	}
