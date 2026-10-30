@@ -199,7 +199,7 @@ class Frontend {
 				continue;
 			}
 
-			$placement = $layout->get_effective_placement();
+			$placement = $this->resolve_placement( $layout->get_effective_placement() );
 
 			if ( 'manual' === $placement ) {
 				Logger::debug( 'Layout is manual only.', array( 'layout_id' => $layout->id, 'type' => $type ) );
@@ -281,6 +281,31 @@ class Frontend {
 	}
 
 	/**
+	 * Maps a stored placement onto the hook that actually fires.
+	 *
+	 * Block themes render through `template-canvas.php`, which never runs
+	 * `get_header` or `get_footer`. A layout stored with one of those
+	 * placements therefore moves to `wp_body_open` or `wp_footer`, both of
+	 * which the canvas always fires. Classic themes keep the stored hook.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param string $placement Stored placement slug.
+	 * @return string Placement slug for the active theme.
+	 */
+	private function resolve_placement( $placement ) {
+		if ( 'get_header' !== $placement && 'get_footer' !== $placement ) {
+			return $placement;
+		}
+
+		if ( function_exists( 'wp_is_block_theme' ) && wp_is_block_theme() ) {
+			return 'get_header' === $placement ? 'wp_body_open' : 'wp_footer';
+		}
+
+		return $placement;
+	}
+
+	/**
 	 * Renders every planned layout that belongs to a placement.
 	 *
 	 * @since 1.0.0
@@ -296,7 +321,7 @@ class Frontend {
 				continue;
 			}
 
-			if ( $layout->get_effective_placement() !== $placement ) {
+			if ( $this->resolve_placement( $layout->get_effective_placement() ) !== $placement ) {
 				continue;
 			}
 

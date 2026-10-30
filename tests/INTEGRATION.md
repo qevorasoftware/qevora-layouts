@@ -212,6 +212,18 @@ With an application password or a logged-in administrator (`X-WP-Nonce` from `wp
 - [ ] The plugin works with a page cache (object cache + full-page cache) without showing stale headers after a change.
 - [ ] Loading 300+ layouts does not slow the list table or the front end beyond the candidate cap (`MAX_CANDIDATES = 300`).
 
+## Already verified against a real WordPress for 1.0.0
+
+These steps were executed on a real WordPress 7.1.4 install (SQLite database drop-in, PHP 8.5, CLI requests) and pass:
+
+- Activation through `activate_plugin()`, exactly as `wp-admin/plugins.php` runs it.
+- All six REST routes: 200 for an administrator, 401 anonymously, 400 with a helpful message for a missing `template_id`.
+- Starter import (`created`), a repeat import (`skipped` by the duplicate policy) and `on_duplicate=replace`.
+- Front page of a block theme: header and footer wrappers render with real block content.
+- Template Library, Settings and System Status screens render their complete admin pages.
+
+Everything below that needs a browser, a classic theme with Elementor, multisite or a page cache is still manual.
+
 ## Reporting
 
 Attach to any bug report:

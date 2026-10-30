@@ -16,9 +16,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Central place for the capabilities every privileged action requires.
  *
- * The layout post type uses `capability_type => 'post'` with `map_meta_cap`,
- * so `edit_qevora_layouts` resolves to `edit_posts` for the current user and
- * no custom capabilities have to be added to roles.
+ * The layout post type itself uses `capability_type => 'post'` with
+ * `map_meta_cap`, so object level checks (`edit_post`, `delete_post`) resolve
+ * through the core post capabilities. The plugin level gates in this class use
+ * custom primitive capabilities, which WordPress does not grant to anybody on
+ * its own: {@see Capabilities::grant()} adds them to the administrator role
+ * during activation and {@see Capabilities::revoke()} removes them again on
+ * uninstall. Without that step every privileged request would be denied even
+ * for administrators.
  *
  * @since 1.0.0
  */
@@ -145,5 +150,95 @@ class Capabilities {
 		}
 
 		return true;
+	}
+
+	/**
+	 * The custom primitive capabilities this plugin adds to roles.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return array<int,string>
+	 */
+	public static function plugin_capabilities() {
+		return array(
+			self::EDIT_LAYOUTS,
+			self::PUBLISH_LAYOUTS,
+			self::DELETE_LAYOUTS,
+		);
+	}
+
+	/**
+	 * The roles that receive the plugin capabilities on activation.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return array<int,string> Role names.
+	 */
+	public static function granted_roles() {
+		$roles = array( 'administrator' );
+
+		/**
+		 * Filters the roles that receive the Qevora Layouts capabilities.
+		 *
+		 * Granting `edit_qevora_layouts`, `publish_qevora_layouts` and
+		 * `delete_qevora_layouts` to additional roles (for example `editor`)
+		 * lets their users manage layouts. Settings always stay with
+		 * `manage_options`.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param array<int,string> $roles Role names. Default `administrator`.
+		 */
+		return (array) apply_filters( 'qevora_layouts_granted_roles', $roles );
+	}
+
+	/**
+	 * Adds the plugin capabilities to the granted roles.
+	 *
+	 * Runs on activation and during version migrations, so sites that upgrade
+	 * from an older release receive the capabilities too.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return void
+	 */
+	public static function grant() {
+		foreach ( self::granted_roles() as $role_name ) {
+			$role = get_role( (string) $role_name );
+
+			if ( ! $role ) {
+				continue;
+			}
+
+			foreach ( self::plugin_capabilities() as $capability ) {
+				$role->add_cap( $capability );
+			}
+		}
+	}
+
+	/**
+	 * Removes the plugin capabilities from every role that has them.
+	 *
+	 * Iterates all roles rather than the granted list so capabilities survive
+	 * a changed filter until uninstall cleans them up.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return void
+	 */
+	public static function revoke() {
+		foreach ( wp_roles()->roles as $role_name => $role_data ) {
+			$role = get_role( (string) $role_name );
+
+			if ( ! $role ) {
+				continue;
+			}
+
+			foreach ( self::plugin_capabilities() as $capability ) {
+				if ( $role->has_cap( $capability ) ) {
+					$role->remove_cap( $capability );
+				}
+			}
+		}
 	}
 }

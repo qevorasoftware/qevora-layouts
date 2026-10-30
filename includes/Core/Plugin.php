@@ -159,6 +159,10 @@ final class Plugin {
 
 		$this->loader->add_action( 'update_option_' . QEVORA_LAYOUTS_OPTION, array( Cache::class, 'bump_version' ), 20, 0 );
 
+		if ( is_admin() ) {
+			$this->loader->add_action( 'admin_init', array( $this, 'maybe_migrate' ), 1 );
+		}
+
 		/**
 		 * Fires after the plugin has registered its core hooks.
 		 *
@@ -170,6 +174,48 @@ final class Plugin {
 		do_action( 'qevora_layouts_booted', $this, $this->loader );
 
 		$this->loader->run();
+	}
+
+	/**
+	 * Brings an existing installation up to the current plugin version.
+	 *
+	 * Grants the plugin capabilities when a site arrives from an older
+	 * release (or from a build whose activation never completed) so an
+	 * upgrade can never leave administrators without access.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return void
+	 */
+	public function maybe_migrate() {
+		$installed     = (string) get_option( Activator::VERSION_OPTION, '' );
+		$administrator = get_role( 'administrator' );
+		$caps_missing  = ! $administrator || ! $administrator->has_cap( Capabilities::EDIT_LAYOUTS );
+
+		if ( ! $caps_missing && QEVORA_LAYOUTS_VERSION === $installed ) {
+			return;
+		}
+
+		/*
+		 * Self-healing: a site whose activation never completed (or whose
+		 * roles were rebuilt) would otherwise lose access to every screen.
+		 */
+		if ( $caps_missing ) {
+			Capabilities::grant();
+		}
+
+		if ( QEVORA_LAYOUTS_VERSION !== $installed ) {
+			update_option( Activator::VERSION_OPTION, QEVORA_LAYOUTS_VERSION );
+
+			/**
+			 * Fires after the plugin has migrated an older installation.
+			 *
+			 * @since 1.0.0
+			 *
+			 * @param string $previous_version Version marker found, empty when missing.
+			 */
+			do_action( 'qevora_layouts_upgraded', $installed );
+		}
 	}
 
 	/**

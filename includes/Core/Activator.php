@@ -8,6 +8,8 @@
 
 namespace QevoraLayouts\Core;
 
+use QevoraLayouts\Support\Requirements;
+
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -45,7 +47,7 @@ class Activator {
 			deactivate_plugins( QEVORA_LAYOUTS_BASENAME );
 
 			wp_die(
-				'<p>' . esc_html( implode( ' ', QevoraLayouts\Support\Requirements::get_unmet_requirements() ) ) . '</p>',
+				'<p>' . esc_html( implode( ' ', Requirements::get_unmet_requirements() ) ) . '</p>',
 				esc_html__( 'Qevora Layouts could not be activated', 'qevora-layouts' ),
 				array( 'back_link' => true )
 			);
@@ -77,6 +79,8 @@ class Activator {
 		add_option( Cache::VERSION_OPTION, (int) gmdate( 'U' ), '', false );
 		update_option( self::VERSION_OPTION, QEVORA_LAYOUTS_VERSION, false );
 
+		Capabilities::grant();
+
 		Cache::bump_version();
 		Settings::flush_cache();
 
@@ -96,7 +100,7 @@ class Activator {
 	 * @return bool
 	 */
 	private static function environment_is_supported() {
-		return QevoraLayouts\Support\Requirements::meets_minimum_requirements();
+		return Requirements::meets_minimum_requirements();
 	}
 
 	/**

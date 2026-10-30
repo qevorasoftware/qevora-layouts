@@ -137,8 +137,68 @@ function qevora_layouts_uninstall_site( $post_type, array $options, array $meta_
 	}
 }
 
+/**
+ * Custom capabilities added to roles during activation.
+ *
+ * @since 1.0.0
+ * @var   string[]
+ */
+$qevora_layouts_caps = array(
+	'edit_qevora_layouts',
+	'publish_qevora_layouts',
+	'delete_qevora_layouts',
+);
+
+/**
+ * Removes the plugin capabilities from every role of the current site.
+ *
+ * Kept inline on purpose: uninstall must keep working even if the plugin
+ * files can no longer be autoloaded.
+ *
+ * @since 1.0.0
+ *
+ * @param string[] $caps Capability names to remove.
+ * @return void
+ */
+function qevora_layouts_uninstall_caps( array $caps ) {
+	foreach ( array_keys( wp_roles()->roles ) as $qevora_layouts_role_name ) {
+		$qevora_layouts_role = get_role( (string) $qevora_layouts_role_name );
+
+		if ( ! $qevora_layouts_role ) {
+			continue;
+		}
+
+		foreach ( $caps as $qevora_layouts_cap ) {
+			if ( $qevora_layouts_role->has_cap( (string) $qevora_layouts_cap ) ) {
+				$qevora_layouts_role->remove_cap( (string) $qevora_layouts_cap );
+			}
+		}
+	}
+}
+
 $qevora_layouts_settings   = get_option( 'qevora_layouts_settings', array() );
 $qevora_layouts_delete_all = is_array( $qevora_layouts_settings ) && ! empty( $qevora_layouts_settings['delete_data_on_uninstall'] );
+
+/*
+ * Role capabilities are configuration, not user content: they are removed on
+ * every uninstall, even when the layouts themselves are kept.
+ */
+if ( is_multisite() ) {
+	$qevora_layouts_cap_sites = get_sites(
+		array(
+			'fields' => 'ids',
+			'number' => 0,
+		)
+	);
+
+	foreach ( (array) $qevora_layouts_cap_sites as $qevora_layouts_cap_site_id ) {
+		switch_to_blog( (int) $qevora_layouts_cap_site_id );
+		qevora_layouts_uninstall_caps( $qevora_layouts_caps );
+		restore_current_blog();
+	}
+} else {
+	qevora_layouts_uninstall_caps( $qevora_layouts_caps );
+}
 
 // Opt-in only: keep every layout when the site owner did not ask for removal.
 if ( ! $qevora_layouts_delete_all ) {

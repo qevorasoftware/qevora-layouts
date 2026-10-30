@@ -186,6 +186,20 @@ class Qevora_Test_Env {
 	public static $died = array();
 
 	/**
+	 * Plugins passed to deactivate_plugins(), in order.
+	 *
+	 * @var array<int,string>
+	 */
+	public static $deactivated = array();
+
+	/**
+	 * Role registry: role name => WP_Role.
+	 *
+	 * @var array<string,WP_Role>
+	 */
+	public static $roles = array();
+
+	/**
 	 * Resets everything.
 	 *
 	 * @return void
@@ -241,6 +255,8 @@ class Qevora_Test_Env {
 		self::$terms          = array();
 		self::$doing_it_wrong = array();
 		self::$died           = array();
+		self::$deactivated    = array();
+		qevora_test_seed_roles();
 	}
 
 	/**
@@ -458,6 +474,166 @@ class WP_User {
 /**
  * Error object.
  */
+/**
+ * Minimal role object, mirroring the parts of WP_Role the plugin uses.
+ */
+class WP_Role {
+
+	/**
+	 * Role name.
+	 *
+	 * @var string
+	 */
+	public $name;
+
+	/**
+	 * Capability map.
+	 *
+	 * @var array<string,bool>
+	 */
+	public $capabilities = array();
+
+	/**
+	 * @param string       $name         Role name.
+	 * @param array<string,bool> $capabilities Capabilities.
+	 */
+	public function __construct( $name, array $capabilities = array() ) {
+		$this->name         = (string) $name;
+		$this->capabilities = $capabilities;
+	}
+
+	/**
+	 * @param string $cap Capability.
+	 * @return void
+	 */
+	public function add_cap( $cap ) {
+		$this->capabilities[ (string) $cap ] = true;
+	}
+
+	/**
+	 * @param string $cap Capability.
+	 * @return void
+	 */
+	public function remove_cap( $cap ) {
+		unset( $this->capabilities[ (string) $cap ] );
+	}
+
+	/**
+	 * @param string $cap Capability.
+	 * @return bool
+	 */
+	public function has_cap( $cap ) {
+		return ! empty( $this->capabilities[ (string) $cap ] );
+	}
+}
+
+/**
+ * Snapshot of the role registry, mirroring WP_Roles->roles.
+ */
+class WP_Roles {
+
+	/**
+	 * Role data keyed by role name.
+	 *
+	 * @var array<string,array<string,mixed>>
+	 */
+	public $roles = array();
+
+	/**
+	 * @param array<string,WP_Role> $roles Role objects.
+	 */
+	public function __construct( array $roles ) {
+		foreach ( $roles as $name => $role ) {
+			$this->roles[ $name ] = array(
+				'name'         => $role->name,
+				'capabilities' => $role->capabilities,
+			);
+		}
+	}
+
+	/**
+	 * @return array<string,string>
+	 */
+	public function get_names() {
+		$names = array();
+
+		foreach ( $this->roles as $name => $data ) {
+			$names[ $name ] = ucfirst( (string) $name );
+		}
+
+		return $names;
+	}
+}
+
+
+/**
+ * Seeds the default WordPress roles with their core capabilities.
+ *
+ * @return void
+ */
+function qevora_test_seed_roles() {
+	Qevora_Test_Env::$roles = array(
+		'administrator' => new WP_Role(
+			'administrator',
+			array(
+				'read'                => true,
+				'manage_options'      => true,
+				'activate_plugins'    => true,
+				'edit_posts'          => true,
+				'edit_others_posts'   => true,
+				'edit_published_posts'=> true,
+				'publish_posts'       => true,
+				'delete_posts'        => true,
+				'delete_others_posts' => true,
+				'delete_published_posts' => true,
+			)
+		),
+		'editor'        => new WP_Role(
+			'editor',
+			array(
+				'read'                => true,
+				'edit_posts'          => true,
+				'edit_others_posts'   => true,
+				'edit_published_posts'=> true,
+				'publish_posts'       => true,
+				'delete_posts'        => true,
+				'delete_others_posts' => true,
+				'delete_published_posts' => true,
+			)
+		),
+		'author'        => new WP_Role(
+			'author',
+			array(
+				'read'         => true,
+				'edit_posts'   => true,
+				'publish_posts'=> true,
+				'delete_posts' => true,
+			)
+		),
+		'contributor'   => new WP_Role(
+			'contributor',
+			array(
+				'read'         => true,
+				'edit_posts'   => true,
+				'delete_posts' => true,
+			)
+		),
+		'subscriber'    => new WP_Role( 'subscriber', array( 'read' => true ) ),
+	);
+}
+
+/**
+ * Returns a role object by name.
+ *
+ * @param string $name Role name.
+ * @return WP_Role|null
+ */
+function get_role( $name ) {
+	return isset( Qevora_Test_Env::$roles[ (string) $name ] ) ? Qevora_Test_Env::$roles[ (string) $name ] : null;
+}
+
+qevora_test_seed_roles();
+
 class WP_Error {
 
 	/** @var array<string,string[]> */
@@ -2319,15 +2495,7 @@ function get_users( $args = array() ) {
  * @return object
  */
 function wp_roles() {
-	$roles         = new stdClass();
-	$roles->roles  = array(
-		'administrator' => array( 'name' => 'Administrator' ),
-		'editor'        => array( 'name' => 'Editor' ),
-		'author'        => array( 'name' => 'Author' ),
-		'subscriber'    => array( 'name' => 'Subscriber' ),
-	);
-
-	return $roles;
+	return new WP_Roles( Qevora_Test_Env::$roles );
 }
 
 /**
@@ -2924,7 +3092,7 @@ function register_deactivation_hook( $file, $callback ) {
  * @return void
  */
 function deactivate_plugins( $plugin ) {
-	unset( $plugin );
+	Qevora_Test_Env::$deactivated[] = (string) $plugin;
 }
 
 /**

@@ -98,6 +98,8 @@ The menu list is filterable (`qevora_layouts_admin_submenus`). Plugin CSS and JS
 
 Every state-changing screen action is a POST with a nonce: `qevora_layouts_meta_nonce`, `qevora_layouts_clone_{id}`, `qevora_layouts_enable_{id}`, `qevora_layouts_disable_{id}`, plus `qevora_layouts_admin` for AJAX and `wp_rest` for the REST API.
 
+The three custom capabilities (`edit_qevora_layouts`, `publish_qevora_layouts`, `delete_qevora_layouts`) do not exist in a vanilla WordPress, so activation adds them to the **administrator** role and uninstall removes them from every role again. Add more roles (for example `editor`) with the `qevora_layouts_granted_roles` filter. An `admin_init` check re-grants them when they are missing - rebuilt roles or an interrupted activation can never lock administrators out. Settings and System Status stay behind the core `manage_options` capability.
+
 ## The condition engine
 
 Conditions are resolved from **WordPress query and user APIs only** (`is_front_page()`, `is_singular()`, `get_queried_object()`, `is_user_logged_in()`, `wp_get_current_user()`…). There is no URL substring matching anywhere: a request for `/?p=12&preview=true` is understood as a post preview, not as a string.
@@ -181,7 +183,7 @@ This exact scenario is asserted end-to-end in `tests/Integration/Starter_Templat
 
 ### Block themes
 
-Classic themes fire `get_header` and `get_footer`. Block themes render through `template-canvas.php`, where those actions never run but `wp_body_open()` and `wp_footer()` do. The plugin checks `wp_is_block_theme()` and resolves placements accordingly, so a header still appears on a block theme.
+Classic themes fire `get_header` and `get_footer`. Block themes render through `template-canvas.php`, where those actions never run but `wp_body_open()` and `wp_footer()` do. `Frontend::resolve_placement()` checks `wp_is_block_theme()` and maps a stored `get_header` placement to `wp_body_open` and a stored `get_footer` placement to `wp_footer` on block themes, so headers **and** footers appear on both theme families; classic themes keep the stored hook. Verified on a real WordPress 7.1.4 install with Twenty Twenty-Five.
 
 ### Duplicate guard
 
@@ -428,11 +430,12 @@ Settings are stored in one option (`qevora_layouts_settings`) with a registered 
 | `qevora_layouts_bundled_template_pattern`, `qevora_layouts_bundled_template_files`, `qevora_layouts_template_candidates` | Library sources. |
 | `qevora_layouts_remote_request_args` | Remote request arguments. |
 | `qevora_layouts_admin_submenus`, `qevora_layouts_list_columns`, `qevora_layouts_library_view_context`, `qevora_layouts_settings_view_context`, `qevora_layouts_status_report` | Admin. |
+| `qevora_layouts_granted_roles` | Roles that receive the plugin capabilities on activation (default: `administrator`). |
 | `qevora_layouts_rest_layout`, `qevora_layouts_allow_disabled_layout`, `qevora_layouts_auto_render_types`, `qevora_layouts_languages_dir` | Misc. |
 
 ### Actions
 
-`qevora_layouts_loaded`, `qevora_layouts_booted`, `qevora_layouts_activated`, `qevora_layouts_deactivated`, `qevora_layouts_admin_registered`, `qevora_layouts_admin_assets`, `qevora_layouts_admin_integration_notices`, `qevora_layouts_builders_registered`, `qevora_layouts_frontend_registered`, `qevora_layouts_layout_saved`, `qevora_layouts_layout_duplicated`, `qevora_layouts_meta_saved`, `qevora_layouts_list_column`, `qevora_layouts_slot_rendered`, `qevora_layouts_cache_flushed`.
+`qevora_layouts_loaded`, `qevora_layouts_booted`, `qevora_layouts_activated`, `qevora_layouts_deactivated`, `qevora_layouts_admin_registered`, `qevora_layouts_admin_assets`, `qevora_layouts_admin_integration_notices`, `qevora_layouts_builders_registered`, `qevora_layouts_frontend_registered`, `qevora_layouts_layout_saved`, `qevora_layouts_layout_duplicated`, `qevora_layouts_meta_saved`, `qevora_layouts_list_column`, `qevora_layouts_slot_rendered`, `qevora_layouts_cache_flushed`, `qevora_layouts_upgraded`.
 
 ### Adding a layout type
 
@@ -505,7 +508,7 @@ php tests/run.php --filter=Conditions # one area
 php tests/run.php --verbose           # per-test output
 ```
 
-Current result: **181 tests, 1791 assertions, 0 failures** (PHP 8.5, `php tests/run.php`).
+Current result: **191 tests, 1836 assertions, 0 failures** (PHP 8.5, `php tests/run.php`).
 
 | Area | File | Covers |
 | --- | --- | --- |
@@ -523,6 +526,12 @@ Current result: **181 tests, 1791 assertions, 0 failures** (PHP 8.5, `php tests/
 | Frontend | `tests/Unit/Frontend/Duplicate_Guard_Test.php` | One render per slot, normalization, filters, actions |
 | Frontend | `tests/Unit/Frontend/Frontend_Security_Test.php` | The inline CSS validator |
 | Integration | `tests/Integration/Starter_Templates_Test.php` | All eight starters validate, import, re-import safely and resolve per context |
+| Integration | `tests/Integration/Activation_Test.php` | Activation seeds options, grants the plugin capabilities, dies gracefully on old environments, migration self-heals, deactivation deletes nothing |
+| Frontend | `tests/Unit/Frontend/Placement_Test.php` | Stored placements versus the hooks block and classic themes really fire |
+
+### Real WordPress smoke test
+
+For 1.0.0 the release archive was additionally exercised on a **real WordPress 7.1.4** install (SQLite database drop-in, PHP 8.5, no browser): activation through `activate_plugin()` exactly as `plugins.php` runs it; all six REST routes as an administrator and anonymously (401); starter import, duplicate skip and replace through `POST /templates/import`; the front page of the block theme rendering both the header and the footer wrapper with real block content; and the Template Library, Settings and System Status screens rendering their full admin pages. This caught two bugs the stub suite could not see (a namespace-relative class reference that fatalled activation, and plugin capabilities that were never granted to any role). The browser-level steps in [`tests/INTEGRATION.md`](tests/INTEGRATION.md) remain the last manual gate, and the Elementor adapter has still never run against Elementor.
 
 `tests/stubs/wordpress.php` provides the WordPress functions the tested classes use (hooks, options, object cache, an in-memory post store, `WP_Query`, KSES, the HTTP API, capabilities, assets, REST/block/shortcode registration). Anything that needs MySQL, a real theme, the REST server or the block parser is **not** covered by this suite — those paths are listed as a manual checklist in [`tests/INTEGRATION.md`](tests/INTEGRATION.md), and they must be run on a real WordPress install before a release is considered verified.
 
@@ -552,7 +561,7 @@ It reads the version from the plugin header, stages every tracked file that `.di
 
 These are real, and stated deliberately rather than papered over:
 
-1. **No live-site verification for this release.** The sandbox used to build 1.0.0 had PHP (via a WebAssembly build) but no MySQL, no WordPress runtime and no browser. Everything was validated by syntax checking, the unit/integration suite above, and by checking the plugin against the WordPress 7.1.4 and Elementor 4.5.0 sources with `tools/verify-wp-functions.php`, which confirms that every function, class and Elementor method it calls exists (signatures were read by hand; the tool cannot prove that). The `tests/INTEGRATION.md` checklist is the remaining verification step, and the Elementor adapter in particular should be exercised on a real install before relying on it in production.
+1. **Partial live-site verification.** 1.0.0 was smoke-tested on a real WordPress 7.1.4 install (SQLite drop-in, PHP 8.5, CLI requests - no browser): activation, REST permissions, imports, front-end rendering on a block theme and the three admin screens all pass, as described under *Real WordPress smoke test*. What has **not** been exercised in any live environment yet: the browser-side admin JavaScript (condition pickers, library import progress), the Elementor adapter against a real Elementor install, multisite activation/uninstall and the browser-level steps in `tests/INTEGRATION.md`. The Elementor adapter in particular should be exercised on a real install before relying on it in production.
 2. **Elementor rendering depends on Elementor's own asset loading.** `get_builder_content_for_display()` enqueues the document CSS and flags the page, but Elementor only enqueues its frontend stylesheet for singular documents built with Elementor. The adapter calls `Elementor\Frontend::enqueue_styles()` early to compensate; on unusual setups (caching plugins that defer CSS, Elementor's "Improved CSS Loading" experiment) a header may still need `elementor-frontend` styles added manually.
 3. **No drag-and-drop builder of its own.** Layouts are authored in the block editor or in Elementor. The plugin places, conditions and renders them.
 4. **Elementor template JSON files cannot be imported.** This is intentional: importing them would mean writing Elementor's internal meta. The validator returns instructions instead (import in Elementor, then use `content_source = reference`).
