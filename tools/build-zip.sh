@@ -142,9 +142,14 @@ echo
 
 FAILURES=0
 
+# Read the listing once. Piping `unzip -l` straight into `grep -q` is not safe
+# here: with `set -o pipefail` an early match kills unzip with SIGPIPE and the
+# pipeline reports failure even though the entry is present.
+LISTING="$(unzip -Z1 "$TARGET")"
+
 check_absent() {
 	local needle="$1"
-	if unzip -l "$TARGET" | grep -q "$needle"; then
+	if grep -q "$needle" <<< "$LISTING"; then
 		echo "  FAIL: the archive contains $needle"
 		FAILURES=$((FAILURES + 1))
 	else
@@ -154,7 +159,7 @@ check_absent() {
 
 check_present() {
 	local needle="$1"
-	if unzip -l "$TARGET" | grep -q "$needle"; then
+	if grep -q "$needle" <<< "$LISTING"; then
 		echo "  ok:   contains $needle"
 	else
 		echo "  FAIL: the archive is missing $needle"
@@ -171,17 +176,27 @@ check_absent '/release/'
 check_absent 'node_modules'
 check_absent '\.zip$'
 check_absent '\.distignore'
+check_absent '\.log$'
+check_absent '\.sh$'
+check_absent '\.py$'
 
-check_present "$SLUG/$PLUGIN_FILE"
-check_present "$SLUG/uninstall.php"
-check_present "$SLUG/LICENSE"
-check_present "$SLUG/readme.txt"
-check_present "$SLUG/includes/"
-check_present "$SLUG/assets/"
-check_present "$SLUG/templates/starter/"
-check_present "$SLUG/languages/$SLUG.pot"
+check_present "^$SLUG/$PLUGIN_FILE$"
+check_present "^$SLUG/uninstall.php$"
+check_present "^$SLUG/LICENSE$"
+check_present "^$SLUG/README.md$"
+check_present "^$SLUG/readme.txt$"
+check_present "^$SLUG/CHANGELOG.md$"
+check_present "^$SLUG/includes/"
+check_present "^$SLUG/assets/"
+check_present "^$SLUG/templates/starter/"
+check_present "^$SLUG/languages/$SLUG.pot$"
 
-TOP_LEVEL="$(unzip -l "$TARGET" | awk 'NR>3 { print $4 }' | grep -v '^$' | cut -d/ -f1 | sort -u)"
+# Every runtime directory needs its silence-is-golden index.php guard.
+for directory in includes assets templates languages; do
+	check_present "^$SLUG/$directory/index.php$"
+done
+
+TOP_LEVEL="$(grep -v '^$' <<< "$LISTING" | cut -d/ -f1 | sort -u)"
 
 if [[ "$TOP_LEVEL" != "$SLUG" ]]; then
 	echo "  FAIL: unexpected top-level entries: $TOP_LEVEL"
@@ -190,6 +205,8 @@ else
 	echo "  ok:   single top-level directory '$SLUG/'"
 fi
 
+echo
+echo "Archive contents: $(grep -cv '/$' <<< "$LISTING") files."
 echo
 
 if [[ "$FAILURES" -gt 0 ]]; then

@@ -526,11 +526,33 @@ Current result: **181 tests, 1791 assertions, 0 failures** (PHP 8.5, `php tests/
 
 `tests/stubs/wordpress.php` provides the WordPress functions the tested classes use (hooks, options, object cache, an in-memory post store, `WP_Query`, KSES, the HTTP API, capabilities, assets, REST/block/shortcode registration). Anything that needs MySQL, a real theme, the REST server or the block parser is **not** covered by this suite — those paths are listed as a manual checklist in [`tests/INTEGRATION.md`](tests/INTEGRATION.md), and they must be run on a real WordPress install before a release is considered verified.
 
+### Verifying that no API was invented
+
+`tools/verify-wp-functions.php` indexes the WordPress and Elementor sources, then scans the plugin and resolves every function call, class reference, `class_exists()` string and Elementor method call against them. It fails loudly on anything that does not exist:
+
+```bash
+# Download the sources once (any WordPress >= 6.4 checkout works).
+curl -sL https://codeload.github.com/WordPress/WordPress/tar.gz/refs/tags/7.1.4 | tar xz -C /tmp/verify
+curl -sL https://codeload.github.com/elementor/elementor/tar.gz/refs/heads/main | tar xz -C /tmp/verify
+
+php tools/verify-wp-functions.php /tmp/verify/wordpress-7.1.4 /tmp/verify/elementor-main
+```
+
+Last run against WordPress 7.1.4 and Elementor `main` (4.5.0): 165 WordPress functions, 10 WordPress classes, `\Elementor\Plugin` and both Elementor methods (`Frontend::enqueue_styles()`, `Frontend::get_builder_content_for_display()`) resolve; **0 unresolved** references.
+
+### Building the release ZIP
+
+```bash
+bash tools/build-zip.sh
+```
+
+It reads the version from the plugin header, stages every tracked file that `.distignore` does not exclude into a single top-level `qevora-layouts/` directory, writes `release/qevora-layouts-<version>.zip`, and then verifies the result: no `.git/`, `tests/`, `tools/`, `release/`, `*.sh`, `*.py`, `.distignore` or `node_modules`; the bootstrap, `uninstall.php`, `LICENSE`, `README.md`, `readme.txt`, `CHANGELOG.md`, `includes/`, `assets/`, `templates/starter/`, `languages/qevora-layouts.pot` and the four `index.php` guards all present; exactly one top-level directory. The 1.0.0 archive holds 101 files (216 KB) and all 73 PHP files in it pass `php -l`.
+
 ## Known limitations
 
 These are real, and stated deliberately rather than papered over:
 
-1. **No live-site verification for this release.** The sandbox used to build 1.0.0 had PHP (via a WebAssembly build) but no MySQL, no WordPress runtime and no browser. Everything was validated by syntax checking, the unit/integration suite above, and by reading the WordPress 7.1.4 and Elementor 4.5.0 sources to confirm that every API used exists with the assumed signature. The `tests/INTEGRATION.md` checklist is the remaining verification step, and the Elementor adapter in particular should be exercised on a real install before relying on it in production.
+1. **No live-site verification for this release.** The sandbox used to build 1.0.0 had PHP (via a WebAssembly build) but no MySQL, no WordPress runtime and no browser. Everything was validated by syntax checking, the unit/integration suite above, and by checking the plugin against the WordPress 7.1.4 and Elementor 4.5.0 sources with `tools/verify-wp-functions.php`, which confirms that every function, class and Elementor method it calls exists (signatures were read by hand; the tool cannot prove that). The `tests/INTEGRATION.md` checklist is the remaining verification step, and the Elementor adapter in particular should be exercised on a real install before relying on it in production.
 2. **Elementor rendering depends on Elementor's own asset loading.** `get_builder_content_for_display()` enqueues the document CSS and flags the page, but Elementor only enqueues its frontend stylesheet for singular documents built with Elementor. The adapter calls `Elementor\Frontend::enqueue_styles()` early to compensate; on unusual setups (caching plugins that defer CSS, Elementor's "Improved CSS Loading" experiment) a header may still need `elementor-frontend` styles added manually.
 3. **No drag-and-drop builder of its own.** Layouts are authored in the block editor or in Elementor. The plugin places, conditions and renders them.
 4. **Elementor template JSON files cannot be imported.** This is intentional: importing them would mean writing Elementor's internal meta. The validator returns instructions instead (import in Elementor, then use `content_source = reference`).
