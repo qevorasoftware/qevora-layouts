@@ -824,7 +824,7 @@ body.qevora-preview-open {
    the demo live in a slim stage, so several demos fit side by side. */
 .qevora-library__demos .qevora-library__grid {
 	display: grid;
-	grid-template-columns: repeat( auto-fill, minmax( 340px, 1fr ) );
+	grid-template-columns: 1fr;
 	gap: 20px;
 }
 
@@ -857,10 +857,13 @@ body.qevora-preview-open {
 	transform: translateY( -1px );
 }
 
+/* The library card shows the demo at its natural size, full width - the
+   same markup and stylesheet the front end prints. */
 .qevora-demo-card .qevora-template__preview--live {
 	display: block;
 	position: relative;
-	height: 76px;
+	height: auto;
+	padding: 18px 20px;
 	aspect-ratio: auto;
 	border: 0;
 	border-bottom: 1px solid var( --qevora-border-soft, #dcdcde );
@@ -868,11 +871,15 @@ body.qevora-preview-open {
 }
 
 .qevora-demo-card .qevora-template__preview--live .qevora-demo-live {
-	position: absolute;
-	inset: 0;
+	position: static;
 	height: auto;
-	border-radius: 0;
-	--qevora-demo-scale: 0.28;
+	border-radius: 10px;
+}
+
+.qevora-demo-card .qevora-template__preview--live .qevora-demo-live__inner {
+	position: static;
+	width: auto;
+	transform: none;
 }
 
 .qevora-demo-card__info {
@@ -906,31 +913,56 @@ body.qevora-preview-open {
 	color: var( --qevora-text-soft, #50575e );
 }
 
+/* Import options panel: one clean line per control. */
 .qevora-demo-card .qevora-template__form {
 	display: block;
-	margin: 0;
-	padding: 12px 0 0;
-	border-top: 1px dashed var( --qevora-border-soft, #dcdcde );
+	margin: 14px 0 0;
+	padding: 16px 18px;
+	border: 1px solid var( --qevora-border-soft, #dcdcde );
+	border-radius: 10px;
+	background: var( --qevora-surface-alt, #f6f7f7 );
 }
 
 .qevora-demo-card .qevora-template__form > p {
-	display: block;
-	margin: 0 0 10px;
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 10px 14px;
+	margin: 0 0 12px;
+}
+
+.qevora-demo-card .qevora-template__form > p:last-of-type {
+	margin-bottom: 0;
 }
 
 .qevora-demo-card .qevora-template__form label {
-	display: inline-block;
-	margin: 0 8px 0 0;
+	margin: 0;
+}
+
+.qevora-demo-card .qevora-template__form > p > label:first-child {
+	flex: 0 0 110px;
 	font-weight: 600;
+}
+
+.qevora-demo-card .qevora-template__form label:has(> input[type="checkbox"]) {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	font-weight: 400;
 }
 
 .qevora-demo-card .qevora-template__form select {
 	vertical-align: middle;
-	max-width: 48%;
+	max-width: 320px;
+}
+
+.qevora-demo-card .qevora-template__form .button-primary {
+	margin: 0;
 }
 
 .qevora-demo-card .qevora-template__form .qevora-template__message {
 	display: block;
+	width: 100%;
 }
 
 /* The zoom button reads as a small chip on the live stage. */
