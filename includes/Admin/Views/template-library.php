@@ -35,6 +35,170 @@ $qevora_policy    = isset( $qevora_settings['policy'] ) ? (string) $qevora_setti
 $qevora_scopes    = Importer::display_scopes();
 ?>
 <div class="wrap qevora-layouts-wrap qevora-layouts-library">
+	<style id="qevora-library-page-css">
+	/* The library screen ships its own design so it looks exactly like
+	   this on every host, whatever their admin CSS cache does. */
+	.qevora-layouts-library *,
+	.qevora-layouts-library *::before,
+	.qevora-layouts-library *::after { box-sizing: border-box; }
+
+	.qevora-layouts-library .qevora-layouts-intro {
+		max-width: 82ch;
+		margin: 0 0 20px;
+		color: #50575e;
+		font-size: 13.5px;
+		line-height: 1.6;
+	}
+
+	.qevora-layouts-library .qevora-library__toolbar {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		justify-content: space-between;
+		gap: 12px;
+		margin: 0 0 20px;
+		padding: 12px 16px;
+		border: 1px solid #dcdcde;
+		border-radius: 12px;
+		background: #fff;
+	}
+
+	.qevora-layouts-library .qevora-library__filters {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: 10px;
+		margin: 0;
+	}
+
+	.qevora-layouts-library .qevora-library__filters select,
+	.qevora-layouts-library .qevora-library__filters input[type="search"] {
+		min-height: 36px;
+		border-radius: 8px;
+	}
+
+	.qevora-layouts-library .qevora-library__filters .button {
+		margin: 0;
+	}
+
+	.qevora-layouts-library .qevora-library__refresh { margin: 0; }
+
+	.qevora-layouts-library .qevora-library__sources {
+		display: grid;
+		grid-template-columns: repeat( 2, minmax( 0, 1fr ) );
+		gap: 20px;
+		margin: 0 0 20px;
+	}
+
+	.qevora-layouts-library .qevora-library__sources .card {
+		display: flex;
+		flex-direction: column;
+		margin: 0;
+		padding: 18px 20px;
+		border: 1px solid #dcdcde;
+		border-radius: 12px;
+		background: #fff;
+		box-shadow: none;
+	}
+
+	.qevora-layouts-library .qevora-library__sources .card .title {
+		margin: 0 0 10px;
+		font-size: 15px;
+	}
+
+	.qevora-layouts-library .qevora-library__sources .description {
+		color: #646970;
+	}
+
+	.qevora-layouts-library .qevora-demos {
+		margin: 0 0 20px;
+		padding: 20px;
+		border: 1px solid #dcdcde;
+		border-radius: 12px;
+		background: #fff;
+	}
+
+	.qevora-layouts-library .qevora-empty-state {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: 8px 18px;
+		margin: 0;
+		padding: 14px 20px;
+		border: 1px dashed #c3c4c7;
+		border-radius: 12px;
+		background: #fff;
+	}
+
+	.qevora-layouts-library .qevora-empty-state h2 { margin: 0; font-size: 14px; }
+	.qevora-layouts-library .qevora-empty-state p { margin: 0; color: #646970; }
+
+	/* The preview popup: centred modal panel, never a page-flow box. */
+	.qevora-preview-dialog {
+		position: fixed;
+		inset: 0;
+		z-index: 100100;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding: 24px;
+	}
+	.qevora-preview-dialog[hidden] { display: none; }
+	.qevora-preview-dialog__backdrop { position: absolute; inset: 0; background: rgba( 10, 10, 15, 0.72 ); }
+	.qevora-preview-dialog__panel {
+		position: relative;
+		width: 100%;
+		max-width: 960px;
+		max-height: 90vh;
+		overflow: auto;
+		overflow-x: hidden;
+		padding: 24px;
+		border-radius: 14px;
+		background: #fff;
+		box-shadow: 0 12px 48px rgba( 0, 0, 0, 0.35 );
+	}
+	.qevora-preview-dialog__close {
+		position: absolute;
+		top: 14px;
+		right: 14px;
+		z-index: 2;
+		height: 30px;
+		padding: 0 14px;
+		border-radius: 999px;
+	}
+	.qevora-preview-dialog__image {
+		display: block;
+		width: 100%;
+		height: auto;
+		border: 1px solid #dcdcde;
+		border-radius: 12px;
+		background: #f6f7f7;
+	}
+	.qevora-preview-dialog__live {
+		margin: 0 0 16px;
+		border: 1px solid #dcdcde;
+		border-radius: 12px;
+		overflow: hidden;
+		background: #eef1f5;
+	}
+	.qevora-preview-dialog__live .qevora-demo-live { height: auto; padding: 14px 16px; }
+	.qevora-preview-dialog__live .qevora-demo-live__inner { position: static; width: auto; transform: none; }
+	.qevora-preview-dialog__title { margin: 16px 0 4px; font-size: 20px; line-height: 1.3; }
+	.qevora-preview-dialog__meta {
+		margin: 0 0 10px;
+		font-size: 11px;
+		letter-spacing: 0.07em;
+		text-transform: uppercase;
+		color: #646970;
+	}
+	.qevora-preview-dialog__description { margin: 0; color: #50575e; line-height: 1.6; }
+	body.qevora-preview-open { overflow: hidden; }
+
+	@media ( max-width: 900px ) {
+		.qevora-layouts-library .qevora-library__sources { grid-template-columns: 1fr; }
+		.qevora-layouts-library .qevora-library__toolbar { justify-content: flex-start; }
+	}
+	</style>
 	<h1 class="wp-heading-inline"><?php esc_html_e( 'Template Library', 'qevora-layouts' ); ?></h1>
 
 	<?php if ( ! empty( $qevora_settings_url ) ) : ?>
@@ -471,21 +635,6 @@ $qevora_scopes    = Importer::display_scopes();
 		</div>
 	<?php endif; ?>
 
-	<style id="qevora-preview-dialog-css">
-	/* Ships with the dialog markup so the popup survives cached or
-	   optimised admin stylesheets on any host. */
-	.qevora-preview-dialog { position: fixed; inset: 0; z-index: 100100; display: flex; align-items: center; justify-content: center; padding: 24px; }
-	.qevora-preview-dialog[hidden] { display: none; }
-	.qevora-preview-dialog__backdrop { position: absolute; inset: 0; background: rgba( 10, 10, 15, 0.72 ); }
-	.qevora-preview-dialog__panel { position: relative; max-width: 920px; width: 100%; max-height: 90vh; overflow: auto; padding: 20px; border-radius: 10px; background: #fff; box-shadow: 0 12px 48px rgba( 0, 0, 0, 0.35 ); }
-	.qevora-preview-dialog__close { position: absolute; top: 10px; right: 10px; z-index: 2; }
-	.qevora-preview-dialog__image { display: block; width: 100%; height: auto; border: 1px solid #dcdcde; border-radius: 10px; background: #f6f7f7; }
-	.qevora-preview-dialog__live { margin: 0 0 16px; border: 1px solid #dcdcde; border-radius: 10px; overflow: hidden; background: #eef1f5; }
-	.qevora-preview-dialog__title { margin: 14px 0 4px; font-size: 18px; }
-	.qevora-preview-dialog__meta { margin: 0 0 8px; font-size: 12px; color: #50575e; }
-	.qevora-preview-dialog__description { margin: 0; }
-	body.qevora-preview-open { overflow: hidden; }
-	</style>
 	<div class="qevora-preview-dialog" data-qevora-preview-dialog hidden role="dialog" aria-modal="true" aria-labelledby="qevora-preview-dialog-title">
 		<div class="qevora-preview-dialog__backdrop" data-qevora-preview-close></div>
 		<div class="qevora-preview-dialog__panel" role="document">
