@@ -33,7 +33,6 @@ $qevora_settings_url = isset( $context['settings_url'] ) ? (string) $context['se
 $qevora_placeholder  = isset( $context['placeholder'] ) ? (string) $context['placeholder'] : '';
 $qevora_policy    = isset( $qevora_settings['policy'] ) ? (string) $qevora_settings['policy'] : 'skip';
 $qevora_scopes    = Importer::display_scopes();
-$qevora_packs     = Importer::demo_packs();
 ?>
 <div class="wrap qevora-layouts-wrap qevora-layouts-library">
 	<h1 class="wp-heading-inline"><?php esc_html_e( 'Template Library', 'qevora-layouts' ); ?></h1>
@@ -45,7 +44,7 @@ $qevora_packs     = Importer::demo_packs();
 	<hr class="wp-header-end" />
 
 	<p class="qevora-layouts-intro">
-		<?php esc_html_e( 'Import a starter template to create a new layout. Imports never overwrite an existing layout: a template that was imported before is skipped unless you choose to import a second copy.', 'qevora-layouts' ); ?>
+		<?php esc_html_e( 'Put a bundled PHP demo live in one click, or import your own validated .json template. Imports never overwrite an existing layout: a template that was imported before is skipped unless you choose to import a second copy.', 'qevora-layouts' ); ?>
 	</p>
 
 	<?php if ( ! empty( $qevora_problems ) ) : ?>
@@ -77,7 +76,6 @@ $qevora_packs     = Importer::demo_packs();
 			<label for="ql-origin-filter" class="screen-reader-text"><?php esc_html_e( 'Filter by source', 'qevora-layouts' ); ?></label>
 			<select id="ql-origin-filter" name="ql_origin">
 				<option value=""><?php esc_html_e( 'All sources', 'qevora-layouts' ); ?></option>
-				<option value="bundled" <?php selected( isset( $qevora_filters['origin'] ) ? $qevora_filters['origin'] : '', 'bundled' ); ?>><?php esc_html_e( 'Bundled', 'qevora-layouts' ); ?></option>
 				<option value="remote" <?php selected( isset( $qevora_filters['origin'] ) ? $qevora_filters['origin'] : '', 'remote' ); ?>><?php esc_html_e( 'Remote library', 'qevora-layouts' ); ?></option>
 			</select>
 
@@ -95,67 +93,6 @@ $qevora_packs     = Importer::demo_packs();
 	</div>
 
 	<div class="qevora-library__sources">
-		<?php if ( $qevora_can && ! empty( $qevora_packs ) ) : ?>
-			<div class="card qevora-library__pack">
-				<h2 class="title"><?php esc_html_e( 'One-click demo', 'qevora-layouts' ); ?></h2>
-
-				<form method="post" action="<?php echo esc_url( $qevora_import ); ?>" class="qevora-library__pack-form" data-qevora-import="pack">
-					<input type="hidden" name="action" value="<?php echo esc_attr( Actions::IMPORT_ACTION ); ?>" />
-					<?php wp_nonce_field( Actions::IMPORT_ACTION, '_wpnonce' ); ?>
-
-					<p>
-						<label for="qevora-pack"><?php esc_html_e( 'Demo', 'qevora-layouts' ); ?></label><br />
-						<select id="qevora-pack" name="demo_pack">
-							<?php foreach ( $qevora_packs as $qevora_pack_id => $qevora_pack ) : ?>
-								<option
-									value="<?php echo esc_attr( (string) $qevora_pack_id ); ?>"
-									data-description="<?php echo esc_attr( isset( $qevora_pack['description'] ) ? (string) $qevora_pack['description'] : '' ); ?>"
-								><?php echo esc_html( isset( $qevora_pack['label'] ) ? (string) $qevora_pack['label'] : (string) $qevora_pack_id ); ?></option>
-							<?php endforeach; ?>
-						</select>
-					</p>
-
-					<p class="description" data-qevora-pack-description>
-						<?php
-						$qevora_first_pack = reset( $qevora_packs );
-						echo esc_html( isset( $qevora_first_pack['description'] ) ? (string) $qevora_first_pack['description'] : '' );
-						?>
-					</p>
-
-					<p>
-						<label for="qevora-pack-scope"><?php esc_html_e( 'Display on', 'qevora-layouts' ); ?></label><br />
-						<select id="qevora-pack-scope" name="display_scope">
-							<?php foreach ( $qevora_scopes as $qevora_scope_id => $qevora_scope_label ) : ?>
-								<option value="<?php echo esc_attr( (string) $qevora_scope_id ); ?>" <?php selected( $qevora_scope_id, 'template' ); ?>><?php echo esc_html( (string) $qevora_scope_label ); ?></option>
-							<?php endforeach; ?>
-						</select>
-
-						<label for="qevora-pack-status"><?php esc_html_e( 'Import as', 'qevora-layouts' ); ?></label><br />
-						<select id="qevora-pack-status" name="status">
-							<option value="publish"><?php esc_html_e( 'Enabled (display now)', 'qevora-layouts' ); ?></option>
-							<option value="draft"><?php esc_html_e( 'Disabled (draft)', 'qevora-layouts' ); ?></option>
-						</select>
-					</p>
-
-					<p class="qevora-pack__hide">
-						<input type="hidden" name="hide_theme_part" value="0" />
-						<label for="qevora-pack-hide">
-							<input type="checkbox" id="qevora-pack-hide" name="hide_theme_part" value="1" checked="checked" />
-							<?php esc_html_e( 'Hide the theme header and footer while the demo is displayed (recommended)', 'qevora-layouts' ); ?>
-						</label>
-					</p>
-					<p>
-						<?php submit_button( __( 'Import demo and display', 'qevora-layouts' ), 'primary', 'qevora_import_pack', false ); ?>
-						<span class="spinner qevora-library__spinner" aria-hidden="true"></span>
-					</p>
-
-					<p class="description" data-qevora-import-message role="status" aria-live="polite">
-						<?php esc_html_e( 'Each template keeps its own design. The display scope only decides where the imported layouts appear, and can be changed later per layout.', 'qevora-layouts' ); ?>
-					</p>
-				</form>
-			</div>
-		<?php endif; ?>
-
 		<div class="card qevora-library__upload">
 			<h2 class="title"><?php esc_html_e( 'Import a template file', 'qevora-layouts' ); ?></h2>
 
@@ -223,7 +160,7 @@ $qevora_packs     = Importer::demo_packs();
 
 			<?php if ( empty( $qevora_settings['remote_enabled'] ) ) : ?>
 				<p class="description">
-					<?php esc_html_e( 'Disabled. Bundled starter templates need no network access. To use your own library, enable it and enter an https endpoint in Settings.', 'qevora-layouts' ); ?>
+					<?php esc_html_e( 'Disabled. The bundled demos above need no network access. To import templates from your own library, enable it and enter an https endpoint in Settings.', 'qevora-layouts' ); ?>
 				</p>
 				<?php if ( ! empty( $qevora_settings_url ) ) : ?>
 					<p><a class="button button-secondary" href="<?php echo esc_url( $qevora_settings_url ); ?>"><?php esc_html_e( 'Open settings', 'qevora-layouts' ); ?></a></p>
@@ -339,7 +276,7 @@ $qevora_packs     = Importer::demo_packs();
 		<div class="qevora-empty-state">
 			<h2><?php esc_html_e( 'No templates to show', 'qevora-layouts' ); ?></h2>
 			<p>
-				<?php esc_html_e( 'Either no bundled starter templates were found, or the current filters match nothing. Bundled templates live in the plugin folder templates/starter/ and can be added with the qevora_layouts_bundled_template_files filter.', 'qevora-layouts' ); ?>
+				<?php esc_html_e( 'No importable JSON templates are registered right now - the bundled demos above cover headers, footers and sections without any editor content. Sites can still register their own template files with the qevora_layouts_bundled_template_files filter, or enable the remote library in Settings.', 'qevora-layouts' ); ?>
 			</p>
 			<?php if ( ! empty( $qevora_settings_url ) ) : ?>
 				<p><a class="button button-primary" href="<?php echo esc_url( $qevora_settings_url ); ?>"><?php esc_html_e( 'Open import settings', 'qevora-layouts' ); ?></a></p>

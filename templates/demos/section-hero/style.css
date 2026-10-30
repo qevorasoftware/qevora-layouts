@@ -1,0 +1,67 @@
+/*
+ * Hero Section demo - scoped, responsive stylesheet.
+ * Only used while this demo renders. Colours come from the demo settings
+ * through the custom properties set on the root element.
+ */
+
+.qdsh {
+	background: var(--qdsh-bg, #0f172a);
+	color: #fff;
+	padding: 72px 20px;
+}
+
+.qdsh__inner {
+	max-width: 860px;
+	margin: 0 auto;
+	text-align: center;
+}
+
+.qdsh--left .qdsh__inner {
+	text-align: left;
+	margin: 0;
+}
+
+.qdsh__heading {
+	margin: 0 0 12px;
+	font-size: 40px;
+	line-height: 1.15;
+	font-weight: 700;
+	color: inherit;
+}
+
+.qdsh__sub {
+	margin: 0 0 26px;
+	font-size: 18px;
+	line-height: 1.6;
+	opacity: 0.85;
+}
+
+.qdsh__btn {
+	display: inline-block;
+	padding: 12px 26px;
+	border-radius: 6px;
+	background: var(--qdsh-accent, #2271b1);
+	color: #fff;
+	text-decoration: none;
+	font-weight: 600;
+}
+
+.qdsh__btn:hover,
+.qdsh__btn:focus {
+	filter: brightness(1.1);
+	color: #fff;
+}
+
+@media (max-width: 600px) {
+	.qdsh {
+		padding: 48px 16px;
+	}
+
+	.qdsh__heading {
+		font-size: 28px;
+	}
+
+	.qdsh__sub {
+		font-size: 16px;
+	}
+}

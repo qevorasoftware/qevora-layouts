@@ -44,7 +44,15 @@ class Demo_Registry {
 	 * @since 1.0.0
 	 * @var   string[]
 	 */
-	const ALLOWED_FILES = array( 'demo.json', 'template.php', 'style.css', 'script.js', 'preview.png' );
+	const ALLOWED_FILES = array( 'demo.json', 'template.php', 'style.css', 'script.js', 'settings.php', 'preview.png' );
+
+	/**
+	 * Field types a demo settings schema may declare.
+	 *
+	 * @since 1.0.0
+	 * @var   string[]
+	 */
+	const FIELD_TYPES = array( 'text', 'textarea', 'url', 'checkbox', 'select', 'color', 'number' );
 
 	/**
 	 * Validated demos, cached per request. Null until the first scan.
@@ -53,6 +61,14 @@ class Demo_Registry {
 	 * @var   array<string,array<string,mixed>>|null
 	 */
 	private static $demos = null;
+
+	/**
+	 * Loaded settings schemas, cached per request. Slug => field definitions.
+	 *
+	 * @since 1.0.0
+	 * @var   array<string,array<string,array<string,mixed>>>
+	 */
+	private static $schemas = array();
 
 	/**
 	 * Returns every valid bundled demo, keyed by slug.
@@ -235,6 +251,187 @@ class Demo_Registry {
 	}
 
 	/**
+	 * Settings schema of one demo, loaded from its own `settings.php`.
+	 *
+	 * Every demo keeps its data in its own PHP file: this returns the
+	 * field definitions (label, type, default, options, help) that both
+	 * the edit-screen metabox and the template render from. Unknown or
+	 * malformed entries are dropped, so a bad schema can never reach
+	 * the screen or the front end.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param string $slug Demo slug.
+	 * @return array<string,array<string,mixed>> Field key => definition.
+	 */
+	public static function settings_schema( $slug ) {
+		$slug = Layout_Post_Type::sanitize_identifier( $slug );
+
+		if ( array_key_exists( $slug, self::$schemas ) ) {
+			return self::$schemas[ $slug ];
+		}
+
+		$fields = array();
+		$path   = self::path( $slug, 'settings.php' );
+
+		if ( '' !== $path ) {
+			$raw = include $path; // phpcs:ignore WordPressVIPMinimum.Files.IncludingFile.NotAbsolutePath -- Resolved through the registry allow list.
+
+			if ( is_array( $raw ) && isset( $raw['fields'] ) && is_array( $raw['fields'] ) ) {
+				foreach ( $raw['fields'] as $key => $field ) {
+					$key = sanitize_key( (string) $key );
+
+					if ( '' === $key || ! is_array( $field ) ) {
+						continue;
+					}
+
+					$type = isset( $field['type'] ) && in_array( (string) $field['type'], self::FIELD_TYPES, true ) ? (string) $field['type'] : 'text';
+					$options = array();
+
+					if ( 'select' === $type && isset( $field['options'] ) && is_array( $field['options'] ) ) {
+						foreach ( $field['options'] as $option_value => $option_label ) {
+							$options[ sanitize_key( (string) $option_value ) ] = sanitize_text_field( (string) $option_label );
+						}
+					}
+
+					$fields[ $key ] = array(
+						'label'   => isset( $field['label'] ) ? sanitize_text_field( (string) $field['label'] ) : $key,
+						'type'    => $type,
+						'default' => self::setting_default( $type, isset( $field['default'] ) ? $field['default'] : null, $options ),
+						'help'    => isset( $field['help'] ) ? sanitize_text_field( (string) $field['help'] ) : '',
+						'options' => $options,
+					);
+				}
+			}
+		}
+
+		self::$schemas[ $slug ] = $fields;
+
+		return $fields;
+	}
+
+	/**
+	 * Default values of every field in a demo's settings schema.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param string $slug Demo slug.
+	 * @return array<string,mixed>
+	 */
+	public static function settings_defaults( $slug ) {
+		$defaults = array();
+
+		foreach ( self::settings_schema( $slug ) as $key => $field ) {
+			$defaults[ $key ] = $field['default'];
+		}
+
+		return $defaults;
+	}
+
+	/**
+	 * Sanitises submitted settings against a demo's schema.
+	 *
+	 * Only keys the demo declares survive, each cleaned for its field
+	 * type. Anything else is dropped, so stored settings can never
+	 * carry markup, scripts or unexpected shapes.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param string               $slug   Demo slug.
+	 * @param mixed                $values Raw values (usually $_POST data).
+	 * @return array<string,mixed> Clean values, missing keys omitted.
+	 */
+	public static function sanitize_settings( $slug, $values ) {
+		$clean = array();
+
+		if ( ! is_array( $values ) ) {
+			return $clean;
+		}
+
+		foreach ( self::settings_schema( $slug ) as $key => $field ) {
+			if ( ! array_key_exists( $key, $values ) ) {
+				continue;
+			}
+
+			$value = $values[ $key ];
+
+			switch ( $field['type'] ) {
+				case 'checkbox':
+					$clean[ $key ] = (bool) $value;
+					break;
+				case 'number':
+					$clean[ $key ] = is_numeric( $value ) ? (int) $value : (int) $field['default'];
+					break;
+				case 'url':
+					$clean[ $key ] = esc_url_raw( (string) $value );
+					break;
+				case 'color':
+					$hex = strtolower( sanitize_text_field( (string) $value ) );
+					$clean[ $key ] = ( 1 === preg_match( '/^#[0-9a-f]{6}$/', $hex ) ) ? $hex : (string) $field['default'];
+					break;
+				case 'select':
+					$selected = sanitize_key( (string) $value );
+					$clean[ $key ] = array_key_exists( $selected, $field['options'] ) ? $selected : $field['default'];
+					break;
+				case 'textarea':
+					$clean[ $key ] = sanitize_textarea_field( (string) $value );
+					break;
+				default:
+					$clean[ $key ] = sanitize_text_field( (string) $value );
+			}
+		}
+
+		return $clean;
+	}
+
+	/**
+	 * Merges stored settings over a demo's defaults.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param string               $slug  Demo slug.
+	 * @param array<string,mixed>  $saved Stored settings (may be partial).
+	 * @return array<string,mixed> Every schema key, sanitised.
+	 */
+	public static function get_settings( $slug, $saved = array() ) {
+		$defaults = self::settings_defaults( $slug );
+		$stored   = self::sanitize_settings( $slug, is_array( $saved ) ? $saved : array() );
+
+		return array_merge( $defaults, $stored );
+	}
+
+	/**
+	 * Coerces one schema default to its field type.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param string               $type    Field type.
+	 * @param mixed                $default Declared default.
+	 * @param array<string,string> $options Select options.
+	 * @return mixed
+	 */
+	private static function setting_default( $type, $default, $options ) {
+		switch ( $type ) {
+			case 'checkbox':
+				return (bool) $default;
+			case 'number':
+				return is_numeric( $default ) ? (int) $default : 0;
+			case 'color':
+				$hex = strtolower( (string) $default );
+				return ( 1 === preg_match( '/^#[0-9a-f]{6}$/', $hex ) ) ? $hex : '#2271b1';
+			case 'select':
+				$selected = sanitize_key( (string) $default );
+				if ( array_key_exists( $selected, $options ) ) {
+					return $selected;
+				}
+				$keys = array_keys( $options );
+				return empty( $keys ) ? '' : (string) $keys[0];
+			default:
+				return sanitize_textarea_field( (string) $default );
+		}
+	}
+
+	/**
 	 * Resets the request cache. Used by tests.
 	 *
 	 * @since 1.0.0
@@ -242,7 +439,8 @@ class Demo_Registry {
 	 * @return void
 	 */
 	public static function reset() {
-		self::$demos = null;
+		self::$demos   = null;
+		self::$schemas = array();
 	}
 
 	/**
@@ -288,7 +486,7 @@ class Demo_Registry {
 		$type = isset( $raw['type'] ) ? Layout_Post_Type::sanitize_type( $raw['type'] ) : '';
 		$name = isset( $raw['name'] ) ? sanitize_text_field( (string) $raw['name'] ) : '';
 
-		if ( $id !== $folder || '' === $name || ! in_array( $type, array( 'header', 'footer' ), true ) ) {
+		if ( $id !== $folder || '' === $name || ! in_array( $type, array( 'header', 'footer', 'section' ), true ) ) {
 			Logger::warning( 'Demo manifest failed validation.', array( 'demo' => (string) $folder ) );
 
 			return null;

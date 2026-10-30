@@ -578,65 +578,68 @@ class Importer_Test extends TestCase {
 	}
 
 	/**
-	 * One-click demo packs resolve to bundled templates and reject unknown
-	 * pack ids; the pack list is filterable.
-	 *
-	 * @return void
-	 */
-	public function test_demo_packs_resolve_and_are_filterable() {
-		$templates = $this->importer->resolve_pack( 'header-footer' );
-
-		$this->assertTrue( is_array( $templates ) );
-		$this->assertCount( 2, $templates );
-		$this->assertSame( 'qevora-header-simple', $templates[0]->id );
-		$this->assertSame( 'qevora-footer-columns', $templates[1]->id );
-
-		$this->assertIsError( $this->importer->resolve_pack( 'not-a-pack' ) );
-
-		$add_solo = function ( $packs ) {
-			$packs['solo'] = array(
-				'label'     => 'Solo',
-				'templates' => array( 'qevora-section-hero' ),
-			);
-
-			return $packs;
-		};
-
-		add_filter( 'qevora_layouts_demo_packs', $add_solo );
-		$solo = $this->importer->resolve_pack( 'solo' );
-		remove_filter( 'qevora_layouts_demo_packs', $add_solo );
-
-		$this->assertTrue( is_array( $solo ) );
-		$this->assertCount( 1, $solo );
-	}
-
-	/**
-	 * A pack import creates every layout of the pack in one call.
-	 *
-	 * @return void
-	 */
-	public function test_pack_import_creates_every_layout() {
-		$templates = $this->importer->resolve_pack( 'header-footer' );
-
-		$result = $this->importer->import_templates(
-			$templates,
-			array(
-				'origin'        => 'bundled',
-				'display_scope' => 'entire_site',
-			)
-		);
-
-		$this->assertCount( 2, $result['imported'] );
-		$this->assertSame( 2, $this->repository->count_layouts() );
-	}
-
-	/**
 	 * The hide-theme-part flag reaches the created layout through both the
 	 * batch importer and single library imports, and stays off by default.
 	 *
 	 * @return void
 	 */
+	/**
+	 * Registers JSON template files as "bundled" through the filter a site
+	 * would use, since the plugin itself ships no editor templates anymore.
+	 *
+	 * @param array<int,array<string,mixed>> $templates Template arrays (id, name, type, content).
+	 * @return string[] Fixture file paths.
+	 */
+	private function register_bundled( array $templates ) {
+		$paths = array();
+
+		foreach ( $templates as $template ) {
+			$file = tempnam( sys_get_temp_dir(), 'qlb' ) . '.json';
+
+			file_put_contents( // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_file_put_contents -- Test fixture.
+				$file,
+				wp_json_encode(
+					array_merge(
+						array(
+							'$schema' => Template::SCHEMA,
+							'builder' => 'block',
+						),
+						$template
+					)
+				)
+			);
+
+			$paths[] = $file;
+		}
+
+		add_filter(
+			'qevora_layouts_bundled_template_files',
+			function ( $files ) use ( $paths ) {
+				return array_merge( $files, $paths );
+			}
+		);
+
+		return $paths;
+	}
+
 	public function test_hide_theme_part_option_is_stored_on_the_layout() {
+		$this->register_bundled(
+			array(
+				array(
+					'id'      => 'qevora-footer-minimal',
+					'name'    => 'Minimal Footer',
+					'type'    => 'footer',
+					'content' => '<!-- wp:paragraph --><p>Footer</p><!-- /wp:paragraph -->',
+				),
+				array(
+					'id'      => 'qevora-header-simple',
+					'name'    => 'Simple Header',
+					'type'    => 'header',
+					'content' => '<!-- wp:paragraph --><p>Header</p><!-- /wp:paragraph -->',
+				),
+			)
+		);
+
 		$result = $this->importer->import_templates(
 			array( $this->template() ),
 			array( 'hide_theme_part' => true )
@@ -701,11 +704,23 @@ class Importer_Test extends TestCase {
 	}
 
 	/**
-	 * Bundled starters can be imported straight from the library.
+	 * Templates registered by the site can be imported straight from the library.
 	 *
 	 * @return void
 	 */
 	public function test_import_from_library_uses_bundled_templates() {
+		$this->register_bundled(
+			array(
+				array(
+					'id'        => 'qevora-section-hero',
+					'name'      => 'Hero Section',
+					'type'      => 'section',
+					'placement' => 'manual',
+					'content'   => '<!-- wp:paragraph --><p>Hero</p><!-- /wp:paragraph -->',
+				),
+			)
+		);
+
 		$result = $this->importer->import_from_library( 'qevora-section-hero' );
 
 		$this->assertTrue( is_array( $result ) );
@@ -731,6 +746,23 @@ class Importer_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_import_from_library_applies_display_scope() {
+		$this->register_bundled(
+			array(
+				array(
+					'id'      => 'qevora-footer-minimal',
+					'name'    => 'Minimal Footer',
+					'type'    => 'footer',
+					'content' => '<!-- wp:paragraph --><p>Footer</p><!-- /wp:paragraph -->',
+				),
+				array(
+					'id'      => 'qevora-header-simple',
+					'name'    => 'Simple Header',
+					'type'    => 'header',
+					'content' => '<!-- wp:paragraph --><p>Header</p><!-- /wp:paragraph -->',
+				),
+			)
+		);
+
 		$result = $this->importer->import_from_library(
 			'qevora-footer-minimal',
 			array( 'display_scope' => 'entire_site' )

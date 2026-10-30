@@ -106,28 +106,7 @@ class Import_Handler {
 			return self::normalize( is_array( $single ) ? $single : array() );
 		}
 
-		// 2. One-click demo packs.
-		$pack = isset( $params['demo_pack'] ) ? sanitize_key( (string) $params['demo_pack'] ) : '';
-
-		if ( '' !== $pack ) {
-			$templates = $importer->resolve_pack( $pack );
-
-			if ( is_wp_error( $templates ) ) {
-				return $templates;
-			}
-
-			return self::normalize(
-				$importer->import_templates(
-					$templates,
-					array_merge(
-						$options,
-						array( 'origin' => 'bundled' )
-					)
-				)
-			);
-		}
-
-		// 3. Import from an uploaded file.
+		// 2. Import from an uploaded file.
 		if ( ! Settings::is_enabled( 'allow_uploaded_imports' ) ) {
 			return new WP_Error( 'qevora_layouts_uploads_disabled', __( 'Uploading template files is disabled in Settings → Template library and imports.', 'qevora-layouts' ), array( 'status' => 400 ) );
 		}

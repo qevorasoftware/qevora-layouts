@@ -153,11 +153,6 @@ class Rest_Controller {
 							'default'           => '',
 							'sanitize_callback' => 'sanitize_key',
 						),
-						'demo_pack'     => array(
-							'required'          => false,
-							'default'           => '',
-							'sanitize_callback' => 'sanitize_key',
-						),
 						'demo'          => array(
 							'description'       => __( 'Slug of a bundled PHP demo to import.', 'qevora-layouts' ),
 							'type'              => 'string',
@@ -562,7 +557,6 @@ class Rest_Controller {
 				'status'        => (string) $request->get_param( 'status' ),
 				'replace_id'    => (int) $request->get_param( 'replace_id' ),
 				'display_scope' => (string) $request->get_param( 'display_scope' ),
-				'demo_pack'     => (string) $request->get_param( 'demo_pack' ),
 				'hide_theme_part' => $request->get_param( 'hide_theme_part' ),
 				'demo'          => (string) $request->get_param( 'demo' ),
 				'create_menu'   => $request->get_param( 'create_menu' ),

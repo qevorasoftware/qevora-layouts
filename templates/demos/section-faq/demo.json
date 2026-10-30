@@ -1,0 +1,8 @@
+{
+	"id": "section-faq",
+	"name": "Frequently Asked Questions",
+	"type": "section",
+	"description": "An accessible question-and-answer accordion: plain HTML, its own stylesheet and a few lines of vanilla JavaScript for the open/close behaviour. Questions and answers are edited as plain lines of text on the layout edit screen.",
+	"menu": false,
+	"tags": [ "section", "php", "responsive", "faq" ]
+}

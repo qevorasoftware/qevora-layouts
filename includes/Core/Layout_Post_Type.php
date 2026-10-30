@@ -157,6 +157,14 @@ class Layout_Post_Type {
 	const META_MENU_ID = '_qevora_layout_menu_id';
 
 	/**
+	 * Meta key holding the customised settings of a bundled PHP demo.
+	 *
+	 * @since 1.0.0
+	 * @var   string
+	 */
+	const META_DEMO_SETTINGS = '_qevora_layout_demo_settings';
+
+	/**
 	 * Registers post type, meta and rewrite rules.
 	 *
 	 * @since 1.0.0
@@ -325,6 +333,12 @@ class Layout_Post_Type {
 				'default'  => 0,
 				'sanitize' => 'absint',
 				'rest'     => true,
+			),
+			self::META_DEMO_SETTINGS => array(
+				'type'     => 'array',
+				'default'  => array(),
+				'sanitize' => array( __CLASS__, 'sanitize_demo_settings' ),
+				'rest'     => false,
 			),
 		);
 
@@ -685,6 +699,44 @@ class Layout_Post_Type {
 	 *
 	 * @return string[]
 	 */
+	/**
+	 * Sanitises the stored demo settings array.
+	 *
+	 * A light, schema-independent pass (the demo's own schema performs
+	 * the type-aware sanitisation on save and on render): keeps bools,
+	 * numbers and plain text lines only.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param mixed $value Raw meta value.
+	 * @return array<string,mixed>
+	 */
+	public static function sanitize_demo_settings( $value ) {
+		if ( ! is_array( $value ) ) {
+			return array();
+		}
+
+		$clean = array();
+
+		foreach ( $value as $key => $item ) {
+			$key = sanitize_key( (string) $key );
+
+			if ( '' === $key ) {
+				continue;
+			}
+
+			if ( is_bool( $item ) ) {
+				$clean[ $key ] = $item;
+			} elseif ( is_numeric( $item ) ) {
+				$clean[ $key ] = $item + 0;
+			} elseif ( is_string( $item ) ) {
+				$clean[ $key ] = sanitize_textarea_field( $item );
+			}
+		}
+
+		return $clean;
+	}
+
 	public static function get_meta_keys() {
 		return array(
 			self::META_TYPE,
@@ -702,6 +754,7 @@ class Layout_Post_Type {
 			self::META_HIDE_THEME_PART,
 			self::META_DEMO,
 			self::META_MENU_ID,
+			self::META_DEMO_SETTINGS,
 		);
 	}
 }

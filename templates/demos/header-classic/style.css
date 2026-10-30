@@ -23,3 +23,10 @@
 	.qdhc__menu ul{position:static;opacity:1;visibility:visible;transform:none;box-shadow:none;border:0;border-radius:0;padding:0 0 0 14px;background:transparent}
 	.qdhc__menu a{padding:12px 10px;border-radius:8px}
 }
+
+/* Sticky variant, switched on from the demo settings metabox. */
+.qdhc--sticky {
+	position: sticky;
+	top: 0;
+	z-index: 9999;
+}

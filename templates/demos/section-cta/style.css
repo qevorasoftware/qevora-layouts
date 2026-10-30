@@ -1,0 +1,62 @@
+/*
+ * Call to Action Section demo - scoped, responsive stylesheet.
+ * Only used while this demo renders.
+ */
+
+.qdsc {
+	background: var(--qdsc-bg, #2271b1);
+	color: var(--qdsc-fg, #fff);
+	padding: 40px 20px;
+}
+
+.qdsc__inner {
+	max-width: 960px;
+	margin: 0 auto;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 24px;
+	flex-wrap: wrap;
+}
+
+.qdsc__title {
+	margin: 0 0 6px;
+	font-size: 26px;
+	line-height: 1.25;
+	font-weight: 700;
+	color: inherit;
+}
+
+.qdsc__text {
+	margin: 0;
+	font-size: 16px;
+	line-height: 1.6;
+	opacity: 0.92;
+}
+
+.qdsc__btn {
+	flex: 0 0 auto;
+	padding: 12px 24px;
+	border-radius: 6px;
+	background: var(--qdsc-fg, #fff);
+	color: var(--qdsc-bg, #2271b1);
+	text-decoration: none;
+	font-weight: 600;
+}
+
+.qdsc__btn:hover,
+.qdsc__btn:focus {
+	filter: brightness(0.95);
+	color: var(--qdsc-bg, #2271b1);
+}
+
+@media (max-width: 600px) {
+	.qdsc__inner {
+		flex-direction: column;
+		align-items: flex-start;
+	}
+
+	.qdsc__title {
+		font-size: 22px;
+	}
+}

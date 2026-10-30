@@ -1,6 +1,6 @@
 # Qevora Layouts
 
-Dynamic headers, footers and reusable layout templates for WordPress — with a real condition engine, a builder adapter layer and a validated starter template library.
+Dynamic headers, footers and reusable layout templates for WordPress — with a real condition engine, a builder adapter layer and bundled PHP-rendered demos.
 
 * **Version:** 1.0.0
 * **Requires:** WordPress 6.4+, PHP 7.4+
@@ -49,7 +49,7 @@ No third-party page builder is required to activate or use this plugin. Everythi
 
 **Builder adapters.** Content is authored in the block editor (always available) or in Elementor (when installed). The plugin never edits another builder's internal data: it calls documented APIs only, and falls back to core rendering if a builder cannot render.
 
-**Validated imports.** Eight starter templates ship with the plugin. Uploads and optional https remote libraries are validated against a schema before anything is created, imports never overwrite silently, and PHP is never executed from imported data.
+**Validated imports.** Seven bundled demos (two headers, two footers, three sections) are rendered by the plugin itself from PHP templates. Your own `.json` templates can still be uploaded or fetched from an optional https remote library: everything is validated against a schema before anything is created, imports never overwrite silently, and PHP is never executed from imported data.
 
 ## Installation
 
@@ -90,7 +90,7 @@ The plugin registers one top-level menu, **Qevora Layouts** (`dashicons-layout`)
 | --- | --- | --- | --- |
 | All Layouts | `edit.php?post_type=qevora_layout` | `edit_qevora_layouts` | List table with type, conditions, priority, placement, builder and source columns, plus Enable / Disable / Clone row actions. |
 | Add New | `post-new.php?post_type=qevora_layout` | `publish_qevora_layouts` | Block editor with the layout meta boxes. |
-| Template Library | `qevora-layouts-library` | `publish_qevora_layouts` | Starter templates, uploads and the optional remote library, with import feedback. |
+| Template Library | `qevora-layouts-library` | `publish_qevora_layouts` | Bundled PHP demos, `.json` uploads and the optional remote library, with import feedback. |
 | Settings | `qevora-layouts-settings` | `manage_options` | Every option below. |
 | System Status | `qevora-layouts-status` | `manage_options` | Environment report, builder status, layout counts, cache state. |
 
@@ -167,7 +167,7 @@ Three headers are published:
 * **Single post** → Announcement excludes itself, Centered only wants the front page, so Simple renders.
 * **404** → Announcement (30) again.
 
-This exact scenario is asserted end-to-end in `tests/Integration/Starter_Templates_Test.php`.
+This exact scenario is asserted end-to-end in the demo import and render tests (`tests/Unit/Import/Demo_Importer_Test.php`, `tests/Unit/Frontend/Demo_Render_Test.php`).
 
 ## Headers, footers and placements
 
@@ -205,7 +205,7 @@ Selectors are sanitized twice — once when saved (`Settings::sanitize_css_selec
 
 An imported demo that stacks on top of the theme's own header or footer shows two of each. Every header/footer layout therefore carries a **Hide the theme header/footer while this layout is displayed** flag (`_qevora_layout_hide_theme_part`):
 
-* The demo pack form, every header/footer template card and the upload form offer the flag **checked by default** - importing a demo replaces the theme parts instead of doubling them. It is a visible, untickable-by-choice control: unchecking it (on the form or later in the layout editor) brings the theme header/footer straight back.
+* Every demo card and the upload form offer the flag **checked by default** - importing a demo replaces the theme parts instead of doubling them. It is a visible, untickable-by-choice control: unchecking it (on the form or later in the layout editor) brings the theme header/footer straight back.
 * Only the part a layout actually replaces is touched, only on requests where that layout renders, and only for `header`/`footer` types - `manual` layouts never suppress anything.
 * **Block themes:** the matching `core/template-part` block (`slug` = `header`/`footer`) is dropped from the response through the core `render_block` filter, so the theme markup is genuinely gone, not just invisible.
 * **Classic themes (and as a fallback):** the inline hide CSS above is printed with a conservative default selector list - `#masthead`, `#site-header`, `.site-header`, `header.wp-block-template-part` for the header; `#colophon`, `#site-footer`, `.site-footer`, `footer.wp-block-template-part` for the footer - merged with the optional site-wide selectors from Settings. The list is filterable (`qevora_layouts_theme_part_selectors`) and passes the same double sanitization as all hide CSS.
@@ -229,7 +229,7 @@ Layouts live in the `qevora_layout` post type. It is `show_in_menu => false` (th
 
 ### Meta keys
 
-All fifteen keys are registered with `register_meta()` including sanitize callbacks, so they are cleaned even when written by other code:
+All sixteen keys are registered with `register_meta()` including sanitize callbacks, so they are cleaned even when written by other code:
 
 | Meta key | Contents |
 | --- | --- |
@@ -240,6 +240,7 @@ All fifteen keys are registered with `register_meta()` including sanitize callba
 | `_qevora_layout_hide_theme_part` | `1` while the layout replaces the theme's own header/footer |
 | `_qevora_layout_demo` | Slug of the bundled PHP demo this layout renders |
 | `_qevora_layout_menu_id` | Nav menu created for a demo layout |
+| `_qevora_layout_demo_settings` | Customised settings of a demo layout (per-demo schema) |
 | `_qevora_layout_hook` | Custom hook name |
 | `_qevora_layout_hook_priority` | 0–999 |
 | `_qevora_layout_builder` | `auto`, `block`, `elementor`, `demo` (extensible) |
@@ -274,22 +275,10 @@ Every Elementor call is defensive (`method_exists()`, `try/catch ( \Throwable )`
 
 ## Template library and imports
 
-### Bundled starter templates
+### Registered JSON templates
 
-Eight templates ship in `templates/starter/`. All are block-editor templates (`builder: block`), so none of them requires a third-party plugin:
+The plugin no longer ships editor-based starter content: bundled demos are PHP-rendered (below). Sites that keep their own block templates can still register `.json` files through the `qevora_layouts_bundled_template_files` filter (absolute paths to readable JSON files); they appear in the library next to the remote library and go through the same validation, duplicate handling and display-scope flow as everything else.
 
-| ID | Type | Priority | Placement | Conditions |
-| --- | --- | --- | --- | --- |
-| `qevora-header-simple` | header | 10 | `wp_body_open` | entire site |
-| `qevora-header-centered` | header | 20 | `wp_body_open` | include: front page |
-| `qevora-header-announcement` | header | 30 | `wp_body_open` | exclude: post type = post |
-| `qevora-footer-columns` | footer | 10 | `get_footer` | entire site |
-| `qevora-footer-minimal` | footer | 20 | `get_footer` | include: singular |
-| `qevora-section-hero` | section | 10 | `manual` | entire site |
-| `qevora-section-cta` | section | 10 | `manual` | entire site |
-| `qevora-section-faq` | section | 10 | `manual` | entire site |
-
-Each one has a preview image in `assets/images/previews/`, a description, tags, `requires` (WordPress 6.4, PHP 7.4), an author and `GPL-2.0-or-later`. A site can add its own starter files without touching the plugin directory using the `qevora_layouts_bundled_template_files` filter (absolute paths to readable JSON files).
 
 ### File format
 
@@ -352,14 +341,14 @@ Off by default, with no built-in or hard-coded endpoint. When an administrator e
 
 The library screen is built so a non-technical user can put a complete demo live in one click:
 
-* **One-click demo packs** - `Complete header and footer demo` imports one header and one footer starter and displays both immediately; `Full demo site` adds the three reusable sections. Packs are definitions, not files: `Importer::demo_packs()` with the `qevora_layouts_demo_packs` filter.
-* **Display scope on every import** - each template card (and the pack form) offers a *Display on* select: *Where the demo says - recommended*, *Entire site*, *Front page only*, *Single posts and pages*, *Blog and archive listings*. The chosen scope becomes the layout's conditions at import time - for every import path (library card, one-click demo pack, admin AJAX and REST), so the default header/footer appears exactly where the user picked, without opening the editor. The import confirmation repeats it in plain words (*Displays on: Entire site*). Scopes map to condition sets through `qevora_layouts_display_scope_conditions`, and the list itself is filterable (`qevora_layouts_display_scopes`). The REST route accepts the same `display_scope` key, a full `conditions` object (`{include:[],exclude:[]}`) for programmatic imports, and - for the PHP demos below - `demo` (slug) plus `create_menu` (boolean).
+* **Per-demo settings metabox** - every demo layout is customised on its edit screen through a metabox built from that demo's own `settings.php` schema (texts, links, colours, toggles, selects). Demo layouts never open in the block editor: their markup lives in plugin PHP files, the edit screen says so and hides the empty content editor, and saved settings render on the front end immediately.
+* **Display scope on every import** - each demo card offers a *Display on* select: *Where the demo says - recommended*, *Entire site*, *Front page only*, *Single posts and pages*, *Blog and archive listings*. The chosen scope becomes the layout's conditions at import time - for every import path (demo card, upload, admin AJAX and REST), so the default header/footer appears exactly where the user picked, without opening the editor. The import confirmation repeats it in plain words (*Displays on: Entire site*). Scopes map to condition sets through `qevora_layouts_display_scope_conditions`, and the list itself is filterable (`qevora_layouts_display_scopes`). The REST route accepts the same `display_scope` key, a full `conditions` object (`{include:[],exclude:[]}`) for programmatic imports, and - for the PHP demos below - `demo` (slug) plus `create_menu` (boolean).
 * **Previews for every demo** - each card shows its preview image and a *Preview* button that opens an accessible dialog (focus moved in, Escape or *Close* moves it back) with the large image, the type, the builder requirement and the display rules the demo ships with. Cards without a preview image fall back to the bundled placeholder, so a preview always exists.
 * **Enabled vs draft** - every import form keeps the *Enabled (display now)* / *Disabled (draft)* choice; "display now" simply means the layout is stored published with the chosen conditions.
 
 ### Bundled PHP demos (no editor needed)
 
-Four demos ship as **pure PHP templates** for sites that should not depend on the block editor or a page builder at all. Each demo lives in its own folder and keeps its own data, styles and behaviour:
+Seven demos ship as **pure PHP templates** for sites that should not depend on the block editor or a page builder at all. Each demo lives in its own folder and keeps its own data, styles and behaviour:
 
 | Demo | Type | Menu | Files |
 | --- | --- | --- | --- |
@@ -367,11 +356,15 @@ Four demos ship as **pure PHP templates** for sites that should not depend on th
 | `header-centered` | header | yes | `template.php`, `style.css`, `script.js` |
 | `footer-columns` | footer | yes | `template.php`, `style.css` |
 | `footer-simple` | footer | no | `template.php`, `style.css`, `script.js` |
+| `section-hero` | section | no | `template.php`, `style.css`, `settings.php` |
+| `section-cta` | section | no | `template.php`, `style.css`, `settings.php` |
+| `section-faq` | section | no | `template.php`, `style.css`, `script.js`, `settings.php` |
 
 ```
 templates/demos/<slug>/
 	demo.json      manifest: id, name, type, description, menu support
 	template.php   the HTML, rendered server-side with escaped WP APIs
+	settings.php   that demo's customisable fields (metabox + defaults)
 	style.css      that demo's own responsive stylesheet
 	script.js      that demo's own vanilla JavaScript (mobile menu, back to top)
 ```
@@ -421,7 +414,7 @@ Namespace `qevora-layouts/v1`. Read routes require `edit_qevora_layouts`; the im
 | GET | `/layouts` | List layouts (`type`, `status`, `search`, `page`, `per_page`), with `X-WP-Total`. |
 | GET | `/layouts/{id}` | One layout, including conditions and provenance. |
 | GET | `/templates` | Library entries (bundled, remote or both) without content. |
-| POST | `/templates/import` | Import by `template_id`, `origin`, `on_duplicate`, `replace_id`, `status`, plus `display_scope`, `demo_pack` or an explicit `conditions` object. |
+| POST | `/templates/import` | Import by `template_id`, `origin`, `on_duplicate`, `replace_id`, `status`, plus `display_scope`, `demo` + `create_menu` or an explicit `conditions` object. |
 | GET | `/search` | Search posts, terms or users for the condition pickers. |
 | GET | `/system-status` | The same report the System Status screen shows (`manage_options` only). |
 
@@ -484,7 +477,6 @@ Settings are stored in one option (`qevora_layouts_settings`) with a registered 
 | `qevora_layouts_admin_submenus`, `qevora_layouts_list_columns`, `qevora_layouts_library_view_context`, `qevora_layouts_settings_view_context`, `qevora_layouts_status_report` | Admin. |
 | `qevora_layouts_granted_roles` | Roles that receive the plugin capabilities on activation (default: `administrator`). |
 | `qevora_layouts_display_scopes`, `qevora_layouts_display_scope_conditions` | The *Display on* choices and their condition sets. |
-| `qevora_layouts_demo_packs` | The one-click demo packs. |
 | `qevora_layouts_demos` | The bundled PHP demos. |
 | `qevora_layouts_demo_markup` | Markup rendered by a bundled PHP demo. |
 | `qevora_layouts_rest_layout`, `qevora_layouts_allow_disabled_layout`, `qevora_layouts_auto_render_types`, `qevora_layouts_languages_dir` | Misc. |
@@ -581,13 +573,13 @@ Current result: **191 tests, 1836 assertions, 0 failures** (PHP 8.5, `php tests/
 | Import | `tests/Unit/Import/Importer_Test.php` | JSON decoding, upload validation, duplicate policies, replacement, remote fetch |
 | Frontend | `tests/Unit/Frontend/Duplicate_Guard_Test.php` | One render per slot, normalization, filters, actions |
 | Frontend | `tests/Unit/Frontend/Frontend_Security_Test.php` | The inline CSS validator |
-| Integration | `tests/Integration/Starter_Templates_Test.php` | All eight starters validate, import, re-import safely and resolve per context |
+| Admin | `tests/Unit/Admin/Meta_Boxes_Test.php` | Demo layouts leave the block editor; per-demo settings metabox renders, saves and sanitises |
 | Integration | `tests/Integration/Activation_Test.php` | Activation seeds options, grants the plugin capabilities, dies gracefully on old environments, migration self-heals, deactivation deletes nothing |
 | Frontend | `tests/Unit/Frontend/Placement_Test.php` | Stored placements versus the hooks block and classic themes really fire |
 
 ### Real WordPress smoke test
 
-For 1.0.0 the release archive was additionally exercised on a **real WordPress 7.1.4** install (SQLite database drop-in, PHP 8.5, no browser): activation through `activate_plugin()` exactly as `plugins.php` runs it; all six REST routes as an administrator and anonymously (401); starter import, duplicate skip and replace through `POST /templates/import`; the front page of the block theme rendering both the header and the footer wrapper with real block content; and the Template Library, Settings and System Status screens rendering their full admin pages. This caught two bugs the stub suite could not see (a namespace-relative class reference that fatalled activation, and plugin capabilities that were never granted to any role). The browser-level steps in [`tests/INTEGRATION.md`](tests/INTEGRATION.md) remain the last manual gate, and the Elementor adapter has still never run against Elementor.
+For 1.0.0 the release archive was additionally exercised on a **real WordPress 7.1.4** install (SQLite database drop-in, PHP 8.5, no browser): activation through `activate_plugin()` exactly as `plugins.php` runs it; all six REST routes as an administrator and anonymously (401); demo import, duplicate skip and replace through `POST /templates/import`; the front page of the block theme rendering both the header and the footer wrapper with real block content; and the Template Library, Settings and System Status screens rendering their full admin pages. This caught two bugs the stub suite could not see (a namespace-relative class reference that fatalled activation, and plugin capabilities that were never granted to any role). The browser-level steps in [`tests/INTEGRATION.md`](tests/INTEGRATION.md) remain the last manual gate, and the Elementor adapter has still never run against Elementor.
 
 `tests/stubs/wordpress.php` provides the WordPress functions the tested classes use (hooks, options, object cache, an in-memory post store, `WP_Query`, KSES, the HTTP API, capabilities, assets, REST/block/shortcode registration). Anything that needs MySQL, a real theme, the REST server or the block parser is **not** covered by this suite — those paths are listed as a manual checklist in [`tests/INTEGRATION.md`](tests/INTEGRATION.md), and they must be run on a real WordPress install before a release is considered verified.
 
@@ -611,7 +603,7 @@ Last run against WordPress 7.1.4 and Elementor `main` (4.5.0): 165 WordPress fun
 bash tools/build-zip.sh
 ```
 
-It reads the version from the plugin header, stages every tracked file that `.distignore` does not exclude into a single top-level `qevora-layouts/` directory, writes `release/qevora-layouts-<version>.zip`, and then verifies the result: no `.git/`, `tests/`, `tools/`, `release/`, `*.sh`, `*.py`, `.distignore` or `node_modules`; the bootstrap, `uninstall.php`, `LICENSE`, `README.md`, `readme.txt`, `CHANGELOG.md`, `includes/`, `assets/`, `templates/starter/`, `languages/qevora-layouts.pot` and the four `index.php` guards all present; exactly one top-level directory. The 1.0.0 archive holds 101 files (216 KB) and all 73 PHP files in it pass `php -l`.
+It reads the version from the plugin header, stages every tracked file that `.distignore` does not exclude into a single top-level `qevora-layouts/` directory, writes `release/qevora-layouts-<version>.zip`, and then verifies the result: no `.git/`, `tests/`, `tools/`, `release/`, `*.sh`, `*.py`, `.distignore` or `node_modules`; the bootstrap, `uninstall.php`, `LICENSE`, `README.md`, `readme.txt`, `CHANGELOG.md`, `includes/`, `assets/`, `templates/demos/`, `languages/qevora-layouts.pot` and the `index.php` guards all present; exactly one top-level directory. The 1.0.0 archive holds 135 files (248 KB) and all 79 PHP files in it pass `php -l`.
 
 ## Known limitations
 
@@ -653,7 +645,7 @@ qevora-layouts/
 ├── assets/                     css/, js/, images/previews/
 ├── templates/
 │   ├── frontend/layout-wrapper.php   Overridable from the theme
-│   └── starter/*.json                Eight bundled starter templates
+│   └── demos/<slug>/                 Seven bundled PHP demos (manifest, template, CSS, JS, settings)
 ├── languages/qevora-layouts.pot
 ├── tests/                      run.php, TestCase.php, stubs/, Unit/, Integration/
 └── tools/                      make-pot.py, build-zip.sh, verify-wp-functions.php
@@ -664,7 +656,7 @@ qevora-layouts/
 * [CHANGELOG.md](CHANGELOG.md) — release history.
 * [readme.txt](readme.txt) — WordPress.org formatted readme.
 * [LICENSE](LICENSE) — GPL-2.0-or-later, the same license as WordPress itself.
-* Starter template markup uses core WordPress blocks only. Preview images in `assets/images/previews/` are original SVG artwork created for this plugin and licensed GPL-2.0-or-later.
+* Bundled demos are plain PHP, HTML, CSS and vanilla JavaScript written for this plugin; imported `.json` templates may use core WordPress blocks. Preview images in `assets/images/previews/` are original SVG artwork created for this plugin and licensed GPL-2.0-or-later.
 * No third-party libraries are bundled. WordPress and Elementor are used through their public APIs; Elementor is a separate project by Elementor Ltd. and is not required.
 
 © Qevora Software. Released under the GPL-2.0-or-later license.

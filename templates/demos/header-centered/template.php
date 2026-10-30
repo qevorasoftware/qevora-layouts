@@ -7,6 +7,7 @@
  * @var \QevoraLayouts\Core\Layout  $qevora_layout  The layout being rendered.
  * @var array<string,mixed>         $qevora_demo    Demo manifest.
  * @var int                         $qevora_menu_id Nav menu ID (0 when none).
+ * @var array<string,mixed>         $qevora_demo_settings Customised settings for this demo.
  *
  * @package QevoraLayouts
  * @since   1.0.0
@@ -16,13 +17,15 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-$qdhh_name     = (string) get_bloginfo( 'name' );
-$qdhh_tagline  = (string) get_bloginfo( 'description' );
+$qdhh_set      = (array) $qevora_demo_settings;
+$qdhh_name     = '' !== (string) $qdhh_set['site_title'] ? (string) $qdhh_set['site_title'] : (string) get_bloginfo( 'name' );
+$qdhh_tagline  = ! empty( $qdhh_set['show_tagline'] ) ? ( '' !== (string) $qdhh_set['tagline'] ? (string) $qdhh_set['tagline'] : (string) get_bloginfo( 'description' ) ) : '';
+$qdhh_sticky   = ! empty( $qdhh_set['sticky_header'] );
 $qdhh_home     = (string) home_url( '/' );
 $qdhh_nav      = 'qdhh-nav-' . (int) $qevora_layout->id;
 $qdhh_has_menu = $qevora_menu_id > 0 && function_exists( 'wp_nav_menu' );
 ?>
-<div class="qdhh">
+<div class="qdhh<?php echo $qdhh_sticky ? ' qdhh--sticky' : ''; ?>">
 	<div class="qdhh__brand-row">
 		<a class="qdhh__brand" href="<?php echo esc_url( $qdhh_home ); ?>">
 			<span class="qdhh__name"><?php echo esc_html( $qdhh_name ); ?></span>

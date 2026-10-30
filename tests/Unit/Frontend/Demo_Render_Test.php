@@ -235,4 +235,93 @@ class Demo_Render_Test extends TestCase {
 		$this->assertStringContainsString( 'qevora-layouts--footer', $html );
 		$this->assertStringContainsString( 'class="qdfc"', $html );
 	}
+
+	/**
+	 * The rendered markup follows the settings stored on the layout, so
+	 * customising a demo in its metabox changes the front end.
+	 *
+	 * @return void
+	 */
+	public function test_render_uses_the_stored_demo_settings() {
+		$id = $this->create_demo_layout(
+			array(
+				'title'     => 'Demo footer',
+				'type'      => 'footer',
+				'demo_slug' => 'footer-simple',
+			)
+		);
+
+		update_post_meta( $id, '_qevora_layout_demo_settings', array( 'copyright' => 'Acme Holdings 2026', 'show_back_to_top' => false ) );
+
+		$html = Plugin::instance()->builders()->render( Layout::from_post( get_post( $id ) ) );
+
+		$this->assertStringContainsString( 'Acme Holdings 2026', $html, 'The stored copyright line renders.' );
+		$this->assertStringNotContainsString( 'data-qdfs-top', $html, 'The back-to-top button was switched off.' );
+	}
+
+	/**
+	 * A sticky header setting reaches the root class of the template.
+	 *
+	 * @return void
+	 */
+	public function test_sticky_setting_changes_the_rendered_classes() {
+		$id = $this->create_demo_layout();
+
+		update_post_meta( $id, '_qevora_layout_demo_settings', array( 'sticky_header' => true, 'site_title' => 'Acme Corp' ) );
+
+		$html = Plugin::instance()->builders()->render( Layout::from_post( get_post( $id ) ) );
+
+		$this->assertStringContainsString( 'qdhc--sticky', $html );
+		$this->assertStringContainsString( 'Acme Corp', $html );
+	}
+
+	/**
+	 * Section demos render through the same adapter, with their own
+	 * markup, assets and settings-driven content.
+	 *
+	 * @return void
+	 */
+	public function test_section_demos_render_from_php() {
+		$id = $this->create_demo_layout(
+			array(
+				'title'     => 'Demo faq',
+				'type'      => 'section',
+				'demo_slug' => 'section-faq',
+			)
+		);
+
+		update_post_meta(
+			$id,
+			'_qevora_layout_demo_settings',
+			array(
+				'title' => 'Good to know',
+				'items' => "Is it dynamic? | Yes, rendered from PHP on every request.\n<script>bad</script> | Dropped safely.",
+			)
+		);
+
+		$html = Plugin::instance()->builders()->render( Layout::from_post( get_post( $id ) ) );
+
+		$this->assertStringContainsString( 'class="qdsf"', $html );
+		$this->assertStringContainsString( 'Good to know', $html );
+		$this->assertStringContainsString( 'Is it dynamic?', $html );
+		$this->assertStringContainsString( 'data-qdsf-toggle', $html, 'The accordion buttons render.' );
+		$this->assertStringNotContainsString( '<script>bad</script>', $html );
+		$this->assertTrue( wp_script_is( 'qevora-demo-section-faq-js' ), 'The FAQ demo ships its own script.' );
+
+		$hero = $this->create_demo_layout(
+			array(
+				'title'     => 'Demo hero',
+				'type'      => 'section',
+				'demo_slug' => 'section-hero',
+			)
+		);
+
+		update_post_meta( $hero, '_qevora_layout_demo_settings', array( 'heading' => 'Build faster', 'align' => 'left' ) );
+
+		$html = Plugin::instance()->builders()->render( Layout::from_post( get_post( $hero ) ) );
+
+		$this->assertStringContainsString( 'Build faster', $html );
+		$this->assertStringContainsString( 'qdsh--left', $html );
+		$this->assertTrue( wp_style_is( 'qevora-demo-section-hero' ), 'Each section demo keeps its own stylesheet.' );
+	}
 }

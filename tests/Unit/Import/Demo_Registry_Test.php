@@ -150,4 +150,87 @@ class Demo_Registry_Test extends TestCase {
 			$this->assertArrayHasKey( $key, $first );
 		}
 	}
+
+	/**
+	 * Every demo keeps its settings schema in its own PHP file, and the
+	 * schema drives both the metabox and the render.
+	 *
+	 * @return void
+	 */
+	public function test_settings_schemas_load_per_demo() {
+		$classic = Demo_Registry::settings_schema( 'header-classic' );
+
+		$this->assertArrayHasKey( 'site_title', $classic );
+		$this->assertSame( 'text', $classic['site_title']['type'] );
+		$this->assertSame( '', $classic['site_title']['default'] );
+		$this->assertSame( 'color', $classic['accent_color']['type'] );
+		$this->assertSame( '#2271b1', $classic['accent_color']['default'] );
+		$this->assertSame( 'checkbox', $classic['sticky_header']['type'] );
+		$this->assertFalse( $classic['sticky_header']['default'] );
+
+		$hero = Demo_Registry::settings_schema( 'section-hero' );
+
+		$this->assertSame( 'select', $hero['align']['type'] );
+		$this->assertSame( 'center', $hero['align']['default'] );
+		$this->assertArrayHasKey( 'left', $hero['align']['options'] );
+
+		$this->assertSame( array(), Demo_Registry::settings_schema( 'does-not-exist' ), 'Unknown demos have no settings.' );
+	}
+
+	/**
+	 * Submitted settings are cleaned per field type; anything the demo
+	 * does not declare is dropped entirely.
+	 *
+	 * @return void
+	 */
+	public function test_sanitize_settings_is_type_aware_and_strict() {
+		$clean = Demo_Registry::sanitize_settings(
+			'header-classic',
+			array(
+				'site_title'    => "  Acme <script>alert(1)</script> & sons  ",
+				'accent_color'  => '#ZZZZZZ',
+				'sticky_header' => '1',
+				'evil'          => 'drop me',
+			)
+		);
+
+		$this->assertSame( array( 'site_title', 'accent_color', 'sticky_header' ), array_keys( $clean ), 'Unknown keys never survive.' );
+		$this->assertStringNotContainsString( '<script>', $clean['site_title'] );
+		$this->assertSame( '#2271b1', $clean['accent_color'], 'An invalid colour falls back to the default.' );
+		$this->assertTrue( $clean['sticky_header'] );
+
+		$clean = Demo_Registry::sanitize_settings(
+			'section-hero',
+			array(
+				'align'      => 'sideways',
+				'button_url' => 'javascript:alert(1)',
+			)
+		);
+
+		$this->assertSame( 'center', $clean['align'], 'An unknown select value falls back to the default.' );
+		$this->assertStringNotContainsString( 'javascript:', $clean['button_url'] );
+
+		$this->assertSame( array(), Demo_Registry::sanitize_settings( 'header-classic', 'not-an-array' ) );
+	}
+
+	/**
+	 * Rendering always sees a complete, sanitised settings array: stored
+	 * values win, everything else falls back to the demo's defaults.
+	 *
+	 * @return void
+	 */
+	public function test_get_settings_merges_stored_values_over_defaults() {
+		$settings = Demo_Registry::get_settings(
+			'footer-simple',
+			array( 'copyright' => 'Acme 2026' )
+		);
+
+		$this->assertSame( 'Acme 2026', $settings['copyright'] );
+		$this->assertTrue( $settings['show_back_to_top'], 'Untouched checkboxes keep their default.' );
+		$this->assertSame( '', $settings['top_label'] );
+
+		$defaults = Demo_Registry::get_settings( 'footer-simple' );
+
+		$this->assertSame( Demo_Registry::settings_defaults( 'footer-simple' ), $defaults );
+	}
 }

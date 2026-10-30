@@ -15,6 +15,7 @@ namespace QevoraLayouts\Integrations\Adapters;
 
 use QevoraLayouts\Core\Layout;
 use QevoraLayouts\Core\Logger;
+use QevoraLayouts\Core\Layout_Post_Type;
 use QevoraLayouts\Import\Demo_Registry;
 use QevoraLayouts\Integrations\Abstract_Builder_Adapter;
 
@@ -117,9 +118,10 @@ class Demo_Adapter extends Abstract_Builder_Adapter {
 
 		Demo_Registry::enqueue_assets( (string) $demo['id'] );
 
-		$qevora_layout  = $layout;
-		$qevora_demo    = $demo;
-		$qevora_menu_id = (int) $layout->menu_id;
+		$qevora_layout        = $layout;
+		$qevora_demo          = $demo;
+		$qevora_menu_id       = (int) $layout->menu_id;
+		$qevora_demo_settings = Demo_Registry::get_settings( (string) $demo['id'], (array) get_post_meta( (int) $layout->id, Layout_Post_Type::META_DEMO_SETTINGS, true ) );
 
 		ob_start();
 

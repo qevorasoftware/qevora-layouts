@@ -58,6 +58,9 @@ class Meta_Boxes {
 	public static function register() {
 		add_action( 'add_meta_boxes_' . Layout_Post_Type::POST_TYPE, array( __CLASS__, 'add_boxes' ), 10, 2 );
 		add_action( 'save_post_' . Layout_Post_Type::POST_TYPE, array( __CLASS__, 'save' ), 10, 2 );
+		add_action( 'save_post_' . Layout_Post_Type::POST_TYPE, array( __CLASS__, 'save_demo_settings' ), 11, 2 );
+		add_filter( 'use_block_editor_for_post', array( __CLASS__, 'use_block_editor' ), 10, 2 );
+		add_action( 'edit_form_top', array( __CLASS__, 'demo_editor_notice' ) );
 	}
 
 	/**
@@ -71,6 +74,23 @@ class Meta_Boxes {
 	public static function add_boxes( $post ) {
 		if ( ! $post instanceof \WP_Post || ! Capabilities::can_edit_layout( $post->ID ) ) {
 			return;
+		}
+
+		$demo = self::demo_for_post( $post->ID );
+
+		if ( null !== $demo ) {
+			add_meta_box(
+				'qevora-layout-demo-settings',
+				sprintf(
+					/* translators: %s: name of the bundled demo. */
+					__( '%s - demo settings', 'qevora-layouts' ),
+					(string) $demo['name']
+				),
+				array( __CLASS__, 'render_demo_settings_box' ),
+				Layout_Post_Type::POST_TYPE,
+				'normal',
+				'high'
+			);
 		}
 
 		add_meta_box(
@@ -720,6 +740,199 @@ class Meta_Boxes {
 	 * @param \WP_Post $post    Post.
 	 * @return void
 	 */
+	/**
+	 * Returns the bundled demo a layout renders, when it renders one.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param int $post_id Layout post ID.
+	 * @return array<string,mixed>|null Demo manifest or null.
+	 */
+	private static function demo_for_post( $post_id ) {
+		if ( 'demo' !== (string) get_post_meta( (int) $post_id, Layout_Post_Type::META_BUILDER, true ) ) {
+			return null;
+		}
+
+		return Demo_Registry::get( (string) get_post_meta( (int) $post_id, Layout_Post_Type::META_DEMO, true ) );
+	}
+
+	/**
+	 * Demo layouts are customised through their settings metabox, not
+	 * through blocks: the markup lives in the plugin's PHP templates, so
+	 * the block editor has nothing useful to show for them.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param bool     $use Whether the post would use the block editor.
+	 * @param \WP_Post $post Post being edited.
+	 * @return bool
+	 */
+	public static function use_block_editor( $use, $post ) {
+		if ( $post instanceof \WP_Post && Layout_Post_Type::POST_TYPE === $post->post_type && null !== self::demo_for_post( $post->ID ) ) {
+			return false;
+		}
+
+		return (bool) $use;
+	}
+
+	/**
+	 * Explains, on the edit screen of a demo layout, that the content
+	 * editor is hidden and where the demo is customised instead.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param \WP_Post $post Post being edited.
+	 * @return void
+	 */
+	public static function demo_editor_notice( $post ) {
+		$demo = $post instanceof \WP_Post ? self::demo_for_post( $post->ID ) : null;
+
+		if ( null === $demo ) {
+			return;
+		}
+
+		echo "<style>#postdivrich { display: none; }</style>\n";
+		echo '<div class="notice notice-info"><p>' . esc_html(
+			sprintf(
+				/* translators: %s: name of the bundled demo. */
+				__( 'This layout is rendered by the bundled "%s" demo - its HTML, CSS and JavaScript live in plugin files, so there is no block content to edit here. Customise the demo in the settings box below; changes appear on the site immediately.', 'qevora-layouts' ),
+				(string) $demo['name']
+			)
+		) . '</p></div>' . "\n";
+	}
+
+	/**
+	 * Renders the per-demo settings metabox.
+	 *
+	 * Every field comes from the demo's own `settings.php` schema, so
+	 * each demo shows exactly its own options and nothing else.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param \WP_Post $post Post being edited.
+	 * @return void
+	 */
+	public static function render_demo_settings_box( $post ) {
+		$demo = self::demo_for_post( $post->ID );
+
+		if ( null === $demo ) {
+			return;
+		}
+
+		$slug    = (string) $demo['id'];
+		$schema  = Demo_Registry::settings_schema( $slug );
+		$saved   = (array) get_post_meta( $post->ID, Layout_Post_Type::META_DEMO_SETTINGS, true );
+		$current = Demo_Registry::get_settings( $slug, $saved );
+
+		wp_nonce_field( 'qevora_layouts_demo_settings', 'qevora_layouts_demo_settings_nonce' );
+
+		echo '<p class="description">' . esc_html(
+			sprintf(
+				/* translators: %s: relative path of the demo template file. */
+				__( 'Rendered on every request from %s - plain PHP, no block editor and no page builder. These options are the only content this demo uses.', 'qevora-layouts' ),
+				'templates/demos/' . $slug . '/template.php'
+			)
+		) . '</p>';
+
+		if ( empty( $schema ) ) {
+			echo '<p>' . esc_html__( 'This demo has no customisable options.', 'qevora-layouts' ) . '</p>';
+			return;
+		}
+
+		echo '<table class="form-table qevora-demo-settings" role="presentation">';
+
+		foreach ( $schema as $key => $field ) {
+			$value = isset( $current[ $key ] ) ? $current[ $key ] : $field['default'];
+			$id    = 'qevora-demo-setting-' . $key;
+
+			echo '<tr><th scope="row"><label for="' . esc_attr( $id ) . '">' . esc_html( (string) $field['label'] ) . '</label></th><td>';
+
+			switch ( $field['type'] ) {
+				case 'checkbox':
+					echo '<label><input type="hidden" name="qevora_layout_demo_settings[' . esc_attr( $key ) . ']" value="0" />';
+					echo '<input type="checkbox" id="' . esc_attr( $id ) . '" name="qevora_layout_demo_settings[' . esc_attr( $key ) . ']" value="1" ' . checked( $value, true, false ) . ' /> ';
+					echo esc_html( (string) $field['label'] ) . '</label>';
+					break;
+				case 'textarea':
+					echo '<textarea id="' . esc_attr( $id ) . '" name="qevora_layout_demo_settings[' . esc_attr( $key ) . ']" rows="4" class="large-text">' . esc_textarea( (string) $value ) . '</textarea>';
+					break;
+				case 'select':
+					echo '<select id="' . esc_attr( $id ) . '" name="qevora_layout_demo_settings[' . esc_attr( $key ) . ']">';
+					foreach ( $field['options'] as $option_value => $option_label ) {
+						echo '<option value="' . esc_attr( $option_value ) . '" ' . selected( $value, $option_value, false ) . '>' . esc_html( $option_label ) . '</option>';
+					}
+					echo '</select>';
+					break;
+				case 'color':
+					echo '<input type="color" id="' . esc_attr( $id ) . '" name="qevora_layout_demo_settings[' . esc_attr( $key ) . ']" value="' . esc_attr( (string) $value ) . '" />';
+					break;
+				case 'number':
+					echo '<input type="number" id="' . esc_attr( $id ) . '" name="qevora_layout_demo_settings[' . esc_attr( $key ) . ']" value="' . esc_attr( (string) $value ) . '" class="small-text" />';
+					break;
+				case 'url':
+					echo '<input type="url" id="' . esc_attr( $id ) . '" name="qevora_layout_demo_settings[' . esc_attr( $key ) . ']" value="' . esc_attr( (string) $value ) . '" class="regular-text" />';
+					break;
+				default:
+					echo '<input type="text" id="' . esc_attr( $id ) . '" name="qevora_layout_demo_settings[' . esc_attr( $key ) . ']" value="' . esc_attr( (string) $value ) . '" class="regular-text" />';
+			}
+
+			if ( '' !== (string) $field['help'] ) {
+				echo '<p class="description">' . esc_html( (string) $field['help'] ) . '</p>';
+			}
+
+			echo '</td></tr>';
+		}
+
+		echo '</table>';
+	}
+
+	/**
+	 * Saves the per-demo settings metabox.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param int      $post_id Post ID.
+	 * @param \WP_Post $post    Post.
+	 * @return void
+	 */
+	public static function save_demo_settings( $post_id, $post ) {
+		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
+			return;
+		}
+
+		if ( wp_is_post_revision( $post_id ) || wp_is_post_autosave( $post_id ) ) {
+			return;
+		}
+
+		if ( ! isset( $_POST['qevora_layouts_demo_settings_nonce'] ) ) {
+			return;
+		}
+
+		$nonce = sanitize_text_field( wp_unslash( $_POST['qevora_layouts_demo_settings_nonce'] ) );
+
+		if ( ! wp_verify_nonce( $nonce, 'qevora_layouts_demo_settings' ) ) {
+			Logger::warning( 'Demo settings save rejected: invalid nonce.', array( 'post_id' => (int) $post_id ) );
+
+			return;
+		}
+
+		if ( ! Capabilities::can_edit_layout( $post_id ) ) {
+			Logger::warning( 'Demo settings save rejected: missing capability.', array( 'post_id' => (int) $post_id ) );
+
+			return;
+		}
+
+		$demo = self::demo_for_post( $post_id );
+
+		if ( null === $demo ) {
+			return;
+		}
+
+		$raw = isset( $_POST['qevora_layout_demo_settings'] ) ? wp_unslash( $_POST['qevora_layout_demo_settings'] ) : array(); // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Verified above.
+
+		update_post_meta( $post_id, Layout_Post_Type::META_DEMO_SETTINGS, Demo_Registry::sanitize_settings( (string) $demo['id'], $raw ) );
+	}
+
 	public static function save( $post_id, $post ) {
 		$post_id = (int) $post_id;
 

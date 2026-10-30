@@ -114,9 +114,9 @@ Verify each row by loading a matching and a non-matching URL.
 
 ## 8. Template library and imports
 
-- [ ] The library lists all eight bundled starters with name, type, description, tags, preview image and requirement badges.
+- [ ] The library lists all seven bundled PHP demos with name, type, description, tags and their import controls (Display on, create menu, hide theme parts, status).
 - [ ] Importing *Hero Section* creates a `section` layout in `manual` placement that renders through the shortcode but not automatically.
-- [ ] Importing the same starter again reports **"already exists"** with a link to the existing layout and creates nothing.
+- [ ] Importing the same demo again reports **"already exists"** with a link to the existing layout and creates nothing.
 - [ ] With the duplicate policy set to *copy*, importing again creates a second layout and says so.
 - [ ] Choosing an existing layout to replace overwrites exactly that layout and no other.
 - [ ] Uploading a valid `.json` file (single template and `{ "templates": [ … ] }` collection) imports it.
@@ -184,7 +184,7 @@ With an application password or a logged-in administrator (`X-WP-Nonce` from `wp
 
 - [ ] With a persistent object cache (Redis or Memcached) enabled, the second front-end request issues no `WP_Query` for candidates (verify with Query Monitor).
 - [ ] Saving, trashing, untrashing, duplicating, enabling, disabling a layout or changing a layout's meta invalidates the cache: the next request reflects the change immediately.
-- [ ] Importing all eight starters in one request shows all of them on the next request (the version must increase per save, even within the same second).
+- [ ] Importing several demos in one request shows all of them on the next request (the version must increase per save, even within the same second).
 - [ ] Changing a setting invalidates the cache.
 - [ ] With `cache_candidates` off, every request queries and the results are still correct.
 - [ ] "Clear caches" in System Status bumps the version and reports the new value.

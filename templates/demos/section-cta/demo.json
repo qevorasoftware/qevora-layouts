@@ -1,0 +1,8 @@
+{
+	"id": "section-cta",
+	"name": "Call to Action Section",
+	"type": "section",
+	"description": "A compact coloured band with a title, one line of text and a button - the classic 'ready to get started?' strip. Rendered entirely by the plugin; texts, link and colours are customisable from the layout edit screen.",
+	"menu": false,
+	"tags": [ "section", "php", "responsive", "cta" ]
+}

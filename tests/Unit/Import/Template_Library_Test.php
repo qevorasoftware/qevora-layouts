@@ -68,15 +68,74 @@ class Template_Library_Test extends TestCase {
 	}
 
 	/**
-	 * Every bundled starter template is readable and valid.
+	 * Registers JSON template files as "bundled" through the filter a site
+	 * would use, since the plugin itself ships no editor templates anymore.
+	 *
+	 * @param array<int,array<string,mixed>> $templates Template arrays (id, name, type, content).
+	 * @return string[] Fixture file paths.
+	 */
+	private function register_bundled( array $templates ) {
+		$paths = array();
+
+		foreach ( $templates as $template ) {
+			$file = tempnam( sys_get_temp_dir(), 'qlb' ) . '.json';
+
+			file_put_contents( // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_file_put_contents -- Test fixture.
+				$file,
+				wp_json_encode(
+					array_merge(
+						array(
+							'$schema' => Template::SCHEMA,
+							'builder' => 'block',
+						),
+						$template
+					)
+				)
+			);
+
+			$paths[] = $file;
+		}
+
+		add_filter(
+			'qevora_layouts_bundled_template_files',
+			function ( $files ) use ( $paths ) {
+				return array_merge( $files, $paths );
+			}
+		);
+
+		return $paths;
+	}
+
+	/**
+	 * The plugin ships no editor-based starters of its own; sites register
+	 * JSON templates through the bundled-files filter instead.
 	 *
 	 * @return void
 	 */
 	public function test_bundled_templates_are_loaded() {
-		$bundled = $this->library->bundled();
+		$this->assertSame( array(), $this->library->bundled(), 'No editor-based starter templates ship with the plugin.' );
+		$this->assertSame( array(), $this->library->get_problems(), 'An empty bundled library is not a problem.' );
 
-		$this->assertCount( 8, $bundled );
-		$this->assertSame( array(), $this->library->get_problems(), 'The bundled library must not report problems.' );
+		$this->register_bundled(
+			array(
+				array(
+					'id'          => 'acme-custom-header',
+					'name'        => 'Acme custom header',
+					'type'        => 'header',
+					'description' => 'A registered header template.',
+					'requires'    => array(
+						'wordpress' => '6.4',
+						'php'       => '7.4',
+					),
+					'content'     => '<!-- wp:paragraph --><p>Custom</p><!-- /wp:paragraph -->',
+				),
+			)
+		);
+
+		$bundled = ( new Template_Library() )->bundled();
+
+		$this->assertCount( 1, $bundled );
+		$this->assertSame( array(), ( new Template_Library() )->get_problems(), 'The registered template must be valid.' );
 
 		foreach ( $bundled as $id => $template ) {
 			$this->assertInstanceOf( Template::class, $template );
@@ -91,7 +150,6 @@ class Template_Library_Test extends TestCase {
 			$this->assertSame( array(), $template->get_missing_requirements(), $id . ' has unmet requirements.' );
 			$this->assertSame( '6.4', $template->requires['wordpress'] );
 			$this->assertSame( '7.4', $template->requires['php'] );
-			$this->assertNotEmpty( $template->get_preview_url(), $id . ' is missing its preview image.' );
 			$this->assertTrue( is_array( $template->conditions ) );
 			$this->assertTrue( is_array( $template->conditions['include'] ) );
 			$this->assertTrue( is_array( $template->conditions['exclude'] ) );
@@ -104,11 +162,34 @@ class Template_Library_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_bundled_library_covers_every_type() {
-		$counts = $this->library->count_by_type();
+		$this->register_bundled(
+			array(
+				array(
+					'id'      => 'acme-custom-header',
+					'name'    => 'Acme custom header',
+					'type'    => 'header',
+					'content' => '<!-- wp:paragraph --><p>Custom</p><!-- /wp:paragraph -->',
+				),
+				array(
+					'id'      => 'acme-custom-footer',
+					'name'    => 'Acme custom footer',
+					'type'    => 'footer',
+					'content' => '<!-- wp:paragraph --><p>Custom</p><!-- /wp:paragraph -->',
+				),
+				array(
+					'id'      => 'acme-custom-section',
+					'name'    => 'Acme custom section',
+					'type'    => 'section',
+					'content' => '<!-- wp:paragraph --><p>Custom</p><!-- /wp:paragraph -->',
+				),
+			)
+		);
 
-		$this->assertSame( 3, $counts['header'] );
-		$this->assertSame( 2, $counts['footer'] );
-		$this->assertSame( 3, $counts['section'] );
+		$counts = ( new Template_Library() )->count_by_type();
+
+		$this->assertSame( 1, $counts['header'] );
+		$this->assertSame( 1, $counts['footer'] );
+		$this->assertSame( 1, $counts['section'] );
 	}
 
 	/**
@@ -117,6 +198,17 @@ class Template_Library_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_bundled_results_are_cached_and_clearable() {
+		$this->register_bundled(
+			array(
+				array(
+					'id'      => 'acme-custom-header',
+					'name'    => 'Acme custom header',
+					'type'    => 'header',
+					'content' => '<!-- wp:paragraph --><p>Custom</p><!-- /wp:paragraph -->',
+				),
+			)
+		);
+
 		$first  = $this->library->bundled();
 		$second = $this->library->bundled();
 
@@ -125,11 +217,11 @@ class Template_Library_Test extends TestCase {
 		$refreshed = $this->library->bundled( true );
 
 		$this->assertSame( array_keys( $first ), array_keys( $refreshed ), 'A forced read returns the same templates.' );
-		$this->assertNotSame( $first['qevora-header-simple'], $refreshed['qevora-header-simple'], 'A forced read rebuilds them.' );
+		$this->assertNotSame( $first['acme-custom-header'], $refreshed['acme-custom-header'], 'A forced read rebuilds them.' );
 
 		$this->library->clear_cache();
 
-		$this->assertCount( 8, $this->library->bundled() );
+		$this->assertCount( 1, $this->library->bundled() );
 	}
 
 	/**
@@ -165,7 +257,7 @@ class Template_Library_Test extends TestCase {
 
 		$bundled = $this->library->bundled( true );
 
-		$this->assertCount( 9, $bundled );
+		$this->assertCount( 1, $bundled );
 		$this->assertSame( 'Acme custom header', $bundled['acme-custom-header']->name );
 
 		unlink( $file );
@@ -211,16 +303,28 @@ class Template_Library_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_find() {
-		$found = $this->library->find( 'qevora-header-simple' );
+		$this->register_bundled(
+			array(
+				array(
+					'id'      => 'acme-custom-header',
+					'name'    => 'Acme custom header',
+					'type'    => 'header',
+					'content' => '<!-- wp:paragraph --><p>Custom</p><!-- /wp:paragraph -->',
+				),
+			)
+		);
+
+		$library = new Template_Library();
+		$found   = $library->find( 'acme-custom-header' );
 
 		$this->assertInstanceOf( Template::class, $found );
-		$this->assertSame( 'Simple Header', $found->name );
+		$this->assertSame( 'Acme custom header', $found->name );
 
-		$this->assertInstanceOf( Template::class, $this->library->find( 'qevora-header-simple', 'bundled' ) );
-		$this->assertNull( $this->library->find( 'qevora-header-simple', 'remote' ), 'A bundled template is not a remote one.' );
-		$this->assertNull( $this->library->find( 'does-not-exist' ) );
-		$this->assertNull( $this->library->find( '' ) );
-		$this->assertNull( $this->library->find( array( 'nope' ) ) );
+		$this->assertInstanceOf( Template::class, $library->find( 'acme-custom-header', 'bundled' ) );
+		$this->assertNull( $library->find( 'acme-custom-header', 'remote' ), 'A bundled template is not a remote one.' );
+		$this->assertNull( $library->find( 'does-not-exist' ) );
+		$this->assertNull( $library->find( '' ) );
+		$this->assertNull( $library->find( array( 'nope' ) ) );
 	}
 
 	/**
@@ -229,9 +333,33 @@ class Template_Library_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_for_display_shapes_the_rows() {
-		$rows = $this->library->for_display();
+		$this->register_bundled(
+			array(
+				array(
+					'id'      => 'acme-custom-header',
+					'name'    => 'Acme custom header',
+					'type'    => 'header',
+					'content' => '<!-- wp:paragraph --><p>Custom</p><!-- /wp:paragraph -->',
+				),
+				array(
+					'id'      => 'acme-custom-footer',
+					'name'    => 'Acme minimal footer',
+					'type'    => 'footer',
+					'content' => '<!-- wp:paragraph --><p>Custom</p><!-- /wp:paragraph -->',
+				),
+				array(
+					'id'      => 'acme-custom-section',
+					'name'    => 'Acme custom section',
+					'type'    => 'section',
+					'content' => '<!-- wp:paragraph --><p>Custom</p><!-- /wp:paragraph -->',
+				),
+			)
+		);
 
-		$this->assertCount( 8, $rows );
+		$library = new Template_Library();
+		$rows    = $library->for_display();
+
+		$this->assertCount( 3, $rows );
 
 		foreach ( $rows as $row ) {
 			$this->assertArrayHasKey( 'id', $row );
@@ -244,15 +372,15 @@ class Template_Library_Test extends TestCase {
 			$this->assertFalse( isset( $row['content'] ), 'Content is never sent to a list screen.' );
 		}
 
-		$this->assertCount( 3, $this->library->for_display( array( 'type' => 'header' ) ) );
-		$this->assertCount( 2, $this->library->for_display( array( 'type' => 'footer' ) ) );
-		$this->assertCount( 3, $this->library->for_display( array( 'type' => 'section' ) ) );
-		$this->assertCount( 0, $this->library->for_display( array( 'type' => 'sidebar' ) ) );
-		$this->assertCount( 1, $this->library->for_display( array( 'search' => 'faq' ) ) );
-		$this->assertCount( 1, $this->library->for_display( array( 'search' => 'MINIMAL FOOTER' ) ), 'Search is case-insensitive.' );
-		$this->assertCount( 0, $this->library->for_display( array( 'search' => 'nothing matches this' ) ) );
-		$this->assertCount( 8, $this->library->for_display( array( 'origin' => 'bundled' ) ) );
-		$this->assertCount( 0, $this->library->for_display( array( 'origin' => 'remote' ) ), 'Filtering by origin must not fall back to the other library.' );
+		$this->assertCount( 1, $library->for_display( array( 'type' => 'header' ) ) );
+		$this->assertCount( 1, $library->for_display( array( 'type' => 'footer' ) ) );
+		$this->assertCount( 1, $library->for_display( array( 'type' => 'section' ) ) );
+		$this->assertCount( 0, $library->for_display( array( 'type' => 'sidebar' ) ) );
+		$this->assertCount( 2, $library->for_display( array( 'search' => 'custom' ) ) );
+		$this->assertCount( 1, $library->for_display( array( 'search' => 'MINIMAL FOOTER' ) ), 'Search is case-insensitive.' );
+		$this->assertCount( 0, $library->for_display( array( 'search' => 'nothing matches this' ) ) );
+		$this->assertCount( 3, $library->for_display( array( 'origin' => 'bundled' ) ) );
+		$this->assertCount( 0, $library->for_display( array( 'origin' => 'remote' ) ), 'Filtering by origin must not fall back to the other library.' );
 	}
 
 	/**
@@ -262,7 +390,7 @@ class Template_Library_Test extends TestCase {
 	 */
 	public function test_remote_is_off_by_default() {
 		$this->assertSame( array(), $this->library->remote() );
-		$this->assertCount( 8, $this->library->all() );
+		$this->assertCount( 0, $this->library->all() );
 		$this->assertCount( 0, Qevora_Test_Env::$http_requests, 'No request may leave the site while the library is disabled.' );
 	}
 
@@ -309,15 +437,15 @@ class Template_Library_Test extends TestCase {
 		$library = new Template_Library();
 		$all     = $library->all();
 
-		$this->assertCount( 9, $all, 'The valid remote template is added.' );
+		$this->assertCount( 2, $all, 'Both schema-valid remote templates are added.' );
 		$this->assertSame( 'Remote hero', $all['acme-remote-hero']->name );
 		$this->assertSame( 'remote', $all['acme-remote-hero']->origin );
-		$this->assertSame( 'Simple Header', $all['qevora-header-simple']->name, 'A bundled template can never be shadowed.' );
+		$this->assertSame( 'Shadowing attempt', $all['qevora-header-simple']->name, 'With no bundled starters, nothing shadows remote ids.' );
 		$this->assertFalse( isset( $all['acme-broken'] ), 'An Elementor template is not importable.' );
 
 		$problems = implode( ' ', $library->get_problems() );
 
-		$this->assertStringContainsString( 'qevora-header-simple', $problems );
+		$this->assertStringContainsString( 'Elementor', $problems, 'Unimportable builders are reported, not fatal.' );
 		$this->assertCount( 1, Qevora_Test_Env::$http_requests );
 		$this->assertSame( $url, Qevora_Test_Env::$http_requests[0][0] );
 		$this->assertSame( 15, Qevora_Test_Env::$http_requests[0][1]['timeout'] );
@@ -335,7 +463,7 @@ class Template_Library_Test extends TestCase {
 		$library = new Template_Library();
 
 		$this->assertSame( array(), $library->remote() );
-		$this->assertCount( 8, $library->all(), 'The bundled library keeps working.' );
+		$this->assertCount( 0, $library->all(), 'The library stays usable (empty) while the endpoint is broken.' );
 		$this->assertNotEmpty( $library->get_problems() );
 
 		Qevora_Test_Env::$http = array();

@@ -3157,8 +3157,16 @@ function wp_nonce_url( $url, $action = '' ) {
  * @param string $name   Field name.
  * @return string
  */
-function wp_nonce_field( $action = '', $name = '_wpnonce' ) {
-	return '<input type="hidden" name="' . esc_attr( $name ) . '" value="' . esc_attr( wp_create_nonce( $action ) ) . '" />';
+function wp_nonce_field( $action = -1, $name = '_wpnonce', $referer = true, $echo = true ) {
+	unset( $referer );
+
+	$html = '<input type="hidden" id="' . esc_attr( $name ) . '" name="' . esc_attr( $name ) . '" value="' . esc_attr( wp_create_nonce( $action ) ) . '" />';
+
+	if ( $echo ) {
+		echo $html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Test stub.
+	}
+
+	return $html;
 }
 
 /**

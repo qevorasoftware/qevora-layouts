@@ -26,7 +26,6 @@
 		$( document ).on( 'click', '[data-qevora-preview]', onPreviewOpen );
 		$( document ).on( 'click', '[data-qevora-preview-close]', onPreviewClose );
 		$( document ).on( 'keydown', onPreviewKeydown );
-		$( document ).on( 'change', 'select[name="demo_pack"]', onPackChange );
 	} );
 
 	/**
@@ -117,25 +116,6 @@
 		}
 
 		onPreviewClose( event );
-	}
-
-	/**
-	 * Keeps the description of the selected demo pack in sync.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @param {Event} event Change event.
-	 * @return {void}
-	 */
-	function onPackChange( event ) {
-		var select = event.currentTarget;
-		var option = select.options && select.options[ select.selectedIndex ];
-		var $form = $( select ).closest( 'form' );
-		var $description = $form.find( '[data-qevora-pack-description]' );
-
-		if ( option && $description.length ) {
-			$description.text( String( option.getAttribute( 'data-description' ) || '' ) );
-		}
 	}
 
 	/**
