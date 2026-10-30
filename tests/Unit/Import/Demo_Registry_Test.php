@@ -89,9 +89,9 @@ class Demo_Registry_Test extends TestCase {
 		Demo_Registry::enqueue_assets( 'header-dark-bar' );
 
 		$this->assertTrue( wp_style_is( 'qevora-demo-header-dark-bar' ) );
-		$this->assertTrue( wp_script_is( 'qevora-demo-header-dark-bar-js' ) );
+		$this->assertFalse( wp_script_is( 'qevora-demo-header-dark-bar-js' ), 'The demo ships no enqueued script; its toggle behaviour prints with the markup.' );
 		$this->assertStringContainsString( '.qhdb', Qevora_Test_Env::$assets['qevora-demo-header-dark-bar']['inline'], 'The stylesheet lives inside the demo file and prints inline.' );
-		$this->assertStringContainsString( 'qhdb', Qevora_Test_Env::$assets['qevora-demo-header-dark-bar-js']['inline'] );
+		$this->assertFalse( array_key_exists( 'qevora-demo-header-dark-bar-js', Qevora_Test_Env::$assets ), 'No script handle is registered for the demo.' );
 	}
 
 	/**

@@ -107,7 +107,8 @@ class Demo_Render_Test extends TestCase {
 		$this->assertStringContainsString( 'qhdb__logo', $html );
 		$this->assertStringContainsString( 'qhdb__cta', $html, 'The call-to-action button renders by default.' );
 		$this->assertTrue( wp_style_is( 'qevora-demo-header-dark-bar' ), 'The demo stylesheet was enqueued.' );
-		$this->assertTrue( wp_script_is( 'qevora-demo-header-dark-bar-js' ), 'The demo script was enqueued.' );
+		$this->assertFalse( wp_script_is( 'qevora-demo-header-dark-bar-js' ), 'The toggle script ships inline with the markup, not as a handle.' );
+		$this->assertStringNotContainsString( '<script>', $html, 'Without a menu no toggle script is needed.' );
 		$this->assertFalse( wp_style_is( 'qevora-demo-not-a-demo' ), 'No other demo assets load.' );
 	}
 
@@ -140,6 +141,7 @@ class Demo_Render_Test extends TestCase {
 		$this->assertStringContainsString( '<ul class="qhdb__menu">', $html );
 		$this->assertStringContainsString( '>Home<', $html );
 		$this->assertStringContainsString( 'qhdb__toggle', $html, 'The mobile toggle renders with a menu.' );
+		$this->assertStringContainsString( 'addEventListener', $html, 'The inline toggle script ships with the markup so the mobile menu works anywhere.' );
 	}
 
 	/**
@@ -178,7 +180,7 @@ class Demo_Render_Test extends TestCase {
 		$this->assertStringContainsString( 'qhdb__bar', $html );
 		$this->assertStringContainsString( 'qhdb__mark', $html, 'Without a logo image the site initial tile renders.' );
 		$this->assertTrue( wp_style_is( 'qevora-demo-header-dark-bar' ) );
-		$this->assertTrue( wp_script_is( 'qevora-demo-header-dark-bar-js' ) );
+		$this->assertFalse( wp_script_is( 'qevora-demo-header-dark-bar-js' ) );
 	}
 
 	/**
@@ -214,7 +216,7 @@ class Demo_Render_Test extends TestCase {
 		$frontend->resolve();
 
 		$this->assertTrue( wp_style_is( 'qevora-demo-header-dark-bar' ), 'Queued at plan time, before wp_head.' );
-		$this->assertTrue( wp_script_is( 'qevora-demo-header-dark-bar-js' ), 'The demo ships its own script.' );
+		$this->assertFalse( wp_script_is( 'qevora-demo-header-dark-bar-js' ), 'The demo needs no enqueued script.' );
 
 		ob_start();
 		$frontend->render_slot( 'header' );

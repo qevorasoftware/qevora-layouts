@@ -85,6 +85,28 @@ class Meta_Boxes_Test extends TestCase {
 	}
 
 	/**
+	 * Demo layouts never see the placement select: the demo knows where it
+	 * renders, so the option is removed instead of sitting there unused.
+	 *
+	 * @return void
+	 */
+	public function test_demo_layouts_hide_the_placement_select() {
+		$demo  = get_post( $this->create_layout( array( 'builder' => 'demo', 'demo_slug' => 'header-dark-bar' ) ) );
+		$plain = get_post( $this->create_layout() );
+
+		ob_start();
+		Meta_Boxes::render_type_box( $demo );
+		$demo_box = (string) ob_get_clean();
+
+		ob_start();
+		Meta_Boxes::render_type_box( $plain );
+		$plain_box = (string) ob_get_clean();
+
+		$this->assertStringNotContainsString( 'qevora_layout[placement]', $demo_box, 'The placement select is gone for demos.' );
+		$this->assertStringContainsString( 'qevora_layout[placement]', $plain_box, 'Other layouts keep the placement select.' );
+	}
+
+	/**
 	 * The settings box appears only for layouts that render a bundled demo,
 	 * and is titled after that demo.
 	 *

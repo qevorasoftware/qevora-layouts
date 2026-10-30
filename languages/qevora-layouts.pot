@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Qevora Layouts 1.0.0\n"
 "Report-Msgid-Bugs-To: https://github.com/qevorasoftware/qevora-layouts/issues\n"
-"POT-Creation-Date: 2026-10-30T10:54:45+00:00\n"
+"POT-Creation-Date: 2026-10-30T11:20:20+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -107,7 +107,7 @@ msgid "System Status"
 msgstr ""
 
 #: includes/Admin/Admin.php:343
-#: includes/Admin/Meta_Boxes.php:358
+#: includes/Admin/Meta_Boxes.php:360
 msgid "Select a condition"
 msgstr ""
 
@@ -116,7 +116,7 @@ msgid "Select a value"
 msgstr ""
 
 #: includes/Admin/Admin.php:345
-#: includes/Admin/Meta_Boxes.php:451
+#: includes/Admin/Meta_Boxes.php:453
 msgid "Comma separated IDs, e.g. 12, 48"
 msgstr ""
 
@@ -125,8 +125,8 @@ msgid "theme_hook_name"
 msgstr ""
 
 #: includes/Admin/Admin.php:347
-#: includes/Admin/Meta_Boxes.php:520
-#: includes/Admin/Meta_Boxes.php:912
+#: includes/Admin/Meta_Boxes.php:522
+#: includes/Admin/Meta_Boxes.php:914
 msgid "Remove"
 msgstr ""
 
@@ -397,7 +397,7 @@ msgid "Block editor"
 msgstr ""
 
 #: includes/Admin/Layout_Columns.php:233
-#: includes/Admin/Meta_Boxes.php:557
+#: includes/Admin/Meta_Boxes.php:559
 #: includes/Integrations/Adapters/Elementor_Adapter.php:74
 msgid "Elementor"
 msgstr ""
@@ -422,7 +422,7 @@ msgid "Uploaded file"
 msgstr ""
 
 #: includes/Admin/Layout_Columns.php:258
-#: includes/Admin/Meta_Boxes.php:682
+#: includes/Admin/Meta_Boxes.php:684
 msgid "Imported"
 msgstr ""
 
@@ -474,7 +474,7 @@ msgid "Priority"
 msgstr ""
 
 #: includes/Admin/Layout_Columns.php:79
-#: includes/Admin/Meta_Boxes.php:190
+#: includes/Admin/Meta_Boxes.php:191
 msgid "Placement"
 msgstr ""
 
@@ -490,12 +490,12 @@ msgstr ""
 msgid "Date"
 msgstr ""
 
-#: includes/Admin/Meta_Boxes.php:1044
+#: includes/Admin/Meta_Boxes.php:1089
 msgid "A layout cannot reference itself. The reference was cleared."
 msgstr ""
 
 #: includes/Admin/Meta_Boxes.php:116
-#: includes/Admin/Meta_Boxes.php:594
+#: includes/Admin/Meta_Boxes.php:596
 msgid "Content source"
 msgstr ""
 
@@ -523,11 +523,11 @@ msgid ""
 "are resolved by condition specificity, then by the oldest layout."
 msgstr ""
 
-#: includes/Admin/Meta_Boxes.php:192
+#: includes/Admin/Meta_Boxes.php:193
 msgid "Use the plugin default"
 msgstr ""
 
-#: includes/Admin/Meta_Boxes.php:205
+#: includes/Admin/Meta_Boxes.php:206
 msgid ""
 "The placement chooses where on the page this layout appears. Modern block"
 "themes do not have a classic header or footer, so a choice made for"
@@ -535,226 +535,226 @@ msgid ""
 "there."
 msgstr ""
 
-#: includes/Admin/Meta_Boxes.php:216
+#: includes/Admin/Meta_Boxes.php:218
 #: includes/Admin/Views/template-library.php:425
 msgid "Hide the theme header/footer while this layout is displayed"
 msgstr ""
 
-#: includes/Admin/Meta_Boxes.php:220
+#: includes/Admin/Meta_Boxes.php:222
 msgid ""
 "Stops the theme header or footer and this layout from showing at the same"
 "time. Theme files are never changed - untick this box and the theme part"
 "comes straight back. Applies to header and footer layouts only."
 msgstr ""
 
-#: includes/Admin/Meta_Boxes.php:227
+#: includes/Admin/Meta_Boxes.php:229
 msgid "Custom hook name"
 msgstr ""
 
-#: includes/Admin/Meta_Boxes.php:231
+#: includes/Admin/Meta_Boxes.php:233
 msgid "my_theme_before_header"
 msgstr ""
 
-#: includes/Admin/Meta_Boxes.php:236
+#: includes/Admin/Meta_Boxes.php:238
 msgid "Custom hook priority"
 msgstr ""
 
-#: includes/Admin/Meta_Boxes.php:243
+#: includes/Admin/Meta_Boxes.php:245
 msgid ""
 "Only used when the placement is \"Custom theme hook\". Enter a hook your"
 "theme fires, for example a GeneratePress, Astra or Kadence hook."
 msgstr ""
 
-#: includes/Admin/Meta_Boxes.php:261
+#: includes/Admin/Meta_Boxes.php:263
 msgid ""
 "Include: the layout shows on these views. Exclude: the layout never shows"
 "on these views. Exclusions always win. Leave the include list empty to"
 "match the entire site."
 msgstr ""
 
-#: includes/Admin/Meta_Boxes.php:267
+#: includes/Admin/Meta_Boxes.php:269
 msgid ""
 "Adding and removing conditions needs JavaScript. Existing conditions are"
 "still saved."
 msgstr ""
 
-#: includes/Admin/Meta_Boxes.php:281
+#: includes/Admin/Meta_Boxes.php:283
 msgid "Include"
 msgstr ""
 
-#: includes/Admin/Meta_Boxes.php:282
+#: includes/Admin/Meta_Boxes.php:284
 msgid "Exclude"
 msgstr ""
 
-#: includes/Admin/Meta_Boxes.php:309
+#: includes/Admin/Meta_Boxes.php:311
 msgid "Add exclude condition"
 msgstr ""
 
-#: includes/Admin/Meta_Boxes.php:309
+#: includes/Admin/Meta_Boxes.php:311
 msgid "Add include condition"
 msgstr ""
 
-#: includes/Admin/Meta_Boxes.php:354
+#: includes/Admin/Meta_Boxes.php:356
 msgid "Exclude condition"
 msgstr ""
 
-#: includes/Admin/Meta_Boxes.php:354
+#: includes/Admin/Meta_Boxes.php:356
 msgid "Include condition"
 msgstr ""
 
-#: includes/Admin/Meta_Boxes.php:384
+#: includes/Admin/Meta_Boxes.php:386
 msgid "Post type"
 msgstr ""
 
-#: includes/Admin/Meta_Boxes.php:387
+#: includes/Admin/Meta_Boxes.php:389
 msgid "Select a post type"
 msgstr ""
 
-#: includes/Admin/Meta_Boxes.php:406
+#: includes/Admin/Meta_Boxes.php:408
 #: includes/Conditions/Condition_Registry.php:121
 #: includes/Conditions/Condition_Registry.php:128
 msgid "Taxonomy"
 msgstr ""
 
-#: includes/Admin/Meta_Boxes.php:409
+#: includes/Admin/Meta_Boxes.php:411
 msgid "Any taxonomy"
 msgstr ""
 
-#: includes/Admin/Meta_Boxes.php:427
+#: includes/Admin/Meta_Boxes.php:429
 msgid "Post or page IDs"
 msgstr ""
 
-#: includes/Admin/Meta_Boxes.php:431
+#: includes/Admin/Meta_Boxes.php:433
 msgid "Term IDs"
 msgstr ""
 
-#: includes/Admin/Meta_Boxes.php:459
-#: includes/Admin/Meta_Boxes.php:505
+#: includes/Admin/Meta_Boxes.php:461
+#: includes/Admin/Meta_Boxes.php:507
 msgid "Find"
 msgstr ""
 
-#: includes/Admin/Meta_Boxes.php:494
+#: includes/Admin/Meta_Boxes.php:496
 msgid "Limit to term IDs (optional)"
 msgstr ""
 
-#: includes/Admin/Meta_Boxes.php:500
+#: includes/Admin/Meta_Boxes.php:502
 msgid "Comma separated term IDs (optional)"
 msgstr ""
 
-#: includes/Admin/Meta_Boxes.php:519
+#: includes/Admin/Meta_Boxes.php:521
 msgid "Remove this condition"
 msgstr ""
 
-#: includes/Admin/Meta_Boxes.php:551
+#: includes/Admin/Meta_Boxes.php:553
 msgid "Render content with"
 msgstr ""
 
-#: includes/Admin/Meta_Boxes.php:555
+#: includes/Admin/Meta_Boxes.php:557
 msgid "Auto detect (recommended)"
 msgstr ""
 
-#: includes/Admin/Meta_Boxes.php:556
+#: includes/Admin/Meta_Boxes.php:558
 msgid "Block editor content"
 msgstr ""
 
-#: includes/Admin/Meta_Boxes.php:558
+#: includes/Admin/Meta_Boxes.php:560
 msgid "Bundled demo (PHP templates)"
 msgstr ""
 
 #. translators: %s: demo name.
-#: includes/Admin/Meta_Boxes.php:577
+#: includes/Admin/Meta_Boxes.php:579
 msgid ""
 "This layout renders the bundled demo \"%s\" - its own HTML, CSS and"
 "JavaScript, kept in the plugin folder. No editor content is needed."
 msgstr ""
 
-#: includes/Admin/Meta_Boxes.php:582
+#: includes/Admin/Meta_Boxes.php:584
 msgid "Edit the menu created for this demo"
 msgstr ""
 
-#: includes/Admin/Meta_Boxes.php:589
+#: includes/Admin/Meta_Boxes.php:591
 msgid ""
 "Elementor is not active, so layouts built with it cannot be edited or"
 "rendered right now. They fall back to the stored block content."
 msgstr ""
 
-#: includes/Admin/Meta_Boxes.php:599
+#: includes/Admin/Meta_Boxes.php:601
 msgid "Use the content of this layout"
 msgstr ""
 
-#: includes/Admin/Meta_Boxes.php:605
+#: includes/Admin/Meta_Boxes.php:607
 msgid "Render another post, page or builder template instead"
 msgstr ""
 
-#: includes/Admin/Meta_Boxes.php:612
+#: includes/Admin/Meta_Boxes.php:614
 msgid "Referenced post ID"
 msgstr ""
 
 #. translators: %s: referenced post title or a missing notice.
-#: includes/Admin/Meta_Boxes.php:621
+#: includes/Admin/Meta_Boxes.php:623
 msgid "Currently referencing: %s"
 msgstr ""
 
 #. translators: %s: referenced post title or a missing notice.
-#: includes/Admin/Meta_Boxes.php:622
+#: includes/Admin/Meta_Boxes.php:624
 msgid "(post not found)"
 msgstr ""
 
-#: includes/Admin/Meta_Boxes.php:630
+#: includes/Admin/Meta_Boxes.php:632
 msgid ""
 "Referencing is useful when a page or an Elementor library template already"
 "contains the design you want to reuse. Nothing is copied: the layout"
 "renders the referenced content."
 msgstr ""
 
-#: includes/Admin/Meta_Boxes.php:644
+#: includes/Admin/Meta_Boxes.php:646
 msgid "Insert this layout anywhere with the shortcode:"
 msgstr ""
 
-#: includes/Admin/Meta_Boxes.php:648
+#: includes/Admin/Meta_Boxes.php:650
 msgid "Layout shortcode"
 msgstr ""
 
-#: includes/Admin/Meta_Boxes.php:651
+#: includes/Admin/Meta_Boxes.php:653
 msgid "Or add the \"Qevora Layout\" block in the editor."
 msgstr ""
 
-#: includes/Admin/Meta_Boxes.php:653
+#: includes/Admin/Meta_Boxes.php:655
 msgid "In a theme template:"
 msgstr ""
 
-#: includes/Admin/Meta_Boxes.php:675
+#: includes/Admin/Meta_Boxes.php:677
 msgid "Template"
 msgstr ""
 
-#: includes/Admin/Meta_Boxes.php:678
+#: includes/Admin/Meta_Boxes.php:680
 msgid "Origin"
 msgstr ""
 
-#: includes/Admin/Meta_Boxes.php:688
+#: includes/Admin/Meta_Boxes.php:690
 msgid ""
 "Importing the same template again is skipped by default so layouts are"
 "never overwritten."
 msgstr ""
 
-#: includes/Admin/Meta_Boxes.php:701
+#: includes/Admin/Meta_Boxes.php:703
 msgid "Bundled starter template"
 msgstr ""
 
-#: includes/Admin/Meta_Boxes.php:702
+#: includes/Admin/Meta_Boxes.php:704
 msgid "Remote template library"
 msgstr ""
 
-#: includes/Admin/Meta_Boxes.php:703
+#: includes/Admin/Meta_Boxes.php:705
 msgid "Uploaded template file"
 msgstr ""
 
-#: includes/Admin/Meta_Boxes.php:706
+#: includes/Admin/Meta_Boxes.php:708
 msgid "Unknown"
 msgstr ""
 
 #. translators: %s: name of the bundled demo.
-#: includes/Admin/Meta_Boxes.php:798
+#: includes/Admin/Meta_Boxes.php:800
 msgid ""
 "This layout is rendered by the bundled \"%s\" demo - its HTML, CSS and"
 "JavaScript live in plugin files, so there is no block content to edit"
@@ -762,7 +762,7 @@ msgid ""
 "site immediately."
 msgstr ""
 
-#: includes/Admin/Meta_Boxes.php:832
+#: includes/Admin/Meta_Boxes.php:834
 msgid ""
 "Live preview of this demo with the settings saved on this layout. The logo"
 "and the button label update the preview as you type; the menu choice and"
@@ -775,17 +775,17 @@ msgid "%s - demo settings"
 msgstr ""
 
 #. translators: %s: relative path of the demo template file.
-#: includes/Admin/Meta_Boxes.php:875
+#: includes/Admin/Meta_Boxes.php:877
 msgid ""
 "Rendered on every request from %s - plain PHP, no block editor and no page"
 "builder. These options are the only content this demo uses."
 msgstr ""
 
-#: includes/Admin/Meta_Boxes.php:881
+#: includes/Admin/Meta_Boxes.php:883
 msgid "This demo has no customisable options."
 msgstr ""
 
-#: includes/Admin/Meta_Boxes.php:911
+#: includes/Admin/Meta_Boxes.php:913
 msgid "Choose image"
 msgstr ""
 
@@ -2641,12 +2641,16 @@ msgstr ""
 msgid "Qevora Layouts is inactive:"
 msgstr ""
 
+#: templates/demos/header-dark-bar.php:312
+msgid "Book a call"
+msgstr ""
+
 #: templates/demos/header-dark-bar.php:33
 msgid "Dark Bar Header"
 msgstr ""
 
-#: templates/demos/header-dark-bar.php:342
-msgid "Book a call"
+#: templates/demos/header-dark-bar.php:338
+msgid "Primary menu"
 msgstr ""
 
 #: templates/demos/header-dark-bar.php:35
@@ -2657,16 +2661,12 @@ msgid ""
 "slide-down menu on phones."
 msgstr ""
 
-#: templates/demos/header-dark-bar.php:37
-msgid "Create a sample menu (Home plus your published pages)"
-msgstr ""
-
-#: templates/demos/header-dark-bar.php:372
+#: templates/demos/header-dark-bar.php:362
 msgid "Menu"
 msgstr ""
 
-#: templates/demos/header-dark-bar.php:374
-msgid "Primary menu"
+#: templates/demos/header-dark-bar.php:37
+msgid "Create a sample menu (Home plus your published pages)"
 msgstr ""
 
 #: templates/demos/header-dark-bar.php:43

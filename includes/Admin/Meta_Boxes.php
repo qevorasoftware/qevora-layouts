@@ -182,9 +182,10 @@ class Meta_Boxes {
 		echo '</p>';
 		echo '<p class="description">' . esc_html__( 'When several layouts match, the highest priority wins. Equal priorities are resolved by condition specificity, then by the oldest layout.', 'qevora-layouts' ) . '</p>';
 
-		echo '<hr />';
+		if ( null === self::demo_for_post( $post->ID ) ) {
+			echo '<hr />';
 
-		echo '<div class="qevora-field" data-qevora-placement-fields>';
+			echo '<div class="qevora-field" data-qevora-placement-fields>';
 
 		echo '<p>';
 		echo '<label for="qevora-layout-placement"><strong>' . esc_html__( 'Placement', 'qevora-layouts' ) . '</strong></label><br />';
@@ -204,7 +205,8 @@ class Meta_Boxes {
 
 		echo '<p class="description" data-qevora-placement-note>' . esc_html__( 'The placement chooses where on the page this layout appears. Modern block themes do not have a classic header or footer, so a choice made for classic themes is moved automatically to the closest position that works there.', 'qevora-layouts' ) . '</p>';
 
-		echo '</div>'; // data-qevora-placement-fields
+			echo '</div>'; // data-qevora-placement-fields
+		}
 
 		echo '<div class="qevora-field" data-qevora-hide-theme-field>';
 
@@ -933,6 +935,49 @@ class Meta_Boxes {
 		}
 
 		echo '</table>';
+
+		echo '<script>
+( function () {
+	"use strict";
+	function thumb( id, url ) {
+		var input = document.getElementById( id );
+		var cell = input ? input.closest( "td" ) : null;
+		var img = cell ? cell.querySelector( ".qevora-media-thumb" ) : null;
+		if ( ! img ) { return; }
+		if ( url ) { img.src = url; img.style.display = ""; } else { img.src = ""; img.style.display = "none"; }
+	}
+	document.addEventListener( "click", function ( event ) {
+		var clear = event.target.closest ? event.target.closest( ".qevora-media-clear" ) : null;
+		var pick = event.target.closest ? event.target.closest( ".qevora-media-button" ) : null;
+		if ( clear ) {
+			event.preventDefault();
+			var cid = String( clear.getAttribute( "data-qevora-media-target" ) || "" );
+			var cinput = document.getElementById( cid );
+			if ( cinput ) { cinput.value = ""; cinput.dispatchEvent( new Event( "input", { bubbles: true } ) ); }
+			thumb( cid, "" );
+			return;
+		}
+		if ( ! pick ) { return; }
+		event.preventDefault();
+		var id = String( pick.getAttribute( "data-qevora-media-target" ) || "" );
+		if ( ! window.wp || ! window.wp.media ) { return; }
+		var frame = window.wp.media( { multiple: false, library: { type: "image" } } );
+		frame.on( "select", function () {
+			var att = frame.state().get( "selection" ).first().toJSON();
+			var url = att && att.url ? String( att.url ) : "";
+			var input = document.getElementById( id );
+			if ( input ) { input.value = url; input.dispatchEvent( new Event( "input", { bubbles: true } ) ); }
+			thumb( id, url );
+		} );
+		frame.open();
+	} );
+	document.addEventListener( "input", function ( event ) {
+		if ( event.target && event.target.classList && event.target.classList.contains( "qevora-media-url" ) ) {
+			thumb( String( event.target.id || "" ), String( event.target.value || "" ) );
+		}
+	} );
+}() );
+</script>';
 	}
 
 	/**

@@ -200,7 +200,7 @@ return array(
 	width: 42px;
 	height: 42px;
 	padding: 9px;
-	margin-left: auto;
+	margin-left: 0;
 	background: transparent;
 	border: 1px solid rgba( 255, 255, 255, 0.25 );
 	border-radius: 8px;
@@ -303,40 +303,7 @@ return array(
 	}
 }
 QEVORA_DEMO_CSS,
-	'js'       => <<<'QEVORA_DEMO_JS'
-/**
- * Dark Bar Header demo - mobile menu behaviour.
- *
- * Lives inside the demo's single PHP file and prints inline under the
- * qevora-demo-header-dark-bar-js handle only while this demo renders.
- */
-( function () {
-	'use strict';
-
-	function init( root ) {
-		var toggle = root.querySelector( '[data-qhdb-toggle]' );
-		var nav = root.querySelector( '[data-qhdb-nav]' );
-
-		if ( ! toggle || ! nav ) {
-			return;
-		}
-
-		toggle.addEventListener( 'click', function () {
-			var open = nav.classList.toggle( 'is-open' );
-
-			toggle.setAttribute( 'aria-expanded', open ? 'true' : 'false' );
-		} );
-	}
-
-	if ( 'loading' === document.readyState ) {
-		document.addEventListener( 'DOMContentLoaded', function () {
-			Array.prototype.forEach.call( document.querySelectorAll( '.qhdb' ), init );
-		} );
-	} else {
-		Array.prototype.forEach.call( document.querySelectorAll( '.qhdb' ), init );
-	}
-}() );
-QEVORA_DEMO_JS,
+	'js'       => '',
 	'render'   => static function ( $qevora_layout, $qevora_demo, $qevora_menu_id, $qevora_demo_settings ) {
 		ob_start();
 
@@ -368,12 +335,6 @@ QEVORA_DEMO_JS,
 		</a>
 
 		<?php if ( $qhdb_has_menu ) : ?>
-			<button type="button" class="qhdb__toggle" data-qhdb-toggle aria-expanded="false" aria-controls="<?php echo esc_attr( $qhdb_nav ); ?>">
-				<span class="qhdb__toggle-bar" aria-hidden="true"></span>
-				<span class="qhdb__toggle-bar" aria-hidden="true"></span>
-				<span class="qhdb__toggle-bar" aria-hidden="true"></span>
-				<span class="qhdb__sr"><?php esc_html_e( 'Menu', 'qevora-layouts' ); ?></span>
-			</button>
 			<nav id="<?php echo esc_attr( $qhdb_nav ); ?>" class="qhdb__nav" data-qhdb-nav aria-label="<?php esc_attr_e( 'Primary menu', 'qevora-layouts' ); ?>">
 				<?php
 				wp_nav_menu(
@@ -392,9 +353,37 @@ QEVORA_DEMO_JS,
 		<?php if ( $qhdb_show ) : ?>
 			<a class="qhdb__cta" href="<?php echo esc_url( $qhdb_url ); ?>"><?php echo esc_html( $qhdb_label ); ?></a>
 		<?php endif; ?>
+
+		<?php if ( $qhdb_has_menu ) : ?>
+			<button type="button" class="qhdb__toggle" data-qhdb-toggle aria-expanded="false" aria-controls="<?php echo esc_attr( $qhdb_nav ); ?>">
+				<span class="qhdb__toggle-bar" aria-hidden="true"></span>
+				<span class="qhdb__toggle-bar" aria-hidden="true"></span>
+				<span class="qhdb__toggle-bar" aria-hidden="true"></span>
+				<span class="qhdb__sr"><?php esc_html_e( 'Menu', 'qevora-layouts' ); ?></span>
+			</button>
+		<?php endif; ?>
 	</div>
 </div>
 		<?php
+		if ( $qhdb_has_menu ) :
+			// Ships with the markup so the mobile menu works even when a
+			// theme or cache plugin drops enqueued footer scripts.
+			?>
+<script>
+( function () {
+	'use strict';
+	var nav = document.getElementById( '<?php echo esc_attr( $qhdb_nav ); ?>' );
+	var root = nav && nav.parentNode ? nav.parentNode : null;
+	var toggle = root ? root.querySelector( '[data-qhdb-toggle]' ) : null;
+	if ( ! nav || ! toggle ) { return; }
+	toggle.addEventListener( 'click', function () {
+		var open = nav.classList.toggle( 'is-open' );
+		toggle.setAttribute( 'aria-expanded', open ? 'true' : 'false' );
+	} );
+}() );
+</script>
+			<?php
+		endif;
 
 		return ob_get_clean();
 	},

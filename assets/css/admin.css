@@ -820,17 +820,19 @@ body.qevora-preview-open {
 	display: none;
 }
 
-/* One-click demo card: a simple vertical block layout that cannot collapse
-   or stretch oddly - stage on top, details and import form below. */
+/* One-click demo cards: a responsive grid of modern cards. Each card shows
+   the demo live in a slim stage, so several demos fit side by side. */
 .qevora-library__demos .qevora-library__grid {
-	display: block;
+	display: grid;
+	grid-template-columns: repeat( auto-fill, minmax( 340px, 1fr ) );
+	gap: 20px;
 }
 
 .qevora-demos {
 	margin: 0 0 24px;
 	padding: 20px;
 	border: 1px solid var( --qevora-border-soft, #dcdcde );
-	border-radius: 10px;
+	border-radius: 12px;
 	background: var( --qevora-surface, #fff );
 }
 
@@ -842,16 +844,26 @@ body.qevora-preview-open {
 .qevora-demo-card {
 	display: block;
 	width: 100%;
+	border: 1px solid var( --qevora-border-soft, #dcdcde );
+	border-radius: 12px;
+	background: var( --qevora-surface, #fff );
+	overflow: hidden;
+	box-shadow: 0 1px 2px rgba( 16, 24, 40, 0.06 );
+	transition: box-shadow 0.15s ease-in-out, transform 0.15s ease-in-out;
+}
+
+.qevora-demo-card:hover {
+	box-shadow: 0 10px 26px rgba( 16, 24, 40, 0.12 );
+	transform: translateY( -1px );
 }
 
 .qevora-demo-card .qevora-template__preview--live {
 	display: block;
 	position: relative;
-	height: 250px;
+	height: 76px;
 	aspect-ratio: auto;
-	border: 1px solid var( --qevora-border-soft, #dcdcde );
-	border-radius: 10px 10px 0 0;
-	border-bottom: 0;
+	border: 0;
+	border-bottom: 1px solid var( --qevora-border-soft, #dcdcde );
 	background: transparent;
 }
 
@@ -859,31 +871,29 @@ body.qevora-preview-open {
 	position: absolute;
 	inset: 0;
 	height: auto;
-	border-radius: 10px 10px 0 0;
+	border-radius: 0;
+	--qevora-demo-scale: 0.28;
 }
 
 .qevora-demo-card__info {
 	display: block;
-	padding: 18px 22px 22px;
-	border: 1px solid var( --qevora-border-soft, #dcdcde );
-	border-radius: 0 0 10px 10px;
-	background: var( --qevora-surface, #fff );
+	padding: 16px 18px 18px;
 }
 
 .qevora-demo-card .qevora-template__body {
 	display: block;
-	padding: 0 0 14px;
+	padding: 0 0 12px;
 }
 
 .qevora-demo-card .qevora-template__title {
 	margin: 0 0 2px;
-	font-size: 18px;
+	font-size: 16px;
 	line-height: 1.3;
 }
 
 .qevora-demo-card .qevora-template__meta {
-	margin: 0 0 10px;
-	font-size: 11px;
+	margin: 0 0 8px;
+	font-size: 10.5px;
 	letter-spacing: 0.08em;
 	text-transform: uppercase;
 	color: var( --qevora-muted, #50575e );
@@ -891,22 +901,21 @@ body.qevora-preview-open {
 
 .qevora-demo-card__text {
 	margin: 0;
-	max-width: 78ch;
-	font-size: 13px;
-	line-height: 1.6;
+	font-size: 12.5px;
+	line-height: 1.55;
 	color: var( --qevora-text-soft, #50575e );
 }
 
 .qevora-demo-card .qevora-template__form {
 	display: block;
 	margin: 0;
-	padding: 16px 0 0;
+	padding: 12px 0 0;
 	border-top: 1px dashed var( --qevora-border-soft, #dcdcde );
 }
 
 .qevora-demo-card .qevora-template__form > p {
 	display: block;
-	margin: 0 0 12px;
+	margin: 0 0 10px;
 }
 
 .qevora-demo-card .qevora-template__form label {
@@ -917,6 +926,7 @@ body.qevora-preview-open {
 
 .qevora-demo-card .qevora-template__form select {
 	vertical-align: middle;
+	max-width: 48%;
 }
 
 .qevora-demo-card .qevora-template__form .qevora-template__message {
@@ -952,23 +962,24 @@ body.qevora-preview-open {
 	background: #eef1f5;
 }
 
-.qevora-preview-dialog__live .qevora-demo-live {
-	--qevora-demo-scale: 0.78;
-	height: 260px;
+/* Wherever the admin screen is wide enough - the preview dialog and the
+   settings metabox - the demo renders at its natural size, exactly as the
+   front end shows it, with no scaled-down whitespace around it. */
+.qevora-preview-dialog__live .qevora-demo-live,
+.qevora-demo-live--meta {
+	height: auto;
+	padding: 12px 14px;
 }
 
-@media ( max-width: 960px ) {
-
-	.qevora-preview-dialog__live .qevora-demo-live {
-		--qevora-demo-scale: 0.55;
-		height: 200px;
-	}
+.qevora-preview-dialog__live .qevora-demo-live__inner,
+.qevora-demo-live--meta .qevora-demo-live__inner {
+	position: static;
+	width: auto;
+	transform: none;
 }
 
 /* Live demo preview inside the settings metabox on the edit screen. */
 .qevora-demo-live--meta {
-	--qevora-demo-scale: 0.55;
-	height: 160px;
 	margin: 0 0 12px;
 	border: 1px solid var( --qevora-border-soft, #dcdcde );
 	border-radius: 10px;
