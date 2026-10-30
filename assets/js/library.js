@@ -25,6 +25,7 @@
 		$( document ).on( 'change', 'input[type="file"][name="qevora_template_file"]', onFileChange );
 		$( document ).on( 'click', '[data-qevora-preview]', onPreviewOpen );
 		$( document ).on( 'click', '[data-qevora-preview-close]', onPreviewClose );
+		$( document ).on( 'click', '[data-qevora-preview-goto]', onPreviewGoto );
 		$( document ).on( 'keydown', onPreviewKeydown );
 	} );
 
@@ -47,6 +48,7 @@
 		}
 
 		$dialog.data( 'qevora-opener', button );
+		$dialog.data( 'qevora-card', button.closest( '.qevora-demo-card' ) );
 
 		var htmlSource = button.getAttribute( 'data-preview-html' );
 		var $image = $dialog.find( '.qevora-preview-dialog__image' );
@@ -106,6 +108,35 @@
 
 		if ( opener ) {
 			$( opener ).trigger( 'focus' );
+		}
+	}
+
+	/**
+	 * Closes the preview dialog and jumps to the import form of the same card.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param {Event} event Click event.
+	 * @return {void}
+	 */
+	function onPreviewGoto( event ) {
+		event.preventDefault();
+
+		var $dialog = $( '[data-qevora-preview-dialog]' );
+		var card = $dialog.data( 'qevora-card' );
+
+		onPreviewClose( event );
+
+		if ( ! card || ! card.scrollIntoView ) {
+			return;
+		}
+
+		card.scrollIntoView( { behavior: 'smooth', block: 'center' } );
+
+		var submit = card.querySelector( 'form[data-qevora-import] button[type="submit"], form[data-qevora-import] input[type="submit"]' );
+
+		if ( submit && submit.focus ) {
+			submit.focus( { preventScroll: true } );
 		}
 	}
 
