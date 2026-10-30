@@ -831,7 +831,7 @@ class Meta_Boxes {
 		echo '<div class="qevora-demo-live qevora-demo-live--meta" id="qevora-demo-meta-preview" aria-hidden="true"><div class="qevora-demo-live__inner">';
 		echo Demo_Registry::preview_html( $slug, 2, $saved ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Bundled demo markup; escaped inside the demo file.
 		echo '</div></div>';
-		echo '<p class="description">' . esc_html__( 'Live preview of this demo with the settings saved on this layout. The logo and the button label update the preview as you type; the menu choice and the button switch apply when you update.', 'qevora-layouts' ) . '</p>';
+		echo '<p class="description">' . esc_html__( 'Live preview of this demo with the settings saved on this layout. The logo and the button label update the preview as you type; the fixed-header and search switches update it instantly; the menu choice applies when you update.', 'qevora-layouts' ) . '</p>';
 		echo '<script>
 ( function () {
 	"use strict";
@@ -867,6 +867,21 @@ class Meta_Boxes {
 	bind( "button_label", function ( value ) {
 		var button = preview.querySelector( ".qhdb__cta" );
 		if ( button ) { button.textContent = value; }
+	} );
+	function bindSwitch( name, apply ) {
+		var field = document.querySelector( "[name=\"qevora_layout_demo_settings[" + name + "]\"]" );
+		if ( ! field || "checkbox" !== field.type ) { return; }
+		field.addEventListener( "change", function () { apply( field.checked ); } );
+	}
+	bindSwitch( "sticky_header", function ( on ) {
+		var root = preview.querySelector( ".qhdb" );
+		if ( root ) { root.classList.toggle( "qhdb--sticky", on ); }
+	} );
+	bindSwitch( "show_search", function ( on ) {
+		var button = preview.querySelector( "[data-qhdb-search-toggle]" );
+		var panel = preview.querySelector( "[data-qhdb-search]" );
+		if ( button ) { button.style.display = on ? "" : "none"; }
+		if ( panel ) { panel.hidden = true; }
 	} );
 }() );
 </script>';

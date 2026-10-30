@@ -107,8 +107,23 @@ class Demo_Registry_Test extends TestCase {
 		$this->assertStringContainsString( '<style id="qevora-demo-preview-css-header-dark-bar-0">', $preview );
 		$this->assertStringContainsString( '<ul class="qhdb__menu">', $preview, 'Previews show a representative sample menu.' );
 		$this->assertStringContainsString( 'Home', $preview );
-		$this->assertStringNotContainsString( 'data-qhdb-toggle', $preview, 'Previews never show the mobile toggle.' );
+		$this->assertStringNotContainsString( 'class="qhdb__toggle"', $preview, 'Previews never show the mobile toggle button.' );
 		$this->assertStringContainsString( 'qhdb__cta', $preview, 'The call-to-action button previews too.' );
+		$this->assertStringContainsString( 'class="qhdb__search-toggle"', $preview, 'The search button previews by default.' );
+		$this->assertStringContainsString( 'data-qhdb-rest', $preview, 'The search panel knows the suggestions endpoint.' );
+		$this->assertStringNotContainsString( '<div class="qhdb qhdb--sticky">', $preview, 'The fixed header is opt-in.' );
+
+		$options = Demo_Registry::preview_html(
+			'header-dark-bar',
+			5,
+			array(
+				'sticky_header' => true,
+				'show_search'   => false,
+			)
+		);
+
+		$this->assertStringContainsString( '<div class="qhdb qhdb--sticky">', $options, 'The fixed-header switch adds the sticky class.' );
+		$this->assertStringNotContainsString( 'class="qhdb__search-toggle"', $options, 'The search button can be switched off.' );
 
 		$dialog = Demo_Registry::preview_html( 'header-dark-bar', 1 );
 
@@ -195,7 +210,7 @@ class Demo_Registry_Test extends TestCase {
 	public function test_settings_schemas_load_per_demo() {
 		$demo = Demo_Registry::settings_schema( 'header-dark-bar' );
 
-		$this->assertSame( array( 'logo_image', 'menu', 'button_label', 'button_url', 'show_button' ), array_keys( $demo ), 'The demo ships only the fields it actually renders.' );
+		$this->assertSame( array( 'logo_image', 'menu', 'button_label', 'button_url', 'show_button', 'sticky_header', 'show_search' ), array_keys( $demo ), 'The demo ships only the fields it actually renders.' );
 		$this->assertSame( 'image', $demo['logo_image']['type'] );
 		$this->assertSame( '', $demo['logo_image']['default'] );
 		$this->assertSame( 'select', $demo['menu']['type'] );
@@ -205,6 +220,10 @@ class Demo_Registry_Test extends TestCase {
 		$this->assertSame( 'url', $demo['button_url']['type'] );
 		$this->assertSame( 'checkbox', $demo['show_button']['type'] );
 		$this->assertTrue( $demo['show_button']['default'] );
+		$this->assertSame( 'checkbox', $demo['sticky_header']['type'] );
+		$this->assertFalse( $demo['sticky_header']['default'], 'The fixed header is opt-in.' );
+		$this->assertSame( 'checkbox', $demo['show_search']['type'] );
+		$this->assertTrue( $demo['show_search']['default'], 'The search button ships on by default.' );
 
 		$this->assertSame( array(), Demo_Registry::settings_schema( 'does-not-exist' ), 'Unknown demos have no settings.' );
 	}

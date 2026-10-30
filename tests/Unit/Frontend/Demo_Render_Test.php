@@ -108,7 +108,8 @@ class Demo_Render_Test extends TestCase {
 		$this->assertStringContainsString( 'qhdb__cta', $html, 'The call-to-action button renders by default.' );
 		$this->assertTrue( wp_style_is( 'qevora-demo-header-dark-bar' ), 'The demo stylesheet was enqueued.' );
 		$this->assertFalse( wp_script_is( 'qevora-demo-header-dark-bar-js' ), 'The toggle script ships inline with the markup, not as a handle.' );
-		$this->assertStringNotContainsString( '<script>', $html, 'Without a menu no toggle script is needed.' );
+		$this->assertStringNotContainsString( 'class="qhdb__toggle"', $html, 'Without a menu no toggle button renders.' );
+		$this->assertStringContainsString( '<script>', $html, 'The search box ships its inline script with the markup.' );
 		$this->assertFalse( wp_style_is( 'qevora-demo-not-a-demo' ), 'No other demo assets load.' );
 	}
 

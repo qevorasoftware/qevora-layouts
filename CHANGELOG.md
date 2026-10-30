@@ -5,6 +5,10 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 
 ## [Unreleased]
 
+### Added
+
+- The Dark Bar Header demo gained two new switches in its settings box: "Keep the header fixed at the top while scrolling" (a sticky bar that respects the admin bar) and "Show a search button in the header" (on by default). Clicking the magnifier slides open a search panel under the bar; typing at least two characters shows live title suggestions from the site's REST search endpoint, and submitting runs a normal WordPress search. Both switches update the metabox preview instantly and work in the library previews too.
+
 ### Changed
 
 - The All Layouts list now hides the Priority, Placement and Source columns by default (they stay one Screen Options click away), so the layout name and preview get the room they need; a saved screen preference from an older version is reset once so the new defaults actually apply.

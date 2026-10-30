@@ -540,7 +540,7 @@ Extend `Abstract_Builder_Adapter` to inherit the error guard, the availability c
 
 * The condition builder is keyboard operable: rules are added and removed with real `<button>` elements, the post/term/user picker is a `role="listbox"` with `aria-expanded`, `aria-activedescendant` and arrow-key navigation, and every state change is announced through an `aria-live="polite"` region.
 * Form fields have `<label for>`, error and success messages are associated with `aria-describedby`, focus is moved to the feedback region after an import, and no information is conveyed by colour alone.
-* All strings go through `__()/esc_html__()/esc_attr__()` with the `qevora-layouts` domain. `languages/qevora-layouts.pot` holds 529 strings, generated with `python3 tools/make-pot.py` (a dependency-free generator; `wp i18n make-pot` produces the same output if you prefer it). Drop `qevora-layouts-{locale}.mo` into `languages/` to translate.
+* All strings go through `__()/esc_html__()/esc_attr__()` with the `qevora-layouts` domain. `languages/qevora-layouts.pot` holds 599 strings, generated with `python3 tools/make-pot.py` (a dependency-free generator; `wp i18n make-pot` produces the same output if you prefer it). Drop `qevora-layouts-{locale}.mo` into `languages/` to translate.
 
 ## Uninstall and your data
 

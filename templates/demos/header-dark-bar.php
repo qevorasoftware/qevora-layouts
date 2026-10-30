@@ -69,6 +69,18 @@ return array(
 				'type'    => 'checkbox',
 				'default' => true,
 			),
+			'sticky_header' => array(
+				'label'   => __( 'Keep the header fixed at the top while scrolling', 'qevora-layouts' ),
+				'type'    => 'checkbox',
+				'default' => false,
+				'help'    => __( 'The bar sticks to the top of the window as visitors scroll down the page.', 'qevora-layouts' ),
+			),
+			'show_search'  => array(
+				'label'   => __( 'Show a search button in the header', 'qevora-layouts' ),
+				'type'    => 'checkbox',
+				'default' => true,
+				'help'    => __( 'Clicking the magnifier opens a search box under the bar with live title suggestions from your site; submitting it runs a normal WordPress search.', 'qevora-layouts' ),
+			),
 		),
 	),
 	'css'      => <<<'QEVORA_DEMO_CSS'
@@ -236,6 +248,124 @@ return array(
 	border: 0;
 }
 
+/* "Fixed header" option: the bar sticks to the top of the window. */
+.qhdb.qhdb--sticky {
+	position: sticky;
+	top: 0;
+	z-index: 9999;
+}
+
+.admin-bar .qhdb.qhdb--sticky {
+	top: 32px;
+}
+
+/* Search button in the bar and the slide-open panel below it. */
+.qhdb .qhdb__search-toggle {
+	flex: 0 0 auto;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 42px;
+	height: 42px;
+	padding: 0;
+	background: transparent;
+	border: 1px solid rgba( 255, 255, 255, 0.25 );
+	border-radius: 8px;
+	color: #fff;
+	cursor: pointer;
+}
+
+.qhdb .qhdb__search-toggle:hover,
+.qhdb .qhdb__search-toggle:focus {
+	border-color: #f4511e;
+	color: #f4511e;
+}
+
+.qhdb .qhdb__search-toggle svg {
+	width: 18px;
+	height: 18px;
+	display: block;
+	fill: none;
+	stroke: currentColor;
+	stroke-width: 2;
+	stroke-linecap: round;
+}
+
+.qhdb .qhdb__search {
+	max-width: 1160px;
+	margin: 10px auto 0;
+}
+
+.qhdb .qhdb__search[hidden] {
+	display: none;
+}
+
+.qhdb .qhdb__search-form {
+	display: flex;
+	gap: 8px;
+	background: #fff;
+	border-radius: 10px;
+	padding: 8px;
+	box-shadow: 0 12px 32px rgba( 0, 0, 0, 0.28 );
+}
+
+.qhdb .qhdb__search-input {
+	flex: 1 1 auto;
+	min-width: 0;
+	border: 0;
+	background: transparent;
+	color: #101012;
+	font-size: 15px;
+	padding: 8px 10px;
+}
+
+.qhdb .qhdb__search-input:focus {
+	outline: 2px solid #f4511e;
+	border-radius: 6px;
+}
+
+.qhdb .qhdb__search-submit {
+	flex: 0 0 auto;
+	background: #0b0b0d;
+	color: #fff;
+	border: 0;
+	border-radius: 8px;
+	padding: 10px 18px;
+	text-transform: uppercase;
+	letter-spacing: 0.1em;
+	font-size: 11px;
+	font-weight: 700;
+	cursor: pointer;
+}
+
+.qhdb .qhdb__search-suggest {
+	display: flex;
+	flex-direction: column;
+	margin: -2px 0 0;
+	padding: 6px 8px 8px;
+	background: #fff;
+	border-radius: 0 0 10px 10px;
+	box-shadow: 0 14px 30px rgba( 0, 0, 0, 0.18 );
+}
+
+.qhdb .qhdb__search-suggest[hidden] {
+	display: none;
+}
+
+.qhdb .qhdb__search-suggestion {
+	color: #101012;
+	text-decoration: none;
+	padding: 9px 10px;
+	border-radius: 6px;
+	font-size: 14px;
+}
+
+.qhdb .qhdb__search-suggestion:hover,
+.qhdb .qhdb__search-suggestion:focus {
+	background: #f4f4f5;
+	color: #f4511e;
+}
+
 /* Phones and small tablets: the bar wraps and the menu opens inside it,
    in normal flow, so no ancestor can clip an absolute dropdown. */
 @media ( max-width: 782px ) {
@@ -307,7 +437,8 @@ return array(
 		height: 34px;
 	}
 
-	.qhdb .qhdb__toggle {
+	.qhdb .qhdb__toggle,
+	.qhdb .qhdb__search-toggle {
 		width: 38px;
 		height: 38px;
 	}
@@ -317,7 +448,10 @@ QEVORA_DEMO_CSS,
 	'render'   => static function ( $qevora_layout, $qevora_demo, $qevora_menu_id, $qevora_demo_settings ) {
 		ob_start();
 
-		$qhdb        = (array) $qevora_demo_settings;
+		$qhdb        = (array) $qevora_demo_settings + array(
+			'sticky_header' => false,
+			'show_search'   => true,
+		);
 		$qhdb_logo   = (string) $qhdb['logo_image'];
 		$qhdb_label  = '' !== (string) $qhdb['button_label'] ? (string) $qhdb['button_label'] : __( 'Book a call', 'qevora-layouts' );
 		$qhdb_url    = '' !== (string) $qhdb['button_url'] ? (string) $qhdb['button_url'] : (string) home_url( '/' );
@@ -334,8 +468,11 @@ QEVORA_DEMO_CSS,
 		$qhdb_menu_id  = $qhdb_chosen > 0 ? $qhdb_chosen : (int) $qevora_menu_id;
 		$qhdb_has_menu = $qhdb_menu_id > 0 && function_exists( 'wp_nav_menu' );
 		$qhdb_preview  = is_object( $qevora_layout ) && ! empty( $qevora_layout->preview );
+		$qhdb_sticky   = ! empty( $qhdb['sticky_header'] );
+		$qhdb_search   = ! empty( $qhdb['show_search'] );
+		$qhdb_rest     = function_exists( 'rest_url' ) ? (string) rest_url( 'wp/v2/search' ) : '';
 		?>
-<div class="qhdb">
+<div class="qhdb<?php echo $qhdb_sticky ? ' qhdb--sticky' : ''; ?>">
 	<div class="qhdb__bar">
 		<a class="qhdb__logo" href="<?php echo esc_url( (string) home_url( '/' ) ); ?>" aria-label="<?php echo esc_attr( $qhdb_name ); ?>" data-qhdb-fallback="<?php echo esc_attr( $qhdb_mark ); ?>">
 			<?php if ( '' !== $qhdb_logo ) : ?>
@@ -380,6 +517,16 @@ QEVORA_DEMO_CSS,
 			<a class="qhdb__cta" href="<?php echo esc_url( $qhdb_url ); ?>"><?php echo esc_html( $qhdb_label ); ?></a>
 		<?php endif; ?>
 
+		<?php if ( $qhdb_search ) : ?>
+			<button type="button" class="qhdb__search-toggle" data-qhdb-search-toggle aria-expanded="false" aria-controls="<?php echo esc_attr( 'qhdb-search-' . (int) $qevora_layout->id ); ?>">
+				<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+					<circle cx="11" cy="11" r="7"></circle>
+					<line x1="16.5" y1="16.5" x2="21" y2="21"></line>
+				</svg>
+				<span class="qhdb__sr"><?php esc_html_e( 'Search', 'qevora-layouts' ); ?></span>
+			</button>
+		<?php endif; ?>
+
 		<?php if ( $qhdb_has_menu ) : ?>
 			<button type="button" class="qhdb__toggle" data-qhdb-toggle aria-expanded="false" aria-controls="<?php echo esc_attr( $qhdb_nav ); ?>">
 				<span class="qhdb__toggle-bar" aria-hidden="true"></span>
@@ -389,27 +536,90 @@ QEVORA_DEMO_CSS,
 			</button>
 		<?php endif; ?>
 	</div>
+
+	<?php if ( $qhdb_search ) : ?>
+		<div class="qhdb__search" id="<?php echo esc_attr( 'qhdb-search-' . (int) $qevora_layout->id ); ?>" data-qhdb-search data-qhdb-rest="<?php echo esc_url( $qhdb_rest ); ?>" hidden>
+			<form class="qhdb__search-form" role="search" method="get" action="<?php echo esc_url( (string) home_url( '/' ) ); ?>">
+				<label class="qhdb__sr" for="<?php echo esc_attr( 'qhdb-search-input-' . (int) $qevora_layout->id ); ?>"><?php esc_html_e( 'Search this site', 'qevora-layouts' ); ?></label>
+				<input class="qhdb__search-input" id="<?php echo esc_attr( 'qhdb-search-input-' . (int) $qevora_layout->id ); ?>" type="search" name="s" autocomplete="off" placeholder="<?php esc_attr_e( 'Type to search - suggestions appear as you type', 'qevora-layouts' ); ?>" />
+				<button class="qhdb__search-submit" type="submit"><?php esc_html_e( 'Search', 'qevora-layouts' ); ?></button>
+			</form>
+			<div class="qhdb__search-suggest" data-qhdb-suggest hidden></div>
+		</div>
+	<?php endif; ?>
 </div>
 		<?php
-		if ( $qhdb_has_menu ) :
 			// Ships with the markup so the mobile menu works even when a
 			// theme or cache plugin drops enqueued footer scripts.
 			?>
 <script>
 ( function () {
 	'use strict';
-	var nav = document.getElementById( '<?php echo esc_attr( $qhdb_nav ); ?>' );
-	var root = nav && nav.parentNode ? nav.parentNode : null;
-	var toggle = root ? root.querySelector( '[data-qhdb-toggle]' ) : null;
-	if ( ! nav || ! toggle ) { return; }
-	toggle.addEventListener( 'click', function () {
-		var open = nav.classList.toggle( 'is-open' );
-		toggle.setAttribute( 'aria-expanded', open ? 'true' : 'false' );
+	var script = document.currentScript;
+	var host = script ? script.previousElementSibling : null;
+	var root = host && host.classList && host.classList.contains( 'qhdb' ) ? host : null;
+	if ( ! root ) { return; }
+	var nav = root.querySelector( '[data-qhdb-nav]' );
+	var toggle = root.querySelector( '[data-qhdb-toggle]' );
+	if ( nav && toggle ) {
+		toggle.addEventListener( 'click', function () {
+			var open = nav.classList.toggle( 'is-open' );
+			toggle.setAttribute( 'aria-expanded', open ? 'true' : 'false' );
+		} );
+	}
+	var panel = root.querySelector( '[data-qhdb-search]' );
+	var searchToggle = root.querySelector( '[data-qhdb-search-toggle]' );
+	var input = panel ? panel.querySelector( 'input[name="s"]' ) : null;
+	var suggest = panel ? panel.querySelector( '[data-qhdb-suggest]' ) : null;
+	var rest = panel ? ( panel.getAttribute( 'data-qhdb-rest' ) || '' ) : '';
+	var timer = 0;
+	if ( ! panel || ! searchToggle ) { return; }
+	function setOpen( open ) {
+		panel.hidden = ! open;
+		searchToggle.setAttribute( 'aria-expanded', open ? 'true' : 'false' );
+		if ( open && input ) { input.focus(); }
+		if ( ! open && suggest ) { suggest.hidden = true; }
+	}
+	searchToggle.addEventListener( 'click', function () { setOpen( panel.hidden ); } );
+	document.addEventListener( 'click', function ( event ) {
+		if ( panel.hidden ) { return; }
+		if ( panel.contains( event.target ) || searchToggle.contains( event.target ) ) { return; }
+		setOpen( false );
+	} );
+	if ( ! input || ! suggest ) { return; }
+	input.addEventListener( 'keydown', function ( event ) {
+		if ( 'Escape' === event.key ) { setOpen( false ); searchToggle.focus(); }
+	} );
+	input.addEventListener( 'input', function () {
+		var query = input.value.trim();
+		if ( timer ) { window.clearTimeout( timer ); }
+		if ( query.length < 2 || ! rest || ! window.fetch ) {
+			suggest.hidden = true;
+			suggest.innerHTML = '';
+			return;
+		}
+		timer = window.setTimeout( function () {
+			var separator = rest.indexOf( '?' ) > -1 ? '&' : '?';
+			window.fetch( rest + separator + 'search=' + window.encodeURIComponent( query ) + '&per_page=6' )
+				.then( function ( response ) { return response.ok ? response.json() : []; } )
+				.then( function ( data ) {
+					var items = Array.isArray( data ) ? data : [];
+					suggest.innerHTML = '';
+					for ( var i = 0; i < items.length; i++ ) {
+						var link = document.createElement( 'a' );
+						link.href = items[i].url;
+						link.className = 'qhdb__search-suggestion';
+						link.textContent = items[i].title;
+						suggest.appendChild( link );
+					}
+					suggest.hidden = 0 === items.length;
+				} )
+				.catch( function () { suggest.hidden = true; } );
+		}, 180 );
 	} );
 }() );
 </script>
-			<?php
-		endif;
+		<?php
 
 		return ob_get_clean();
 	},
