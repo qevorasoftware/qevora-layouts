@@ -13,6 +13,7 @@ use QevoraLayouts\Core\Capabilities;
 use QevoraLayouts\Core\Layout_Post_Type;
 use QevoraLayouts\Core\Plugin;
 use QevoraLayouts\Core\Settings;
+use QevoraLayouts\Import\Demo_Importer;
 use WP_Error;
 
 // Exit if accessed directly.
@@ -64,10 +65,30 @@ class Import_Handler {
 		$template_id = Layout_Post_Type::sanitize_identifier( isset( $params['template_id'] ) ? $params['template_id'] : '' );
 		$origin      = isset( $params['origin'] ) && in_array( $params['origin'], array( 'bundled', 'remote' ), true ) ? $params['origin'] : '';
 
+		// 0. Bundled PHP demos (own templates, stylesheets and menus).
+		$demo = isset( $params['demo'] ) ? Layout_Post_Type::sanitize_identifier( (string) $params['demo'] ) : '';
+
+		if ( '' !== $demo ) {
+			$demo_importer = new Demo_Importer( $plugin->repository() );
+			$demo_result   = $demo_importer->import(
+				$demo,
+				array_merge(
+					$options,
+					array( 'create_menu' => self::checkbox_param( $params, 'create_menu' ) )
+				)
+			);
+
+			if ( is_wp_error( $demo_result ) ) {
+				return $demo_result;
+			}
+
+			return self::normalize( $demo_result );
+		}
+
 		// 1. Import from the library (bundled or remote).
 		if ( '' !== $template_id ) {
 			if ( 'remote' === $origin && ! Settings::is_enabled( 'remote_library_enabled' ) ) {
-				return new WP_Error( 'qevora_layouts_remote_disabled', __( 'The remote template library is disabled.', 'qevora-layouts' ) );
+				return new WP_Error( 'qevora_layouts_remote_disabled', __( 'The remote template library is disabled.', 'qevora-layouts' ), array( 'status' => 400 ) );
 			}
 
 			$single = $importer->import_from_library(
@@ -108,13 +129,13 @@ class Import_Handler {
 
 		// 3. Import from an uploaded file.
 		if ( ! Settings::is_enabled( 'allow_uploaded_imports' ) ) {
-			return new WP_Error( 'qevora_layouts_uploads_disabled', __( 'Uploading template files is disabled in Settings → Template library and imports.', 'qevora-layouts' ) );
+			return new WP_Error( 'qevora_layouts_uploads_disabled', __( 'Uploading template files is disabled in Settings → Template library and imports.', 'qevora-layouts' ), array( 'status' => 400 ) );
 		}
 
 		$file = self::find_uploaded_file( $files );
 
 		if ( null === $file ) {
-			return new WP_Error( 'qevora_layouts_no_file', __( 'Choose a .json template file to import.', 'qevora-layouts' ) );
+			return new WP_Error( 'qevora_layouts_no_file', __( 'Choose a .json template file to import.', 'qevora-layouts' ), array( 'status' => 400 ) );
 		}
 
 		$validated = $importer->read_uploaded_file( $file, $options );

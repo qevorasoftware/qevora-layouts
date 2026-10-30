@@ -1,0 +1,18 @@
+/* Columns Footer demo - scoped, responsive, no dependencies. */
+.qdfc{--qdfc-bg:#111827;--qdfc-fg:#e5e7eb;--qdfc-muted:#9ca3af;--qdfc-accent:#60a5fa;--qdfc-line:rgba(229,231,235,.12);background:var(--qdfc-bg);color:var(--qdfc-fg);font-size:16px;line-height:1.6;padding:44px 20px 24px}
+.qdfc__grid{display:grid;grid-template-columns:2fr 1fr 1.4fr;gap:32px;max-width:1200px;margin:0 auto}
+.qdfc__heading{margin:0 0 10px;font-size:.8rem;font-weight:700;text-transform:uppercase;letter-spacing:.14em;color:var(--qdfc-muted)}
+.qdfc__col--about .qdfc__heading{font-size:1.15rem;text-transform:none;letter-spacing:0;color:var(--qdfc-fg)}
+.qdfc__text{margin:0 0 8px;color:var(--qdfc-muted);font-size:.95rem}
+.qdfc__link{color:var(--qdfc-accent);text-decoration:none}
+.qdfc__link:hover,.qdfc__link:focus{text-decoration:underline}
+.qdfc__menu{margin:0;padding:0;list-style:none}
+.qdfc__menu li{margin:0 0 6px}
+.qdfc__menu a{color:var(--qdfc-muted);text-decoration:none;font-size:.95rem}
+.qdfc__menu a:hover,.qdfc__menu a:focus,.qdfc__menu .current-menu-item>a{color:var(--qdfc-accent)}
+.qdfc__credit{max-width:1200px;margin:34px auto 0;padding-top:18px;border-top:1px solid var(--qdfc-line);color:var(--qdfc-muted);font-size:.85rem;text-align:center}
+@media (max-width:782px){
+	.qdfc{padding:34px 16px 20px}
+	.qdfc__grid{grid-template-columns:1fr;gap:24px}
+	.qdfc__credit{margin-top:24px}
+}

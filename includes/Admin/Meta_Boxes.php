@@ -15,6 +15,7 @@ use QevoraLayouts\Core\Layout;
 use QevoraLayouts\Core\Layout_Post_Type;
 use QevoraLayouts\Core\Logger;
 use QevoraLayouts\Core\Plugin;
+use QevoraLayouts\Import\Demo_Registry;
 
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
@@ -534,6 +535,7 @@ class Meta_Boxes {
 			'auto'      => __( 'Auto detect (recommended)', 'qevora-layouts' ),
 			'block'     => __( 'Block editor content', 'qevora-layouts' ),
 			'elementor' => __( 'Elementor', 'qevora-layouts' ),
+			'demo'      => __( 'Bundled demo (PHP templates)', 'qevora-layouts' ),
 		);
 
 		foreach ( $builders as $slug => $label ) {
@@ -546,6 +548,20 @@ class Meta_Boxes {
 		}
 
 		echo '</select></p>';
+
+		if ( 'demo' === $layout->builder && '' !== $layout->demo_slug ) {
+			$qevora_demo = Demo_Registry::get( $layout->demo_slug );
+
+			echo '<p class="description">' . sprintf(
+				/* translators: %s: demo name. */
+				esc_html__( 'This layout renders the bundled demo "%s" - its own HTML, CSS and JavaScript, kept in the plugin folder. No editor content is needed.', 'qevora-layouts' ),
+				esc_html( null !== $qevora_demo ? (string) $qevora_demo['name'] : $layout->demo_slug )
+			) . '</p>';
+
+			if ( $layout->menu_id > 0 ) {
+				echo '<p class="description"><a href="' . esc_url( admin_url( 'nav-menus.php?menu=' . (int) $layout->menu_id ) ) . '">' . esc_html__( 'Edit the menu created for this demo', 'qevora-layouts' ) . '</a></p>';
+			}
+		}
 
 		$elementor_ready = self::elementor_is_ready();
 

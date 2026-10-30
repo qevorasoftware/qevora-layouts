@@ -128,9 +128,10 @@ class Rest_Controller {
 					'permission_callback' => array( __CLASS__, 'can_import' ),
 					'args'                => array(
 						'template_id'  => array(
-							'description'       => __( 'Template identifier from the library.', 'qevora-layouts' ),
+							'description'       => __( 'Template identifier from the library. Optional when a bundled demo or a demo pack is imported.', 'qevora-layouts' ),
 							'type'              => 'string',
-							'required'          => true,
+							'required'          => false,
+							'default'           => '',
 							'sanitize_callback' => array( Layout_Post_Type::class, 'sanitize_identifier' ),
 						),
 						'origin'       => array(
@@ -156,6 +157,19 @@ class Rest_Controller {
 							'required'          => false,
 							'default'           => '',
 							'sanitize_callback' => 'sanitize_key',
+						),
+						'demo'          => array(
+							'description'       => __( 'Slug of a bundled PHP demo to import.', 'qevora-layouts' ),
+							'type'              => 'string',
+							'required'          => false,
+							'default'           => '',
+							'sanitize_callback' => 'sanitize_key',
+						),
+						'create_menu'   => array(
+							'description' => __( 'Create a sample nav menu for demos that support one.', 'qevora-layouts' ),
+							'type'        => 'boolean',
+							'required'    => false,
+							'default'     => null,
 						),
 						'hide_theme_part' => array(
 							'description'       => __( 'Hide the theme header or footer while the imported layout displays.', 'qevora-layouts' ),
@@ -550,6 +564,8 @@ class Rest_Controller {
 				'display_scope' => (string) $request->get_param( 'display_scope' ),
 				'demo_pack'     => (string) $request->get_param( 'demo_pack' ),
 				'hide_theme_part' => $request->get_param( 'hide_theme_part' ),
+				'demo'          => (string) $request->get_param( 'demo' ),
+				'create_menu'   => $request->get_param( 'create_menu' ),
 				'conditions'    => $request->get_param( 'conditions' ),
 			)
 		);

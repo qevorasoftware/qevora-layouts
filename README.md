@@ -229,7 +229,7 @@ Layouts live in the `qevora_layout` post type. It is `show_in_menu => false` (th
 
 ### Meta keys
 
-All thirteen keys are registered with `register_meta()` including sanitize callbacks, so they are cleaned even when written by other code:
+All fifteen keys are registered with `register_meta()` including sanitize callbacks, so they are cleaned even when written by other code:
 
 | Meta key | Contents |
 | --- | --- |
@@ -238,9 +238,11 @@ All thirteen keys are registered with `register_meta()` including sanitize callb
 | `_qevora_layout_conditions` | `{include:[],exclude:[]}` |
 | `_qevora_layout_placement` | Placement slug |
 | `_qevora_layout_hide_theme_part` | `1` while the layout replaces the theme's own header/footer |
+| `_qevora_layout_demo` | Slug of the bundled PHP demo this layout renders |
+| `_qevora_layout_menu_id` | Nav menu created for a demo layout |
 | `_qevora_layout_hook` | Custom hook name |
 | `_qevora_layout_hook_priority` | 0–999 |
-| `_qevora_layout_builder` | `auto`, `block`, `elementor` (extensible) |
+| `_qevora_layout_builder` | `auto`, `block`, `elementor`, `demo` (extensible) |
 | `_qevora_layout_content_source` | `self` or `reference` |
 | `_qevora_layout_reference_id` | Referenced post ID |
 | `_qevora_layout_template_id` | Import provenance |
@@ -351,9 +353,34 @@ Off by default, with no built-in or hard-coded endpoint. When an administrator e
 The library screen is built so a non-technical user can put a complete demo live in one click:
 
 * **One-click demo packs** - `Complete header and footer demo` imports one header and one footer starter and displays both immediately; `Full demo site` adds the three reusable sections. Packs are definitions, not files: `Importer::demo_packs()` with the `qevora_layouts_demo_packs` filter.
-* **Display scope on every import** - each template card (and the pack form) offers a *Display on* select: *Where the demo says - recommended*, *Entire site*, *Front page only*, *Single posts and pages*, *Blog and archive listings*. The chosen scope becomes the layout's conditions at import time - for every import path (library card, one-click demo pack, admin AJAX and REST), so the default header/footer appears exactly where the user picked, without opening the editor. The import confirmation repeats it in plain words (*Displays on: Entire site*). Scopes map to condition sets through `qevora_layouts_display_scope_conditions`, and the list itself is filterable (`qevora_layouts_display_scopes`). The REST route accepts the same `display_scope` key, or a full `conditions` object (`{include:[],exclude:[]}`) for programmatic imports.
+* **Display scope on every import** - each template card (and the pack form) offers a *Display on* select: *Where the demo says - recommended*, *Entire site*, *Front page only*, *Single posts and pages*, *Blog and archive listings*. The chosen scope becomes the layout's conditions at import time - for every import path (library card, one-click demo pack, admin AJAX and REST), so the default header/footer appears exactly where the user picked, without opening the editor. The import confirmation repeats it in plain words (*Displays on: Entire site*). Scopes map to condition sets through `qevora_layouts_display_scope_conditions`, and the list itself is filterable (`qevora_layouts_display_scopes`). The REST route accepts the same `display_scope` key, a full `conditions` object (`{include:[],exclude:[]}`) for programmatic imports, and - for the PHP demos below - `demo` (slug) plus `create_menu` (boolean).
 * **Previews for every demo** - each card shows its preview image and a *Preview* button that opens an accessible dialog (focus moved in, Escape or *Close* moves it back) with the large image, the type, the builder requirement and the display rules the demo ships with. Cards without a preview image fall back to the bundled placeholder, so a preview always exists.
 * **Enabled vs draft** - every import form keeps the *Enabled (display now)* / *Disabled (draft)* choice; "display now" simply means the layout is stored published with the chosen conditions.
+
+### Bundled PHP demos (no editor needed)
+
+Four demos ship as **pure PHP templates** for sites that should not depend on the block editor or a page builder at all. Each demo lives in its own folder and keeps its own data, styles and behaviour:
+
+| Demo | Type | Menu | Files |
+| --- | --- | --- | --- |
+| `header-classic` | header | yes | `template.php`, `style.css`, `script.js` |
+| `header-centered` | header | yes | `template.php`, `style.css`, `script.js` |
+| `footer-columns` | footer | yes | `template.php`, `style.css` |
+| `footer-simple` | footer | no | `template.php`, `style.css`, `script.js` |
+
+```
+templates/demos/<slug>/
+	demo.json      manifest: id, name, type, description, menu support
+	template.php   the HTML, rendered server-side with escaped WP APIs
+	style.css      that demo's own responsive stylesheet
+	script.js      that demo's own vanilla JavaScript (mobile menu, back to top)
+```
+
+* **Rendering:** layouts imported from a demo use the `demo` builder. `Demo_Adapter` includes the demo's `template.php` - resolved through a strict allow list, so only files shipped inside the plugin can ever be included, and imported JSON never becomes PHP. No post content is involved; editing happens in the demo files, not the editor.
+* **Assets, demo by demo:** the stylesheet and script are enqueued only while that exact demo is planned or rendered (queued at plan time so the CSS reaches `wp_head`). All markup and CSS is scoped to the demo (`qdhc`, `qdhh`, `qdfc`, `qdfs` roots), responsive down to phone widths, and nothing is shared between demos.
+* **Real menus:** demos with menu support can create a genuine WordPress nav menu at import - the home link plus up to five published pages, never invented content. Menu names stay unique, creating one needs `edit_theme_options` (otherwise the demo imports anyway, with a warning), and the layout stores its own `menu_id` with an *Edit the menu created for this demo* link in the editor.
+* **Importing:** the library screen has a *Ready-made demos* section - each card offers *Display on* (default: entire site, so the demo shows immediately), *Create a sample menu*, *Hide the theme header/footer* (checked by default) and *Enabled/Disabled*. The REST route accepts `demo` + `create_menu`; duplicate handling works through the `qevora-demo-<slug>` provenance id.
+* **Extending:** the demo list is filterable (`qevora_layouts_demos`) and the rendered markup per demo (`qevora_layouts_demo_markup`).
 
 ### Duplicate handling
 
@@ -458,6 +485,8 @@ Settings are stored in one option (`qevora_layouts_settings`) with a registered 
 | `qevora_layouts_granted_roles` | Roles that receive the plugin capabilities on activation (default: `administrator`). |
 | `qevora_layouts_display_scopes`, `qevora_layouts_display_scope_conditions` | The *Display on* choices and their condition sets. |
 | `qevora_layouts_demo_packs` | The one-click demo packs. |
+| `qevora_layouts_demos` | The bundled PHP demos. |
+| `qevora_layouts_demo_markup` | Markup rendered by a bundled PHP demo. |
 | `qevora_layouts_rest_layout`, `qevora_layouts_allow_disabled_layout`, `qevora_layouts_auto_render_types`, `qevora_layouts_languages_dir` | Misc. |
 
 ### Actions

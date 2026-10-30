@@ -121,6 +121,22 @@ class Layout {
 	public $builder = 'auto';
 
 	/**
+	 * Slug of the bundled PHP demo this layout renders (builder `demo`).
+	 *
+	 * @since 1.0.0
+	 * @var   string
+	 */
+	public $demo_slug = '';
+
+	/**
+	 * Nav menu created for a demo layout, 0 when none.
+	 *
+	 * @since 1.0.0
+	 * @var   int
+	 */
+	public $menu_id = 0;
+
+	/**
 	 * Content source: self|reference.
 	 *
 	 * @since 1.0.0
@@ -190,6 +206,8 @@ class Layout {
 		$layout->builder        = Layout_Post_Type::sanitize_builder( get_post_meta( $layout->id, Layout_Post_Type::META_BUILDER, true ) );
 		$layout->content_source = Layout_Post_Type::sanitize_content_source( get_post_meta( $layout->id, Layout_Post_Type::META_CONTENT_SOURCE, true ) );
 		$layout->reference_id   = Layout_Post_Type::sanitize_reference_id( get_post_meta( $layout->id, Layout_Post_Type::META_REFERENCE_ID, true ) );
+		$layout->demo_slug      = Layout_Post_Type::sanitize_identifier( get_post_meta( $layout->id, Layout_Post_Type::META_DEMO, true ) );
+		$layout->menu_id        = absint( get_post_meta( $layout->id, Layout_Post_Type::META_MENU_ID, true ) );
 		$layout->template_id    = Layout_Post_Type::sanitize_identifier( get_post_meta( $layout->id, Layout_Post_Type::META_TEMPLATE_ID, true ) );
 		$layout->import_source  = Layout_Post_Type::sanitize_import_source( get_post_meta( $layout->id, Layout_Post_Type::META_IMPORT_SOURCE, true ) );
 		$layout->imported_at    = sanitize_text_field( (string) get_post_meta( $layout->id, Layout_Post_Type::META_IMPORTED_AT, true ) );
@@ -221,6 +239,8 @@ class Layout {
 		$layout->builder        = Layout_Post_Type::sanitize_builder( isset( $data['builder'] ) ? $data['builder'] : 'auto' );
 		$layout->content_source = Layout_Post_Type::sanitize_content_source( isset( $data['content_source'] ) ? $data['content_source'] : 'self' );
 		$layout->reference_id   = Layout_Post_Type::sanitize_reference_id( isset( $data['reference_id'] ) ? $data['reference_id'] : 0 );
+		$layout->demo_slug      = Layout_Post_Type::sanitize_identifier( isset( $data['demo_slug'] ) ? $data['demo_slug'] : '' );
+		$layout->menu_id        = absint( isset( $data['menu_id'] ) ? $data['menu_id'] : 0 );
 		$layout->template_id    = Layout_Post_Type::sanitize_identifier( isset( $data['template_id'] ) ? $data['template_id'] : '' );
 		$layout->import_source  = Layout_Post_Type::sanitize_import_source( isset( $data['import_source'] ) ? $data['import_source'] : '' );
 		$layout->imported_at    = isset( $data['imported_at'] ) ? sanitize_text_field( (string) $data['imported_at'] ) : '';
@@ -248,6 +268,8 @@ class Layout {
 			'hook'           => $this->hook,
 			'hook_priority'  => $this->hook_priority,
 			'builder'        => $this->builder,
+			'demo_slug'      => $this->demo_slug,
+			'menu_id'        => $this->menu_id,
 			'content_source' => $this->content_source,
 			'reference_id'   => $this->reference_id,
 			'template_id'    => $this->template_id,

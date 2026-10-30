@@ -189,6 +189,7 @@ check_present "^$SLUG/CHANGELOG.md$"
 check_present "^$SLUG/includes/"
 check_present "^$SLUG/assets/"
 check_present "^$SLUG/templates/starter/"
+check_present "^$SLUG/templates/demos/"
 check_present "^$SLUG/languages/$SLUG.pot$"
 
 # Every runtime directory needs its silence-is-golden index.php guard.

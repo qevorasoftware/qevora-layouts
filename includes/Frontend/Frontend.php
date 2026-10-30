@@ -12,6 +12,7 @@ use QevoraLayouts\Core\Layout;
 use QevoraLayouts\Core\Logger;
 use QevoraLayouts\Core\Plugin;
 use QevoraLayouts\Core\Settings;
+use QevoraLayouts\Import\Demo_Registry;
 
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
@@ -228,6 +229,11 @@ class Frontend {
 			// A layout may replace the theme's own header or footer.
 			if ( ! empty( $layout->hide_theme_part ) ) {
 				$this->suppress_part( $type );
+			}
+
+			// Demo assets must reach wp_head, so they are queued with the plan.
+			if ( 'demo' === $layout->builder ) {
+				Demo_Registry::enqueue_assets( $layout->demo_slug );
 			}
 
 			if ( 'custom_hook' === $placement ) {

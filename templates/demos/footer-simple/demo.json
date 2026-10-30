@@ -1,0 +1,8 @@
+{
+	"id": "footer-simple",
+	"name": "Simple Footer Bar",
+	"type": "footer",
+	"description": "A slim footer bar with the copyright line and a smooth back-to-top button. Tiny, fast and fully responsive - rendered by the plugin with its own stylesheet and a few lines of vanilla JavaScript.",
+	"menu": false,
+	"tags": [ "footer", "php", "responsive", "minimal" ]
+}

@@ -11,6 +11,7 @@ namespace QevoraLayouts\Integrations;
 use QevoraLayouts\Core\Layout;
 use QevoraLayouts\Core\Logger;
 use QevoraLayouts\Integrations\Adapters\Block_Adapter;
+use QevoraLayouts\Integrations\Adapters\Demo_Adapter;
 use QevoraLayouts\Integrations\Adapters\Elementor_Adapter;
 
 // Exit if accessed directly.
@@ -52,6 +53,7 @@ class Builder_Manager {
 	 */
 	public function __construct() {
 		$adapters = array(
+			new Demo_Adapter(),
 			new Block_Adapter(),
 			new Elementor_Adapter(),
 		);

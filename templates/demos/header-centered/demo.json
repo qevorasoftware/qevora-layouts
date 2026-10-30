@@ -1,0 +1,9 @@
+{
+	"id": "header-centered",
+	"name": "Centered Header",
+	"type": "header",
+	"description": "A centered brand with the navigation neatly below it, collapsing into a full-width tap menu on phones. Pure plugin-rendered HTML, CSS and JavaScript - responsive at every width, no editor content involved.",
+	"menu": true,
+	"menu_label": "Create a sample menu (Home plus your published pages)",
+	"tags": [ "header", "php", "responsive", "menu", "centered" ]
+}

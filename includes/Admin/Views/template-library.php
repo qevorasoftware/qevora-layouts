@@ -12,6 +12,7 @@ use QevoraLayouts\Admin\Actions;
 use QevoraLayouts\Admin\Admin;
 use QevoraLayouts\Core\Layout_Post_Type;
 use QevoraLayouts\Conditions\Condition_Sanitizer;
+use QevoraLayouts\Import\Demo_Registry;
 use QevoraLayouts\Import\Importer;
 
 // Exit if accessed directly.
@@ -243,6 +244,96 @@ $qevora_packs     = Importer::demo_packs();
 			<?php endif; ?>
 		</div>
 	</div>
+
+
+	<?php $qevora_demos = Demo_Registry::for_display(); ?>
+	<?php if ( ! empty( $qevora_demos ) ) : ?>
+		<div class="card qevora-library__demos">
+			<h2 class="title"><?php esc_html_e( 'Ready-made demos (rendered by the plugin)', 'qevora-layouts' ); ?></h2>
+			<p>
+				<?php esc_html_e( 'These headers and footers are built with plain HTML, CSS and a little JavaScript inside the plugin - fully responsive, and every demo has its own separate stylesheet and data. No block editor and no page builder needed, and demos with a menu can create a real WordPress menu for you at import.', 'qevora-layouts' ); ?>
+			</p>
+
+			<div class="qevora-library__grid">
+				<?php foreach ( $qevora_demos as $qevora_demo ) : ?>
+					<article class="qevora-template qevora-demo-card" data-demo="<?php echo esc_attr( (string) $qevora_demo['id'] ); ?>">
+						<div class="qevora-template__preview">
+							<img src="<?php echo esc_url( '' !== (string) $qevora_demo['preview_url'] ? (string) $qevora_demo['preview_url'] : $qevora_placeholder ); ?>" alt="" width="400" height="220" loading="lazy" />
+							<button
+								type="button"
+								class="button qevora-template__preview-button"
+								data-qevora-preview
+								data-preview-url="<?php echo esc_url( '' !== (string) $qevora_demo['preview_url'] ? (string) $qevora_demo['preview_url'] : $qevora_placeholder ); ?>"
+								data-preview-name="<?php echo esc_attr( (string) $qevora_demo['name'] ); ?>"
+								data-preview-description="<?php echo esc_attr( (string) $qevora_demo['description'] ); ?>"
+								data-preview-type="<?php echo esc_attr( (string) $qevora_demo['type_label'] ); ?>"
+								data-preview-builder="<?php esc_attr_e( 'PHP demo (own CSS and JS)', 'qevora-layouts' ); ?>"
+								data-preview-scope="<?php esc_attr_e( 'Entire site by default', 'qevora-layouts' ); ?>"
+							>
+								<?php esc_html_e( 'Preview', 'qevora-layouts' ); ?>
+							</button>
+						</div>
+
+						<div class="qevora-template__body">
+							<h2 class="qevora-template__title"><?php echo esc_html( (string) $qevora_demo['name'] ); ?></h2>
+							<p class="qevora-template__meta">
+								<?php echo esc_html( (string) $qevora_demo['type_label'] ); ?> &middot; <?php esc_html_e( 'PHP demo', 'qevora-layouts' ); ?>
+							</p>
+							<p><?php echo esc_html( (string) $qevora_demo['description'] ); ?></p>
+						</div>
+
+						<?php if ( $qevora_can ) : ?>
+							<form class="qevora-template__form" method="post" action="<?php echo esc_url( $qevora_import ); ?>" data-qevora-import="template">
+								<input type="hidden" name="action" value="<?php echo esc_attr( Actions::IMPORT_ACTION ); ?>" />
+								<input type="hidden" name="demo" value="<?php echo esc_attr( (string) $qevora_demo['id'] ); ?>" />
+								<?php wp_nonce_field( Actions::IMPORT_ACTION, '_wpnonce' ); ?>
+
+								<p>
+									<label for="qevora-demo-scope-<?php echo esc_attr( (string) $qevora_demo['id'] ); ?>"><?php esc_html_e( 'Display on', 'qevora-layouts' ); ?></label>
+									<select id="qevora-demo-scope-<?php echo esc_attr( (string) $qevora_demo['id'] ); ?>" name="display_scope">
+										<?php foreach ( $qevora_scopes as $qevora_scope_id => $qevora_scope_label ) : ?>
+											<option value="<?php echo esc_attr( (string) $qevora_scope_id ); ?>" <?php selected( $qevora_scope_id, 'entire_site' ); ?>><?php echo esc_html( (string) $qevora_scope_label ); ?></option>
+										<?php endforeach; ?>
+									</select>
+
+									<label for="qevora-demo-status-<?php echo esc_attr( (string) $qevora_demo['id'] ); ?>" class="screen-reader-text"><?php esc_html_e( 'Import as', 'qevora-layouts' ); ?></label>
+									<select id="qevora-demo-status-<?php echo esc_attr( (string) $qevora_demo['id'] ); ?>" name="status">
+										<option value="publish"><?php esc_html_e( 'Enabled (display now)', 'qevora-layouts' ); ?></option>
+										<option value="draft"><?php esc_html_e( 'Disabled (draft)', 'qevora-layouts' ); ?></option>
+									</select>
+								</p>
+
+								<?php if ( ! empty( $qevora_demo['menu'] ) ) : ?>
+									<p>
+										<input type="hidden" name="create_menu" value="0" />
+										<label for="qevora-demo-menu-<?php echo esc_attr( (string) $qevora_demo['id'] ); ?>">
+											<input type="checkbox" id="qevora-demo-menu-<?php echo esc_attr( (string) $qevora_demo['id'] ); ?>" name="create_menu" value="1" checked="checked" />
+											<?php echo esc_html( '' !== (string) $qevora_demo['menu_label'] ? (string) $qevora_demo['menu_label'] : __( 'Create a sample menu', 'qevora-layouts' ) ); ?>
+										</label>
+									</p>
+								<?php endif; ?>
+
+								<p>
+									<input type="hidden" name="hide_theme_part" value="0" />
+									<label for="qevora-demo-hide-<?php echo esc_attr( (string) $qevora_demo['id'] ); ?>">
+										<input type="checkbox" id="qevora-demo-hide-<?php echo esc_attr( (string) $qevora_demo['id'] ); ?>" name="hide_theme_part" value="1" checked="checked" />
+										<?php esc_html_e( 'Hide the theme header/footer while this demo is displayed', 'qevora-layouts' ); ?>
+									</label>
+								</p>
+
+								<p>
+									<?php submit_button( __( 'Import demo', 'qevora-layouts' ), 'primary small', 'qevora_import_demo', false ); ?>
+									<span class="spinner qevora-library__spinner" aria-hidden="true"></span>
+								</p>
+
+								<p class="description qevora-template__message" role="status" aria-live="polite"></p>
+							</form>
+						<?php endif; ?>
+					</article>
+				<?php endforeach; ?>
+			</div>
+		</div>
+	<?php endif; ?>
 
 	<?php if ( empty( $qevora_templates ) ) : ?>
 		<div class="qevora-empty-state">

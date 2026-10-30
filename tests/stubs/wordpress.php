@@ -179,6 +179,13 @@ class Qevora_Test_Env {
 	/** @var array<int,object> Terms. */
 	public static $terms = array();
 
+	/**
+	 * Nav menus created by the stubs: id => {name, items}.
+	 *
+	 * @var array<int,array<string,mixed>>
+	 */
+	public static $menus = array();
+
 	/** @var string[] Messages passed to _doing_it_wrong(). */
 	public static $doing_it_wrong = array();
 
@@ -242,6 +249,7 @@ class Qevora_Test_Env {
 			'upload_files'          => true,
 			'list_users'            => true,
 			'edit_pages'            => true,
+			'edit_theme_options' => true,
 		);
 		self::$user_id        = 1;
 		self::$users          = array();
@@ -253,6 +261,7 @@ class Qevora_Test_Env {
 		self::$post_types     = array( 'post', 'page', 'attachment', 'qevora_layout' );
 		self::$taxonomies     = array( 'category', 'post_tag' );
 		self::$terms          = array();
+		self::$menus        = array();
 		self::$doing_it_wrong = array();
 		self::$died           = array();
 		self::$deactivated    = array();
@@ -2748,6 +2757,135 @@ function get_queried_object_id() {
 /* -------------------------------------------------------------------------
  * URLs, themes and misc
  * ---------------------------------------------------------------------- */
+
+/**
+ * Creates or updates a nav menu (stub).
+ *
+ * @param int   $menu_id Menu ID (0 to create).
+ * @param array $args    Menu args.
+ * @return int|WP_Error Menu ID or error.
+ */
+function wp_update_nav_menu_object( $menu_id = 0, $args = array() ) {
+	unset( $menu_id );
+
+	$name = isset( $args['menu-name'] ) ? trim( (string) $args['menu-name'] ) : '';
+
+	if ( '' === $name ) {
+		return new WP_Error( 'invalid_menu_name', 'A name is required for this menu.' );
+	}
+
+	foreach ( Qevora_Test_Env::$menus as $existing ) {
+		if ( $existing['name'] === $name ) {
+			return new WP_Error( 'menu_exists', 'A menu with that name already exists.' );
+		}
+	}
+
+	$id = count( Qevora_Test_Env::$menus ) + 100;
+
+	Qevora_Test_Env::$menus[ $id ] = array(
+		'name'  => $name,
+		'items' => array(),
+	);
+
+	return $id;
+}
+
+/**
+ * Adds or updates one nav menu item (stub).
+ *
+ * @param int   $menu_id         Menu ID.
+ * @param int   $menu_item_db_id Item ID (0 to create).
+ * @param array $args            Item args.
+ * @return int|WP_Error Item ID or error.
+ */
+function wp_update_nav_menu_item( $menu_id = 0, $menu_item_db_id = 0, $args = array() ) {
+	unset( $menu_item_db_id );
+
+	$menu_id = (int) $menu_id;
+
+	if ( empty( Qevora_Test_Env::$menus[ $menu_id ] ) ) {
+		return new WP_Error( 'invalid_menu_id', 'Invalid menu ID.' );
+	}
+
+	$item_id = count( Qevora_Test_Env::$menus[ $menu_id ]['items'] ) + 1;
+
+	Qevora_Test_Env::$menus[ $menu_id ]['items'][ $item_id ] = $args;
+
+	return $item_id;
+}
+
+/**
+ * Returns a menu object (stub).
+ *
+ * @param mixed $menu Menu ID.
+ * @return object|false
+ */
+function wp_get_nav_menu_object( $menu = null ) {
+	$menu = (int) $menu;
+
+	if ( empty( Qevora_Test_Env::$menus[ $menu ] ) ) {
+		return false;
+	}
+
+	$object          = new stdClass();
+	$object->term_id = $menu;
+	$object->name    = Qevora_Test_Env::$menus[ $menu ]['name'];
+
+	return $object;
+}
+
+/**
+ * Renders a nav menu (stub): a simple list of the stored items.
+ *
+ * @param array $args Menu args.
+ * @return string|false Markup.
+ */
+function wp_nav_menu( $args = array() ) {
+	$menu = isset( $args['menu'] ) ? (int) $args['menu'] : 0;
+
+	if ( empty( Qevora_Test_Env::$menus[ $menu ] ) ) {
+		if ( isset( $args['fallback_cb'] ) && false !== $args['fallback_cb'] && is_callable( $args['fallback_cb'] ) ) {
+			return call_user_func( $args['fallback_cb'], $args );
+		}
+
+		return false;
+	}
+
+	$class = isset( $args['menu_class'] ) ? (string) $args['menu_class'] : 'menu';
+	$html  = '<ul class="' . esc_attr( $class ) . '">';
+
+	foreach ( Qevora_Test_Env::$menus[ $menu ]['items'] as $item ) {
+		$title = isset( $item['menu-item-title'] ) ? (string) $item['menu-item-title'] : '';
+		$url   = isset( $item['menu-item-url'] ) ? (string) $item['menu-item-url'] : '';
+
+		if ( '' === $url && ! empty( $item['menu-item-object-id'] ) && function_exists( 'get_permalink' ) ) {
+			$url = (string) get_permalink( (int) $item['menu-item-object-id'] );
+		}
+
+		$html .= '<li class="menu-item"><a href="' . esc_url( $url ) . '">' . esc_html( $title ) . '</a></li>';
+	}
+
+	$html .= '</ul>';
+
+	if ( ! isset( $args['echo'] ) || ! empty( $args['echo'] ) ) {
+		echo $html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Test stub.
+	}
+
+	return $html;
+}
+
+/**
+ * Obfuscates an email address (stub).
+ *
+ * @param string $text   Email or text.
+ * @param int    $mailto Unused.
+ * @return string
+ */
+function antispambot( $text, $mailto = 0 ) {
+	unset( $mailto );
+
+	return str_replace( '@', '&#64;', (string) $text );
+}
 
 /**
  * Returns the home URL.

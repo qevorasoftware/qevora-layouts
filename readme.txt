@@ -132,6 +132,7 @@ Open an issue at [the GitHub repository](https://github.com/qevorasoftware/qevor
 * Builder adapter layer: block editor through core APIs, Elementor through its documented public APIs, reference mode for any other builder.
 * Template library with eight bundled starter templates, `.json` uploads and an optional https remote source.
 * One-click demo packs: import a complete header and footer demo (or the full demo site) and display it right away.
+* Ready-made PHP demos: headers and footers rendered by the plugin itself with plain HTML, responsive CSS and a little JavaScript - every demo keeps its own stylesheet and data, menu demos can create a real WordPress menu (Home plus your published pages) at import, and no page builder or block editor is needed.
 * Imported demos can replace the theme's own header and footer instead of stacking on top of it: the option is offered checked by default on every import form, block themes drop the theme template part outright, classic themes hide it with sanitized inline CSS, theme files are never modified and unticking the box restores them instantly.
 * Choose where each imported demo displays (entire site, front page, posts and pages, archives) and the conditions are applied on import; refine them per layout later.
 * Every demo shows a preview image on its card and a large preview dialog with its display rules and builder requirement.

@@ -141,6 +141,22 @@ class Layout_Post_Type {
 	const META_IMPORTED_AT = '_qevora_layout_imported_at';
 
 	/**
+	 * Meta key: slug of the bundled PHP demo a layout renders.
+	 *
+	 * @since 1.0.0
+	 * @var   string
+	 */
+	const META_DEMO = '_qevora_layout_demo';
+
+	/**
+	 * Meta key: nav menu created for a demo layout.
+	 *
+	 * @since 1.0.0
+	 * @var   string
+	 */
+	const META_MENU_ID = '_qevora_layout_menu_id';
+
+	/**
 	 * Registers post type, meta and rewrite rules.
 	 *
 	 * @since 1.0.0
@@ -297,6 +313,18 @@ class Layout_Post_Type {
 				'default'  => '',
 				'sanitize' => 'sanitize_text_field',
 				'rest'     => false,
+			),
+			self::META_DEMO            => array(
+				'type'     => 'string',
+				'default'  => '',
+				'sanitize' => array( __CLASS__, 'sanitize_identifier' ),
+				'rest'     => true,
+			),
+			self::META_MENU_ID         => array(
+				'type'     => 'integer',
+				'default'  => 0,
+				'sanitize' => 'absint',
+				'rest'     => true,
 			),
 		);
 
@@ -576,7 +604,7 @@ class Layout_Post_Type {
 		$value = is_scalar( $value ) ? (string) $value : 'auto';
 		$value = sanitize_key( $value );
 
-		$allowed = array( 'auto', 'block', 'elementor' );
+		$allowed = array( 'auto', 'block', 'elementor', 'demo' );
 
 		/**
 		 * Filters the builder identifiers a layout may request.
@@ -671,6 +699,9 @@ class Layout_Post_Type {
 			self::META_TEMPLATE_ID,
 			self::META_IMPORT_SOURCE,
 			self::META_IMPORTED_AT,
+			self::META_HIDE_THEME_PART,
+			self::META_DEMO,
+			self::META_MENU_ID,
 		);
 	}
 }

@@ -1,0 +1,9 @@
+{
+	"id": "footer-columns",
+	"name": "Columns Footer",
+	"type": "footer",
+	"description": "A three column footer: your site name and tagline, an optional navigation menu, and contact details pulled from the site info. The grid folds into a single column on phones. Rendered by the plugin with its own stylesheet - nothing is stored in the editor.",
+	"menu": true,
+	"menu_label": "Create a sample footer menu (Home plus your published pages)",
+	"tags": [ "footer", "php", "responsive", "menu", "columns" ]
+}

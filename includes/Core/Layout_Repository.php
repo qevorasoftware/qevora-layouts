@@ -54,6 +54,8 @@ class Layout_Repository {
 	 *     @type array  $conditions     Display conditions.
 	 *     @type string $placement      Placement override.
 	 *     @type bool   $hide_theme_part Hide the theme part while rendering.
+	 *     @type string $demo_slug      Bundled PHP demo slug (builder `demo`).
+	 *     @type int    $menu_id        Nav menu created for a demo.
 	 *     @type string $hook           Custom hook name.
 	 *     @type int    $hook_priority  Custom hook priority.
 	 *     @type string $builder        Builder hint.
@@ -114,6 +116,8 @@ class Layout_Repository {
 			Layout_Post_Type::META_CONDITIONS     => array( isset( $data['conditions'] ) ? $data['conditions'] : array(), array( \QevoraLayouts\Conditions\Condition_Sanitizer::class, 'sanitize' ) ),
 			Layout_Post_Type::META_PLACEMENT      => array( isset( $data['placement'] ) ? $data['placement'] : '', array( Layout_Post_Type::class, 'sanitize_placement' ) ),
 			Layout_Post_Type::META_HIDE_THEME_PART => array( isset( $data['hide_theme_part'] ) ? $data['hide_theme_part'] : false, array( Layout_Post_Type::class, 'sanitize_hide_theme_part' ) ),
+			Layout_Post_Type::META_DEMO            => array( isset( $data['demo_slug'] ) ? $data['demo_slug'] : '', array( Layout_Post_Type::class, 'sanitize_identifier' ) ),
+			Layout_Post_Type::META_MENU_ID         => array( isset( $data['menu_id'] ) ? $data['menu_id'] : 0, 'absint' ),
 			Layout_Post_Type::META_HOOK           => array( isset( $data['hook'] ) ? $data['hook'] : '', array( Layout_Post_Type::class, 'sanitize_hook_name' ) ),
 			Layout_Post_Type::META_HOOK_PRIORITY  => array( isset( $data['hook_priority'] ) ? $data['hook_priority'] : 10, array( Layout_Post_Type::class, 'sanitize_hook_priority' ) ),
 			Layout_Post_Type::META_BUILDER        => array( isset( $data['builder'] ) ? $data['builder'] : 'auto', array( Layout_Post_Type::class, 'sanitize_builder' ) ),
