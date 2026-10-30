@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Qevora Layouts 1.0.0\n"
 "Report-Msgid-Bugs-To: https://github.com/qevorasoftware/qevora-layouts/issues\n"
-"POT-Creation-Date: 2026-10-30T05:19:08+00:00\n"
+"POT-Creation-Date: 2026-10-30T06:27:05+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -58,7 +58,7 @@ msgstr ""
 
 #: includes/Admin/Actions.php:290
 #: includes/Admin/Ajax.php:81
-#: includes/Core/Capabilities.php:142
+#: includes/Core/Capabilities.php:147
 msgid "You are not allowed to perform this action."
 msgstr ""
 
@@ -87,7 +87,7 @@ msgstr ""
 
 #: includes/Admin/Admin.php:166
 #: includes/Admin/Admin.php:167
-#: includes/Admin/Views/template-library.php:34
+#: includes/Admin/Views/template-library.php:38
 msgid "Template Library"
 msgstr ""
 
@@ -206,7 +206,7 @@ msgid "Added."
 msgstr ""
 
 #: includes/Admin/Admin.php:348
-#: includes/Import/Importer.php:182
+#: includes/Import/Importer.php:327
 msgid "Only .json template files are accepted."
 msgstr ""
 
@@ -285,7 +285,7 @@ msgstr ""
 
 #. translators: 1: post title, 2: post type, 3: post ID.
 #: includes/Admin/Ajax.php:234
-#: includes/REST/Rest_Controller.php:603
+#: includes/REST/Rest_Controller.php:647
 msgid "(no title)"
 msgstr ""
 
@@ -299,73 +299,73 @@ msgid "Caches cleared."
 msgstr ""
 
 #: includes/Admin/Ajax.php:71
-#: includes/Core/Capabilities.php:134
+#: includes/Core/Capabilities.php:139
 msgid "Your session has expired. Please reload the page and try again."
 msgstr ""
 
-#: includes/Admin/Import_Handler.php:100
-msgid "The file contains no usable template."
-msgstr ""
-
-#. translators: %s: template name.
-#: includes/Admin/Import_Handler.php:240
-msgid "The template \"%s\" could not be imported."
-msgstr ""
-
-#: includes/Admin/Import_Handler.php:269
-msgid "The import did not finish."
-msgstr ""
-
-#. translators: 1: template name, 2: what happened.
-#: includes/Admin/Import_Handler.php:290
-msgid "%1$s — %2$s"
-msgstr ""
-
-#. translators: 1: number imported, 2: number skipped, 3: number failed.
-#: includes/Admin/Import_Handler.php:319
-msgid "Import finished: %1$d imported, %2$d skipped, %3$d failed."
-msgstr ""
-
-#: includes/Admin/Import_Handler.php:341
-msgid "layout created"
-msgstr ""
-
-#: includes/Admin/Import_Handler.php:342
-msgid "second copy created"
-msgstr ""
-
-#: includes/Admin/Import_Handler.php:343
-msgid "existing layout replaced"
-msgstr ""
-
-#: includes/Admin/Import_Handler.php:344
-msgid "skipped (already imported)"
-msgstr ""
-
-#: includes/Admin/Import_Handler.php:345
-msgid "failed"
-msgstr ""
-
-#: includes/Admin/Import_Handler.php:43
-#: includes/Admin/Views/template-library.php:144
-#: includes/Import/Importer.php:120
-#: includes/Import/Importer.php:276
-#: includes/Import/Importer.php:362
-msgid "You are not allowed to import templates."
-msgstr ""
-
-#: includes/Admin/Import_Handler.php:61
-msgid "The remote template library is disabled."
-msgstr ""
-
-#: includes/Admin/Import_Handler.php:81
+#: includes/Admin/Import_Handler.php:109
 msgid ""
 "Uploading template files is disabled in Settings → Template library and"
 "imports."
 msgstr ""
 
-#: includes/Admin/Import_Handler.php:87
+#: includes/Admin/Import_Handler.php:115
 msgid "Choose a .json template file to import."
+msgstr ""
+
+#: includes/Admin/Import_Handler.php:128
+msgid "The file contains no usable template."
+msgstr ""
+
+#. translators: %s: template name.
+#: includes/Admin/Import_Handler.php:268
+msgid "The template \"%s\" could not be imported."
+msgstr ""
+
+#: includes/Admin/Import_Handler.php:297
+msgid "The import did not finish."
+msgstr ""
+
+#. translators: 1: template name, 2: what happened.
+#: includes/Admin/Import_Handler.php:318
+msgid "%1$s — %2$s"
+msgstr ""
+
+#. translators: 1: number imported, 2: number skipped, 3: number failed.
+#: includes/Admin/Import_Handler.php:347
+msgid "Import finished: %1$d imported, %2$d skipped, %3$d failed."
+msgstr ""
+
+#: includes/Admin/Import_Handler.php:369
+msgid "layout created"
+msgstr ""
+
+#: includes/Admin/Import_Handler.php:370
+msgid "second copy created"
+msgstr ""
+
+#: includes/Admin/Import_Handler.php:371
+msgid "existing layout replaced"
+msgstr ""
+
+#: includes/Admin/Import_Handler.php:372
+msgid "skipped (already imported)"
+msgstr ""
+
+#: includes/Admin/Import_Handler.php:373
+msgid "failed"
+msgstr ""
+
+#: includes/Admin/Import_Handler.php:43
+#: includes/Admin/Views/template-library.php:202
+#: includes/Import/Importer.php:265
+#: includes/Import/Importer.php:421
+#: includes/Import/Importer.php:524
+msgid "You are not allowed to import templates."
+msgstr ""
+
+#: includes/Admin/Import_Handler.php:68
+msgid "The remote template library is disabled."
 msgstr ""
 
 #. translators: %s: theme hook name.
@@ -383,7 +383,8 @@ msgid "Auto detect"
 msgstr ""
 
 #: includes/Admin/Layout_Columns.php:198
-#: includes/Admin/Views/template-library.php:216
+#: includes/Admin/Views/template-library.php:275
+#: includes/Admin/Views/template-library.php:288
 #: includes/Import/Template.php:270
 msgid "Block editor"
 msgstr ""
@@ -404,8 +405,8 @@ msgstr ""
 
 #: includes/Admin/Layout_Columns.php:220
 #: includes/Admin/System_Status_Page.php:303
-#: includes/Admin/Views/template-library.php:76
-#: includes/Admin/Views/template-library.php:149
+#: includes/Admin/Views/template-library.php:80
+#: includes/Admin/Views/template-library.php:207
 msgid "Remote library"
 msgstr ""
 
@@ -1223,12 +1224,10 @@ msgid "Skip already imported templates"
 msgstr ""
 
 #: includes/Admin/System_Status_Page.php:304
-#: includes/Admin/Views/template-library.php:276
 msgid "Disabled"
 msgstr ""
 
 #: includes/Admin/System_Status_Page.php:304
-#: includes/Admin/Views/template-library.php:275
 msgid "Enabled"
 msgstr ""
 
@@ -1461,67 +1460,102 @@ msgid "OK"
 msgstr ""
 
 #: includes/Admin/Views/template-library.php:106
-msgid "Template file (.json)"
+msgid "Demo"
 msgstr ""
 
-#: includes/Admin/Views/template-library.php:111
-#: includes/Admin/Views/template-library.php:273
+#: includes/Admin/Views/template-library.php:125
+#: includes/Admin/Views/template-library.php:356
+msgid "Display on"
+msgstr ""
+
+#: includes/Admin/Views/template-library.php:132
+#: includes/Admin/Views/template-library.php:169
+#: includes/Admin/Views/template-library.php:365
 msgid "Import as"
 msgstr ""
 
-#: includes/Admin/Views/template-library.php:113
-msgid "Enabled (published)"
+#: includes/Admin/Views/template-library.php:134
+#: includes/Admin/Views/template-library.php:367
+msgid "Enabled (display now)"
 msgstr ""
 
-#: includes/Admin/Views/template-library.php:114
+#: includes/Admin/Views/template-library.php:135
+#: includes/Admin/Views/template-library.php:172
+#: includes/Admin/Views/template-library.php:368
 msgid "Disabled (draft)"
 msgstr ""
 
-#: includes/Admin/Views/template-library.php:119
-#: includes/Admin/Views/template-library.php:279
+#: includes/Admin/Views/template-library.php:140
+msgid "Import demo and display"
+msgstr ""
+
+#: includes/Admin/Views/template-library.php:145
+msgid ""
+"Each template keeps its own design. The display scope only decides where"
+"the imported layouts appear, and can be changed later per layout."
+msgstr ""
+
+#: includes/Admin/Views/template-library.php:152
+msgid "Import a template file"
+msgstr ""
+
+#: includes/Admin/Views/template-library.php:156
+msgid "File uploads are disabled in Settings → Template library and imports."
+msgstr ""
+
+#: includes/Admin/Views/template-library.php:164
+msgid "Template file (.json)"
+msgstr ""
+
+#: includes/Admin/Views/template-library.php:171
+msgid "Enabled (published)"
+msgstr ""
+
+#: includes/Admin/Views/template-library.php:177
+#: includes/Admin/Views/template-library.php:371
 msgid "If already imported"
 msgstr ""
 
-#: includes/Admin/Views/template-library.php:121
+#: includes/Admin/Views/template-library.php:179
 msgid "Skip"
 msgstr ""
 
-#: includes/Admin/Views/template-library.php:122
-#: includes/Admin/Views/template-library.php:282
+#: includes/Admin/Views/template-library.php:180
+#: includes/Admin/Views/template-library.php:374
 msgid "Import a copy"
 msgstr ""
 
-#: includes/Admin/Views/template-library.php:127
+#: includes/Admin/Views/template-library.php:185
 msgid "Upload and import"
 msgstr ""
 
 #. translators: %d: maximum template size in kilobytes.
-#: includes/Admin/Views/template-library.php:136
+#: includes/Admin/Views/template-library.php:194
 msgid ""
 "Files are validated before anything is created and are never stored on the"
 "server. Maximum size: %d KB."
 msgstr ""
 
-#: includes/Admin/Views/template-library.php:153
+#: includes/Admin/Views/template-library.php:211
 msgid ""
 "Disabled. Bundled starter templates need no network access. To use your"
 "own library, enable it and enter an https endpoint in Settings."
 msgstr ""
 
-#: includes/Admin/Views/template-library.php:156
+#: includes/Admin/Views/template-library.php:214
 msgid "Open settings"
 msgstr ""
 
 #. translators: %s: remote library host.
-#: includes/Admin/Views/template-library.php:165
+#: includes/Admin/Views/template-library.php:223
 msgid "Enabled for %s. Requests are limited to this https host."
 msgstr ""
 
-#: includes/Admin/Views/template-library.php:177
+#: includes/Admin/Views/template-library.php:235
 msgid "No templates to show"
 msgstr ""
 
-#: includes/Admin/Views/template-library.php:179
+#: includes/Admin/Views/template-library.php:237
 msgid ""
 "Either no bundled starter templates were found, or the current filters"
 "match nothing. Bundled templates live in the plugin folder"
@@ -1529,98 +1563,103 @@ msgid ""
 "qevora_layouts_bundled_template_files filter."
 msgstr ""
 
-#: includes/Admin/Views/template-library.php:182
+#: includes/Admin/Views/template-library.php:240
 msgid "Open import settings"
 msgstr ""
 
-#: includes/Admin/Views/template-library.php:216
+#: includes/Admin/Views/template-library.php:275
+#: includes/Admin/Views/template-library.php:288
 #: includes/Import/Template.php:267
 msgid "Requires Elementor"
 msgstr ""
 
-#: includes/Admin/Views/template-library.php:219
+#: includes/Admin/Views/template-library.php:291
 msgid "Remote"
 msgstr ""
 
+#: includes/Admin/Views/template-library.php:300
+msgid "Displays on:"
+msgstr ""
+
 #. translators: %s: comma separated list of missing plugins.
-#: includes/Admin/Views/template-library.php:241
+#: includes/Admin/Views/template-library.php:324
 msgid "Not available yet: %s must be active."
 msgstr ""
 
 #. translators: %d: number of existing layouts.
-#: includes/Admin/Views/template-library.php:255
+#: includes/Admin/Views/template-library.php:338
 msgid "Already imported once."
 msgid_plural "Already imported %d times."
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/Admin/Views/template-library.php:260
+#: includes/Admin/Views/template-library.php:343
 msgid "Edit the existing layout"
 msgstr ""
 
-#: includes/Admin/Views/template-library.php:281
+#: includes/Admin/Views/template-library.php:373
 msgid "Skip duplicates"
 msgstr ""
 
-#: includes/Admin/Views/template-library.php:287
+#: includes/Admin/Views/template-library.php:379
 msgid "Import"
 msgstr ""
 
-#: includes/Admin/Views/template-library.php:37
+#: includes/Admin/Views/template-library.php:395
+msgid "Close preview"
+msgstr ""
+
+#: includes/Admin/Views/template-library.php:41
 msgid "Import settings"
 msgstr ""
 
-#: includes/Admin/Views/template-library.php:43
+#: includes/Admin/Views/template-library.php:47
 msgid ""
 "Import a starter template to create a new layout. Imports never overwrite"
 "an existing layout: a template that was imported before is skipped unless"
 "you choose to import a second copy."
 msgstr ""
 
-#: includes/Admin/Views/template-library.php:48
+#: includes/Admin/Views/template-library.php:52
 msgid "Library diagnostics"
 msgstr ""
 
-#: includes/Admin/Views/template-library.php:62
+#: includes/Admin/Views/template-library.php:66
 msgid "Filter by type"
 msgstr ""
 
-#: includes/Admin/Views/template-library.php:64
+#: includes/Admin/Views/template-library.php:68
 msgid "All types"
 msgstr ""
 
-#: includes/Admin/Views/template-library.php:72
+#: includes/Admin/Views/template-library.php:76
 msgid "Filter by source"
 msgstr ""
 
-#: includes/Admin/Views/template-library.php:74
+#: includes/Admin/Views/template-library.php:78
 msgid "All sources"
 msgstr ""
 
-#: includes/Admin/Views/template-library.php:75
-#: includes/Admin/Views/template-library.php:219
+#: includes/Admin/Views/template-library.php:79
+#: includes/Admin/Views/template-library.php:291
 msgid "Bundled"
 msgstr ""
 
-#: includes/Admin/Views/template-library.php:79
-#: includes/Admin/Views/template-library.php:80
+#: includes/Admin/Views/template-library.php:83
+#: includes/Admin/Views/template-library.php:84
 msgid "Search templates"
 msgstr ""
 
-#: includes/Admin/Views/template-library.php:82
+#: includes/Admin/Views/template-library.php:86
 msgid "Filter"
 msgstr ""
 
-#: includes/Admin/Views/template-library.php:87
+#: includes/Admin/Views/template-library.php:91
 msgid "Refresh remote library"
 msgstr ""
 
-#: includes/Admin/Views/template-library.php:94
-msgid "Import a template file"
-msgstr ""
-
-#: includes/Admin/Views/template-library.php:98
-msgid "File uploads are disabled in Settings → Template library and imports."
+#: includes/Admin/Views/template-library.php:99
+msgid "One-click demo"
 msgstr ""
 
 #: includes/Conditions/Condition_Registry.php:103
@@ -1702,6 +1741,7 @@ msgstr ""
 
 #: includes/Conditions/Condition_Registry.php:40
 #: includes/Conditions/Condition_Sanitizer.php:338
+#: includes/Import/Importer.php:84
 msgid "Entire site"
 msgstr ""
 
@@ -1806,7 +1846,7 @@ msgid_plural "%d exclusions"
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/Core/Activator.php:49
+#: includes/Core/Activator.php:51
 msgid "Qevora Layouts could not be activated"
 msgstr ""
 
@@ -1940,7 +1980,7 @@ msgstr ""
 #: includes/Core/Layout_Repository.php:256
 #: includes/Core/Layout_Repository.php:299
 #: includes/Frontend/Renderer.php:121
-#: includes/REST/Rest_Controller.php:391
+#: includes/REST/Rest_Controller.php:406
 msgid "Layout not found."
 msgstr ""
 
@@ -1974,11 +2014,11 @@ msgstr ""
 msgid "Untitled layout"
 msgstr ""
 
-#: includes/Core/Plugin.php:311
+#: includes/Core/Plugin.php:357
 msgid "Cloning is not allowed."
 msgstr ""
 
-#: includes/Core/Plugin.php:322
+#: includes/Core/Plugin.php:368
 msgid "Unserializing is not allowed."
 msgstr ""
 
@@ -2002,90 +2042,133 @@ msgstr ""
 msgid "No layout found for this shortcode."
 msgstr ""
 
-#: includes/Import/Importer.php:103
-msgid "The JSON payload must be an object or an array of templates."
+#: includes/Import/Importer.php:150
+msgid "Complete header and footer demo"
 msgstr ""
 
-#: includes/Import/Importer.php:133
-msgid "The uploaded file could not be verified."
+#: includes/Import/Importer.php:151
+msgid "Imports one header and one footer demo and displays both right away."
 msgstr ""
 
-#. translators: %d: maximum file size in kilobytes.
-#: includes/Import/Importer.php:144
-msgid "The file is larger than the allowed %d KB."
+#: includes/Import/Importer.php:155
+msgid "Full demo site"
 msgstr ""
 
-#: includes/Import/Importer.php:153
-#: includes/Import/Importer.php:186
-msgid "The uploaded file could not be read."
+#: includes/Import/Importer.php:156
+msgid ""
+"Header, footer and the three reusable sections, each with its own display"
+"rules."
 msgstr ""
 
-#: includes/Import/Importer.php:169
-#: includes/Import/Importer.php:208
-msgid "No file was uploaded."
+#: includes/Import/Importer.php:189
+msgid "Unknown demo pack."
 msgstr ""
 
-#: includes/Import/Importer.php:204
-msgid "The file is larger than this server allows."
+#. translators: %s: template identifier.
+#: includes/Import/Importer.php:203
+msgid "The demo pack needs the bundled template \"%s\", which is missing."
 msgstr ""
 
-#: includes/Import/Importer.php:206
-msgid "The file was only partially uploaded. Please try again."
-msgstr ""
-
-#: includes/Import/Importer.php:211
-msgid "WordPress could not store the uploaded file. Please contact your host."
-msgstr ""
-
-#: includes/Import/Importer.php:213
-msgid "A PHP extension stopped the upload."
-msgstr ""
-
-#: includes/Import/Importer.php:215
-msgid "The file could not be uploaded."
-msgstr ""
-
-#: includes/Import/Importer.php:295
-msgid "Invalid template object."
-msgstr ""
-
-#: includes/Import/Importer.php:384
-msgid "You are not allowed to overwrite that layout."
-msgstr ""
-
-#. translators: %s: template name.
-#: includes/Import/Importer.php:410
-msgid "\"%s\" was imported before and already exists. Nothing was changed."
-msgstr ""
-
-#. translators: %s: template name.
-#: includes/Import/Importer.php:432
-msgid "\"%s\" already existed, a second copy was created."
-msgstr ""
-
-#: includes/Import/Importer.php:491
-msgid "The template library is not available."
-msgstr ""
-
-#: includes/Import/Importer.php:497
-msgid "Unknown template."
-msgstr ""
-
-#: includes/Import/Importer.php:505
-msgid "That template could not be found."
-msgstr ""
-
-#: includes/Import/Importer.php:81
+#: includes/Import/Importer.php:226
 msgid "The template file is empty."
 msgstr ""
 
-#: includes/Import/Importer.php:86
+#: includes/Import/Importer.php:231
 msgid "Template files must not contain PHP code."
 msgstr ""
 
 #. translators: %s: JSON error message.
-#: includes/Import/Importer.php:96
+#: includes/Import/Importer.php:241
 msgid "The file is not valid JSON: %s"
+msgstr ""
+
+#: includes/Import/Importer.php:248
+msgid "The JSON payload must be an object or an array of templates."
+msgstr ""
+
+#: includes/Import/Importer.php:278
+msgid "The uploaded file could not be verified."
+msgstr ""
+
+#. translators: %d: maximum file size in kilobytes.
+#: includes/Import/Importer.php:289
+msgid "The file is larger than the allowed %d KB."
+msgstr ""
+
+#: includes/Import/Importer.php:298
+#: includes/Import/Importer.php:331
+msgid "The uploaded file could not be read."
+msgstr ""
+
+#: includes/Import/Importer.php:314
+#: includes/Import/Importer.php:353
+msgid "No file was uploaded."
+msgstr ""
+
+#: includes/Import/Importer.php:349
+msgid "The file is larger than this server allows."
+msgstr ""
+
+#: includes/Import/Importer.php:351
+msgid "The file was only partially uploaded. Please try again."
+msgstr ""
+
+#: includes/Import/Importer.php:356
+msgid "WordPress could not store the uploaded file. Please contact your host."
+msgstr ""
+
+#: includes/Import/Importer.php:358
+msgid "A PHP extension stopped the upload."
+msgstr ""
+
+#: includes/Import/Importer.php:360
+msgid "The file could not be uploaded."
+msgstr ""
+
+#: includes/Import/Importer.php:457
+msgid "Invalid template object."
+msgstr ""
+
+#: includes/Import/Importer.php:547
+msgid "You are not allowed to overwrite that layout."
+msgstr ""
+
+#. translators: %s: template name.
+#: includes/Import/Importer.php:573
+msgid "\"%s\" was imported before and already exists. Nothing was changed."
+msgstr ""
+
+#. translators: %s: template name.
+#: includes/Import/Importer.php:595
+msgid "\"%s\" already existed, a second copy was created."
+msgstr ""
+
+#: includes/Import/Importer.php:654
+msgid "The template library is not available."
+msgstr ""
+
+#: includes/Import/Importer.php:660
+msgid "Unknown template."
+msgstr ""
+
+#: includes/Import/Importer.php:668
+msgid "That template could not be found."
+msgstr ""
+
+#: includes/Import/Importer.php:83
+msgid "Where the demo says"
+msgstr ""
+
+#: includes/Import/Importer.php:85
+msgid "Front page only"
+msgstr ""
+
+#: includes/Import/Importer.php:86
+msgid "Posts and pages"
+msgstr ""
+
+#: includes/Import/Importer.php:87
+msgid "Archives and blog lists"
 msgstr ""
 
 #: includes/Import/Remote_Source.php:146
@@ -2125,25 +2208,25 @@ msgid ""
 msgstr ""
 
 #. translators: %s: template identifier.
-#: includes/Import/Template_Library.php:126
+#: includes/Import/Template_Library.php:128
 msgid "Duplicate bundled template \"%s\" was skipped."
 msgstr ""
 
-#: includes/Import/Template_Library.php:161
+#: includes/Import/Template_Library.php:163
 msgid "The bundled template file could not be read."
 msgstr ""
 
-#: includes/Import/Template_Library.php:167
+#: includes/Import/Template_Library.php:169
 msgid "The bundled template file is too large and was skipped."
 msgstr ""
 
 #. translators: 1: template file name, 2: problem description.
-#: includes/Import/Template_Library.php:229
+#: includes/Import/Template_Library.php:231
 msgid "Bundled template \"%1$s\": %2$s"
 msgstr ""
 
 #. translators: %s: template identifier.
-#: includes/Import/Template_Library.php:294
+#: includes/Import/Template_Library.php:296
 msgid ""
 "Remote template \"%s\" was ignored because a bundled template uses the"
 "same identifier."
@@ -2328,67 +2411,67 @@ msgstr ""
 msgid "What to do when the template was imported before."
 msgstr ""
 
-#: includes/REST/Rest_Controller.php:151
+#: includes/REST/Rest_Controller.php:166
 msgid "Post status of the imported layout."
 msgstr ""
 
-#: includes/REST/Rest_Controller.php:158
+#: includes/REST/Rest_Controller.php:173
 msgid "Layout ID to replace. Requires edit permission on that layout."
 msgstr ""
 
-#: includes/REST/Rest_Controller.php:178
+#: includes/REST/Rest_Controller.php:193
 msgid "What to search for."
 msgstr ""
 
-#: includes/REST/Rest_Controller.php:185
+#: includes/REST/Rest_Controller.php:200
 msgid "Search term (at least two characters)."
 msgstr ""
 
-#: includes/REST/Rest_Controller.php:192
+#: includes/REST/Rest_Controller.php:207
 msgid "Optional post type filter."
 msgstr ""
 
-#: includes/REST/Rest_Controller.php:198
+#: includes/REST/Rest_Controller.php:213
 msgid "Optional taxonomy filter."
 msgstr ""
 
-#: includes/REST/Rest_Controller.php:218
+#: includes/REST/Rest_Controller.php:233
 msgid "Report format."
 msgstr ""
 
-#: includes/REST/Rest_Controller.php:240
+#: includes/REST/Rest_Controller.php:255
 msgid "Sorry, you are not allowed to read layouts."
 msgstr ""
 
-#: includes/REST/Rest_Controller.php:253
+#: includes/REST/Rest_Controller.php:268
 msgid "Sorry, you are not allowed to import templates."
 msgstr ""
 
-#: includes/REST/Rest_Controller.php:266
+#: includes/REST/Rest_Controller.php:281
 msgid "Sorry, you are not allowed to view the system status."
 msgstr ""
 
-#: includes/REST/Rest_Controller.php:286
+#: includes/REST/Rest_Controller.php:301
 msgid "Filter by post status."
 msgstr ""
 
-#: includes/REST/Rest_Controller.php:293
+#: includes/REST/Rest_Controller.php:308
 msgid "Search in layout titles."
 msgstr ""
 
-#: includes/REST/Rest_Controller.php:299
+#: includes/REST/Rest_Controller.php:314
 msgid "Maximum number of items to return."
 msgstr ""
 
-#: includes/REST/Rest_Controller.php:307
+#: includes/REST/Rest_Controller.php:322
 msgid "Page of results."
 msgstr ""
 
-#: includes/REST/Rest_Controller.php:395
+#: includes/REST/Rest_Controller.php:410
 msgid "Sorry, you are not allowed to read this layout."
 msgstr ""
 
-#: includes/REST/Rest_Controller.php:532
+#: includes/REST/Rest_Controller.php:576
 msgid "Enter at least two characters."
 msgstr ""
 
@@ -2397,7 +2480,7 @@ msgid "Layout ID."
 msgstr ""
 
 #: includes/REST/Rest_Controller.php:98
-#: includes/REST/Rest_Controller.php:279
+#: includes/REST/Rest_Controller.php:294
 msgid "Filter by layout type."
 msgstr ""
 

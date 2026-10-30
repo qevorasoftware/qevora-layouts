@@ -11,6 +11,8 @@
 use QevoraLayouts\Admin\Actions;
 use QevoraLayouts\Admin\Admin;
 use QevoraLayouts\Core\Layout_Post_Type;
+use QevoraLayouts\Conditions\Condition_Sanitizer;
+use QevoraLayouts\Import\Importer;
 
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
@@ -29,6 +31,8 @@ $qevora_refresh   = isset( $context['refresh_url'] ) ? (string) $context['refres
 $qevora_settings_url = isset( $context['settings_url'] ) ? (string) $context['settings_url'] : '';
 $qevora_placeholder  = isset( $context['placeholder'] ) ? (string) $context['placeholder'] : '';
 $qevora_policy    = isset( $qevora_settings['policy'] ) ? (string) $qevora_settings['policy'] : 'skip';
+$qevora_scopes    = Importer::display_scopes();
+$qevora_packs     = Importer::demo_packs();
 ?>
 <div class="wrap qevora-layouts-wrap qevora-layouts-library">
 	<h1 class="wp-heading-inline"><?php esc_html_e( 'Template Library', 'qevora-layouts' ); ?></h1>
@@ -90,6 +94,60 @@ $qevora_policy    = isset( $qevora_settings['policy'] ) ? (string) $qevora_setti
 	</div>
 
 	<div class="qevora-library__sources">
+		<?php if ( $qevora_can && ! empty( $qevora_packs ) ) : ?>
+			<div class="card qevora-library__pack">
+				<h2 class="title"><?php esc_html_e( 'One-click demo', 'qevora-layouts' ); ?></h2>
+
+				<form method="post" action="<?php echo esc_url( $qevora_import ); ?>" class="qevora-library__pack-form" data-qevora-import="pack">
+					<input type="hidden" name="action" value="<?php echo esc_attr( Actions::IMPORT_ACTION ); ?>" />
+					<?php wp_nonce_field( Actions::IMPORT_ACTION, '_wpnonce' ); ?>
+
+					<p>
+						<label for="qevora-pack"><?php esc_html_e( 'Demo', 'qevora-layouts' ); ?></label><br />
+						<select id="qevora-pack" name="demo_pack">
+							<?php foreach ( $qevora_packs as $qevora_pack_id => $qevora_pack ) : ?>
+								<option
+									value="<?php echo esc_attr( (string) $qevora_pack_id ); ?>"
+									data-description="<?php echo esc_attr( isset( $qevora_pack['description'] ) ? (string) $qevora_pack['description'] : '' ); ?>"
+								><?php echo esc_html( isset( $qevora_pack['label'] ) ? (string) $qevora_pack['label'] : (string) $qevora_pack_id ); ?></option>
+							<?php endforeach; ?>
+						</select>
+					</p>
+
+					<p class="description" data-qevora-pack-description>
+						<?php
+						$qevora_first_pack = reset( $qevora_packs );
+						echo esc_html( isset( $qevora_first_pack['description'] ) ? (string) $qevora_first_pack['description'] : '' );
+						?>
+					</p>
+
+					<p>
+						<label for="qevora-pack-scope"><?php esc_html_e( 'Display on', 'qevora-layouts' ); ?></label><br />
+						<select id="qevora-pack-scope" name="display_scope">
+							<?php foreach ( $qevora_scopes as $qevora_scope_id => $qevora_scope_label ) : ?>
+								<option value="<?php echo esc_attr( (string) $qevora_scope_id ); ?>" <?php selected( $qevora_scope_id, 'template' ); ?>><?php echo esc_html( (string) $qevora_scope_label ); ?></option>
+							<?php endforeach; ?>
+						</select>
+
+						<label for="qevora-pack-status"><?php esc_html_e( 'Import as', 'qevora-layouts' ); ?></label><br />
+						<select id="qevora-pack-status" name="status">
+							<option value="publish"><?php esc_html_e( 'Enabled (display now)', 'qevora-layouts' ); ?></option>
+							<option value="draft"><?php esc_html_e( 'Disabled (draft)', 'qevora-layouts' ); ?></option>
+						</select>
+					</p>
+
+					<p>
+						<?php submit_button( __( 'Import demo and display', 'qevora-layouts' ), 'primary', 'qevora_import_pack', false ); ?>
+						<span class="spinner qevora-library__spinner" aria-hidden="true"></span>
+					</p>
+
+					<p class="description" data-qevora-import-message role="status" aria-live="polite">
+						<?php esc_html_e( 'Each template keeps its own design. The display scope only decides where the imported layouts appear, and can be changed later per layout.', 'qevora-layouts' ); ?>
+					</p>
+				</form>
+			</div>
+		<?php endif; ?>
+
 		<div class="card qevora-library__upload">
 			<h2 class="title"><?php esc_html_e( 'Import a template file', 'qevora-layouts' ); ?></h2>
 
@@ -205,6 +263,20 @@ $qevora_policy    = isset( $qevora_settings['policy'] ) ? (string) $qevora_setti
 						<?php else : ?>
 							<img src="<?php echo esc_url( $qevora_placeholder ); ?>" alt="" width="400" height="220" loading="lazy" />
 						<?php endif; ?>
+
+						<button
+							type="button"
+							class="button button-secondary button-small qevora-template__preview-button"
+							data-qevora-preview
+							data-preview-url="<?php echo esc_url( '' !== $qevora_preview ? $qevora_preview : $qevora_placeholder ); ?>"
+							data-preview-name="<?php echo esc_attr( $qevora_name ); ?>"
+							data-preview-description="<?php echo esc_attr( $qevora_desc ); ?>"
+							data-preview-type="<?php echo esc_attr( $qevora_type_lbl ); ?>"
+							data-preview-builder="<?php echo esc_attr( 'elementor' === $qevora_builder ? __( 'Requires Elementor', 'qevora-layouts' ) : __( 'Block editor', 'qevora-layouts' ) ); ?>"
+							data-preview-scope="<?php echo esc_attr( isset( $qevora_template['conditions_summary'] ) ? (string) $qevora_template['conditions_summary'] : '' ); ?>"
+						>
+							<span aria-hidden="true">&#128065;</span> <?php esc_html_e( 'Preview', 'qevora-layouts' ); ?>
+						</button>
 					</div>
 
 					<div class="qevora-template__body">
@@ -223,6 +295,17 @@ $qevora_policy    = isset( $qevora_settings['policy'] ) ? (string) $qevora_setti
 						<?php if ( '' !== $qevora_desc ) : ?>
 							<p class="qevora-template__description"><?php echo esc_html( $qevora_desc ); ?></p>
 						<?php endif; ?>
+
+						<p class="qevora-template__scope">
+							<strong><?php esc_html_e( 'Displays on:', 'qevora-layouts' ); ?></strong>
+							<?php
+							echo esc_html(
+								isset( $qevora_template['conditions_summary'] ) && '' !== (string) $qevora_template['conditions_summary']
+									? (string) $qevora_template['conditions_summary']
+									: Condition_Sanitizer::summarize( array() )
+							);
+							?>
+						</p>
 
 						<?php if ( ! empty( $qevora_tags ) ) : ?>
 							<ul class="qevora-template__tags">
@@ -270,10 +353,19 @@ $qevora_policy    = isset( $qevora_settings['policy'] ) ? (string) $qevora_setti
 							<?php wp_nonce_field( Actions::IMPORT_ACTION, '_wpnonce' ); ?>
 
 							<p>
+								<label for="qevora-scope-<?php echo esc_attr( $qevora_id ); ?>"><?php esc_html_e( 'Display on', 'qevora-layouts' ); ?></label>
+								<select id="qevora-scope-<?php echo esc_attr( $qevora_id ); ?>" name="display_scope">
+									<?php foreach ( $qevora_scopes as $qevora_scope_id => $qevora_scope_label ) : ?>
+										<option value="<?php echo esc_attr( (string) $qevora_scope_id ); ?>" <?php selected( $qevora_scope_id, 'template' ); ?>><?php echo esc_html( (string) $qevora_scope_label ); ?></option>
+									<?php endforeach; ?>
+								</select>
+							</p>
+
+							<p>
 								<label for="qevora-status-<?php echo esc_attr( $qevora_id ); ?>" class="screen-reader-text"><?php esc_html_e( 'Import as', 'qevora-layouts' ); ?></label>
 								<select id="qevora-status-<?php echo esc_attr( $qevora_id ); ?>" name="status">
-									<option value="publish"><?php esc_html_e( 'Enabled', 'qevora-layouts' ); ?></option>
-									<option value="draft"><?php esc_html_e( 'Disabled', 'qevora-layouts' ); ?></option>
+									<option value="publish"><?php esc_html_e( 'Enabled (display now)', 'qevora-layouts' ); ?></option>
+									<option value="draft"><?php esc_html_e( 'Disabled (draft)', 'qevora-layouts' ); ?></option>
 								</select>
 
 								<label for="qevora-policy-<?php echo esc_attr( $qevora_id ); ?>" class="screen-reader-text"><?php esc_html_e( 'If already imported', 'qevora-layouts' ); ?></label>
@@ -295,4 +387,17 @@ $qevora_policy    = isset( $qevora_settings['policy'] ) ? (string) $qevora_setti
 			<?php endforeach; ?>
 		</div>
 	<?php endif; ?>
+
+	<div class="qevora-preview-dialog" data-qevora-preview-dialog hidden role="dialog" aria-modal="true" aria-labelledby="qevora-preview-dialog-title">
+		<div class="qevora-preview-dialog__backdrop" data-qevora-preview-close></div>
+		<div class="qevora-preview-dialog__panel" role="document">
+			<button type="button" class="qevora-preview-dialog__close button button-secondary button-small" data-qevora-preview-close>
+				<?php esc_html_e( 'Close preview', 'qevora-layouts' ); ?>
+			</button>
+			<img class="qevora-preview-dialog__image" src="" alt="" />
+			<h2 id="qevora-preview-dialog-title" class="qevora-preview-dialog__title"></h2>
+			<p class="qevora-preview-dialog__meta"></p>
+			<p class="qevora-preview-dialog__description"></p>
+		</div>
+	</div>
 </div>

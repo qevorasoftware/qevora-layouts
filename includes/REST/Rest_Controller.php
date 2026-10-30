@@ -147,6 +147,21 @@ class Rest_Controller {
 							'enum'              => array( 'skip', 'copy' ),
 							'sanitize_callback' => 'sanitize_key',
 						),
+						'display_scope' => array(
+							'required'          => false,
+							'default'           => '',
+							'sanitize_callback' => 'sanitize_key',
+						),
+						'demo_pack'     => array(
+							'required'          => false,
+							'default'           => '',
+							'sanitize_callback' => 'sanitize_key',
+						),
+						'conditions'    => array(
+							'required'          => false,
+							'default'           => null,
+							'validate_callback' => array( __CLASS__, 'is_conditions_array' ),
+						),
 						'status'       => array(
 							'description'       => __( 'Post status of the imported layout.', 'qevora-layouts' ),
 							'type'              => 'string',
@@ -452,6 +467,32 @@ class Rest_Controller {
 	}
 
 	/**
+	 * Validates the optional conditions parameter of the import route.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param mixed $value Request value.
+	 * @return bool
+	 */
+	public static function is_conditions_array( $value ) {
+		if ( null === $value ) {
+			return true;
+		}
+
+		if ( ! is_array( $value ) ) {
+			return false;
+		}
+
+		foreach ( $value as $key => $rules ) {
+			if ( ! in_array( $key, array( 'include', 'exclude' ), true ) || ! is_array( $rules ) ) {
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	/**
 	 * Lists library templates.
 	 *
 	 * @since 1.0.0
@@ -495,11 +536,14 @@ class Rest_Controller {
 	public static function import_template( WP_REST_Request $request ) {
 		$result = Import_Handler::handle(
 			array(
-				'template_id'  => (string) $request->get_param( 'template_id' ),
-				'origin'       => (string) $request->get_param( 'origin' ),
-				'on_duplicate' => (string) $request->get_param( 'on_duplicate' ),
-				'status'       => (string) $request->get_param( 'status' ),
-				'replace_id'   => (int) $request->get_param( 'replace_id' ),
+				'template_id'   => (string) $request->get_param( 'template_id' ),
+				'origin'        => (string) $request->get_param( 'origin' ),
+				'on_duplicate'  => (string) $request->get_param( 'on_duplicate' ),
+				'status'        => (string) $request->get_param( 'status' ),
+				'replace_id'    => (int) $request->get_param( 'replace_id' ),
+				'display_scope' => (string) $request->get_param( 'display_scope' ),
+				'demo_pack'     => (string) $request->get_param( 'demo_pack' ),
+				'conditions'    => $request->get_param( 'conditions' ),
 			)
 		);
 

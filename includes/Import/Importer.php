@@ -8,6 +8,7 @@
 
 namespace QevoraLayouts\Import;
 
+use QevoraLayouts\Conditions\Condition_Sanitizer;
 use QevoraLayouts\Core\Capabilities;
 use QevoraLayouts\Core\Layout;
 use QevoraLayouts\Core\Layout_Post_Type;
@@ -65,6 +66,150 @@ class Importer {
 	public function __construct( Layout_Repository $repository, ?Template_Library $library = null ) {
 		$this->repository = $repository;
 		$this->library    = $library;
+	}
+
+	/**
+	 * The quick display scopes offered when a template is imported.
+	 *
+	 * Each key maps to a condition set through {@see Importer::scope_conditions()}.
+	 * `template` keeps the conditions shipped with the template.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return array<string,string> Scope key => label.
+	 */
+	public static function display_scopes() {
+		$scopes = array(
+			'template'    => __( 'Where the demo says', 'qevora-layouts' ),
+			'entire_site' => __( 'Entire site', 'qevora-layouts' ),
+			'front_page'  => __( 'Front page only', 'qevora-layouts' ),
+			'singular'    => __( 'Posts and pages', 'qevora-layouts' ),
+			'archives'    => __( 'Archives and blog lists', 'qevora-layouts' ),
+		);
+
+		/**
+		 * Filters the quick display scopes shown on import forms.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param array<string,string> $scopes Scope key => label.
+		 */
+		return (array) apply_filters( 'qevora_layouts_display_scopes', $scopes );
+	}
+
+	/**
+	 * Translates a display scope into a condition set.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param string $scope Scope key.
+	 * @return array<string,array<int,string>>|null Conditions, null for `template` or unknown scopes.
+	 */
+	public static function scope_conditions( $scope ) {
+		$map = array(
+			'entire_site' => array(
+				'include' => array(),
+				'exclude' => array(),
+			),
+			'front_page'  => array(
+				'include' => array( 'front_page' ),
+				'exclude' => array(),
+			),
+			'singular'    => array(
+				'include' => array( 'singular' ),
+				'exclude' => array(),
+			),
+			'archives'    => array(
+				'include' => array( 'archive', 'post_type_archive', 'posts_page' ),
+				'exclude' => array(),
+			),
+		);
+
+		/**
+		 * Filters the condition sets behind the quick display scopes.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param array<string,array<string,array<int,string>>> $map Scope key => conditions.
+		 */
+		$map = (array) apply_filters( 'qevora_layouts_display_scope_conditions', $map );
+
+		return isset( $map[ $scope ] ) && is_array( $map[ $scope ] ) ? $map[ $scope ] : null;
+	}
+
+	/**
+	 * Curated multi-template demos that can be imported with one click.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return array<string,array<string,mixed>> Pack key => {label, description, templates}.
+	 */
+	public static function demo_packs() {
+		$packs = array(
+			'header-footer' => array(
+				'label'       => __( 'Complete header and footer demo', 'qevora-layouts' ),
+				'description' => __( 'Imports one header and one footer demo and displays both right away.', 'qevora-layouts' ),
+				'templates'   => array( 'qevora-header-simple', 'qevora-footer-columns' ),
+			),
+			'full-site'     => array(
+				'label'       => __( 'Full demo site', 'qevora-layouts' ),
+				'description' => __( 'Header, footer and the three reusable sections, each with its own display rules.', 'qevora-layouts' ),
+				'templates'   => array(
+					'qevora-header-simple',
+					'qevora-footer-columns',
+					'qevora-section-hero',
+					'qevora-section-cta',
+					'qevora-section-faq',
+				),
+			),
+		);
+
+		/**
+		 * Filters the one-click demo packs.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param array<string,array<string,mixed>> $packs Pack key => pack definition.
+		 */
+		return (array) apply_filters( 'qevora_layouts_demo_packs', $packs );
+	}
+
+	/**
+	 * Loads the validated templates of one demo pack.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param string $pack_id Pack key.
+	 * @return Template[]|WP_Error Templates, or an error for unknown packs.
+	 */
+	public function resolve_pack( $pack_id ) {
+		$packs = self::demo_packs();
+
+		if ( ! isset( $packs[ $pack_id ] ) || ! is_array( $packs[ $pack_id ] ) ) {
+			return new WP_Error( 'qevora_layouts_unknown_pack', __( 'Unknown demo pack.', 'qevora-layouts' ) );
+		}
+
+		$library   = $this->library instanceof Template_Library ? $this->library : new Template_Library();
+		$templates = array();
+
+		foreach ( (array) $packs[ $pack_id ]['templates'] as $template_id ) {
+			$template = $library->find( (string) $template_id, 'bundled' );
+
+			if ( ! $template instanceof Template ) {
+				return new WP_Error(
+					'qevora_layouts_pack_template_missing',
+					sprintf(
+						/* translators: %s: template identifier. */
+						__( 'The demo pack needs the bundled template "%s", which is missing.', 'qevora-layouts' ),
+						(string) $template_id
+					)
+				);
+			}
+
+			$templates[] = $template;
+		}
+
+		return $templates;
 	}
 
 	/**
@@ -282,11 +427,28 @@ class Importer {
 		$options = wp_parse_args(
 			$options,
 			array(
-				'origin'       => 'upload',
-				'on_duplicate' => '',
-				'status'       => 'publish',
+				'origin'        => 'upload',
+				'on_duplicate'  => '',
+				'status'        => 'publish',
+				'conditions'    => null,
+				'display_scope' => '',
 			)
 		);
+
+		/*
+		 * A display scope or an explicit conditions set chosen by the user
+		 * replaces the conditions stored in the template, so an imported demo
+		 * shows exactly where the user asked for it on the first render.
+		 */
+		$conditions = null;
+
+		if ( is_array( $options['conditions'] ) ) {
+			$conditions = Condition_Sanitizer::normalize( $options['conditions'] );
+		} elseif ( '' !== (string) $options['display_scope'] ) {
+			$conditions = self::scope_conditions( (string) $options['display_scope'] );
+		}
+
+		$options['conditions'] = $conditions;
 
 		foreach ( $templates as $template ) {
 			if ( ! $template instanceof Template ) {
@@ -364,7 +526,8 @@ class Importer {
 			return $base;
 		}
 
-		$policy = (string) $options['on_duplicate'];
+		$conditions = isset( $options['conditions'] ) && is_array( $options['conditions'] ) ? $options['conditions'] : null;
+		$policy     = (string) $options['on_duplicate'];
 
 		if ( '' === $policy ) {
 			$policy = (string) \QevoraLayouts\Core\Settings::get( 'duplicate_import_policy', 'skip' );
@@ -386,7 +549,7 @@ class Importer {
 				return $base;
 			}
 
-			$saved = $this->repository->save( $this->to_layout_data( $template, $status, $replace ) );
+			$saved = $this->repository->save( $this->to_layout_data( $template, $status, $replace, $conditions ) );
 
 			if ( is_wp_error( $saved ) ) {
 				$base['errors'][] = $saved->get_error_message();
@@ -414,7 +577,7 @@ class Importer {
 			return $base;
 		}
 
-		$saved = $this->repository->save( $this->to_layout_data( $template, $status, 0 ) );
+		$saved = $this->repository->save( $this->to_layout_data( $template, $status, 0, $conditions ) );
 
 		if ( is_wp_error( $saved ) ) {
 			$base['errors'][] = $saved->get_error_message();
@@ -447,14 +610,14 @@ class Importer {
 	 * @param int      $id       Existing layout ID, 0 to create.
 	 * @return array<string,mixed>
 	 */
-	private function to_layout_data( Template $template, $status, $id = 0 ) {
+	private function to_layout_data( Template $template, $status, $id = 0, $conditions = null ) {
 		$data = array(
 			'title'         => $template->name,
 			'content'       => $template->content,
 			'type'          => $template->type,
 			'status'        => $status,
 			'priority'      => $template->priority,
-			'conditions'    => $template->conditions,
+			'conditions'    => is_array( $conditions ) ? $conditions : $template->conditions,
 			'placement'     => $template->placement,
 			'builder'       => $template->builder,
 			'template_id'   => $template->id,

@@ -23,7 +23,120 @@
 
 		$( document ).on( 'submit', 'form[data-qevora-import]', onSubmit );
 		$( document ).on( 'change', 'input[type="file"][name="qevora_template_file"]', onFileChange );
+		$( document ).on( 'click', '[data-qevora-preview]', onPreviewOpen );
+		$( document ).on( 'click', '[data-qevora-preview-close]', onPreviewClose );
+		$( document ).on( 'keydown', onPreviewKeydown );
+		$( document ).on( 'change', 'select[name="demo_pack"]', onPackChange );
 	} );
+
+	/**
+	 * Opens the accessible preview dialog for one template.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param {Event} event Click event.
+	 * @return {void}
+	 */
+	function onPreviewOpen( event ) {
+		event.preventDefault();
+
+		var button = event.currentTarget;
+		var $dialog = $( '[data-qevora-preview-dialog]' );
+
+		if ( ! $dialog.length ) {
+			return;
+		}
+
+		$dialog.data( 'qevora-opener', button );
+
+		$dialog.find( '.qevora-preview-dialog__image' )
+			.attr( 'src', String( button.getAttribute( 'data-preview-url' ) || '' ) )
+			.attr( 'alt', String( button.getAttribute( 'data-preview-name' ) || '' ) );
+
+		$dialog.find( '.qevora-preview-dialog__title' )
+			.text( String( button.getAttribute( 'data-preview-name' ) || '' ) );
+
+		$dialog.find( '.qevora-preview-dialog__description' )
+			.text( String( button.getAttribute( 'data-preview-description' ) || '' ) );
+
+		var meta = [
+			button.getAttribute( 'data-preview-type' ),
+			button.getAttribute( 'data-preview-builder' ),
+			button.getAttribute( 'data-preview-scope' )
+		].filter( function ( part ) {
+			return !! part;
+		} );
+
+		$dialog.find( '.qevora-preview-dialog__meta' ).text( meta.join( ' · ' ) );
+
+		$dialog.prop( 'hidden', false );
+		$( document.body ).addClass( 'qevora-preview-open' );
+		$dialog.find( '.qevora-preview-dialog__close' ).trigger( 'focus' );
+	}
+
+	/**
+	 * Closes the preview dialog and restores focus.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param {Event} event Click event.
+	 * @return {void}
+	 */
+	function onPreviewClose( event ) {
+		event.preventDefault();
+
+		var $dialog = $( '[data-qevora-preview-dialog]' );
+
+		$dialog.prop( 'hidden', true );
+		$( document.body ).removeClass( 'qevora-preview-open' );
+
+		var opener = $dialog.data( 'qevora-opener' );
+
+		if ( opener ) {
+			$( opener ).trigger( 'focus' );
+		}
+	}
+
+	/**
+	 * Closes the preview dialog with the Escape key.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param {Event} event Keydown event.
+	 * @return {void}
+	 */
+	function onPreviewKeydown( event ) {
+		if ( 'Escape' !== event.key && 'Esc' !== event.key ) {
+			return;
+		}
+
+		var $dialog = $( '[data-qevora-preview-dialog]' );
+
+		if ( ! $dialog.length || $dialog.prop( 'hidden' ) ) {
+			return;
+		}
+
+		onPreviewClose( event );
+	}
+
+	/**
+	 * Keeps the description of the selected demo pack in sync.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param {Event} event Change event.
+	 * @return {void}
+	 */
+	function onPackChange( event ) {
+		var select = event.currentTarget;
+		var option = select.options && select.options[ select.selectedIndex ];
+		var $form = $( select ).closest( 'form' );
+		var $description = $form.find( '[data-qevora-pack-description]' );
+
+		if ( option && $description.length ) {
+			$description.text( String( option.getAttribute( 'data-description' ) || '' ) );
+		}
+	}
 
 	/**
 	 * Validates the chosen file before it is sent.

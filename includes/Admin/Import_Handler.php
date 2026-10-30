@@ -47,10 +47,17 @@ class Import_Handler {
 		$importer = $plugin->importer();
 
 		$options = array(
-			'on_duplicate' => self::sanitize_policy( isset( $params['on_duplicate'] ) ? $params['on_duplicate'] : '' ),
-			'status'       => self::sanitize_status( isset( $params['status'] ) ? $params['status'] : 'publish' ),
-			'replace_id'   => isset( $params['replace_id'] ) ? (int) $params['replace_id'] : 0,
+			'on_duplicate'  => self::sanitize_policy( isset( $params['on_duplicate'] ) ? $params['on_duplicate'] : '' ),
+			'status'        => self::sanitize_status( isset( $params['status'] ) ? $params['status'] : 'publish' ),
+			'replace_id'    => isset( $params['replace_id'] ) ? (int) $params['replace_id'] : 0,
+			'display_scope' => isset( $params['display_scope'] ) ? sanitize_key( (string) $params['display_scope'] ) : '',
 		);
+
+		// Explicit condition sets arrive from the REST API only; admin forms
+		// use the whitelisted display scopes instead.
+		if ( isset( $params['conditions'] ) && is_array( $params['conditions'] ) ) {
+			$options['conditions'] = $params['conditions'];
+		}
 
 		$template_id = Layout_Post_Type::sanitize_identifier( isset( $params['template_id'] ) ? $params['template_id'] : '' );
 		$origin      = isset( $params['origin'] ) && in_array( $params['origin'], array( 'bundled', 'remote' ), true ) ? $params['origin'] : '';
@@ -76,7 +83,28 @@ class Import_Handler {
 			return self::normalize( is_array( $single ) ? $single : array() );
 		}
 
-		// 2. Import from an uploaded file.
+		// 2. One-click demo packs.
+		$pack = isset( $params['demo_pack'] ) ? sanitize_key( (string) $params['demo_pack'] ) : '';
+
+		if ( '' !== $pack ) {
+			$templates = $importer->resolve_pack( $pack );
+
+			if ( is_wp_error( $templates ) ) {
+				return $templates;
+			}
+
+			return self::normalize(
+				$importer->import_templates(
+					$templates,
+					array_merge(
+						$options,
+						array( 'origin' => 'bundled' )
+					)
+				)
+			);
+		}
+
+		// 3. Import from an uploaded file.
 		if ( ! Settings::is_enabled( 'allow_uploaded_imports' ) ) {
 			return new WP_Error( 'qevora_layouts_uploads_disabled', __( 'Uploading template files is disabled in Settings → Template library and imports.', 'qevora-layouts' ) );
 		}

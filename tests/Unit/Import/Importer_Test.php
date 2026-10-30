@@ -516,6 +516,121 @@ class Importer_Test extends TestCase {
 	}
 
 	/**
+	 * A display scope chosen at import time replaces the template's own
+	 * conditions, so the demo shows where the user asked for it.
+	 *
+	 * @return void
+	 */
+	public function test_display_scope_applies_conditions_to_imported_layouts() {
+		$result = $this->importer->import_templates(
+			array( $this->template() ),
+			array( 'display_scope' => 'front_page' )
+		);
+
+		$this->assertCount( 1, $result['imported'] );
+
+		$layout = Importer::layout_from_result( $result['imported'][0] );
+
+		$this->assertNotNull( $layout );
+		$this->assertCount( 1, $layout->conditions['include'] );
+		$this->assertSame( 'front_page', $layout->conditions['include'][0]['type'] );
+		$this->assertSame( array(), $layout->conditions['exclude'] );
+	}
+
+	/**
+	 * An explicit conditions set (REST API) wins over both the template and
+	 * the scope, and is sanitized on the way in.
+	 *
+	 * @return void
+	 */
+	public function test_conditions_option_overrides_template_conditions() {
+		$result = $this->importer->import_templates(
+			array( $this->template() ),
+			array(
+				'conditions'    => array(
+					'include' => array( 'search', 'not-a-condition' ),
+					'exclude' => array( 'front_page' ),
+				),
+				'display_scope' => 'entire_site',
+			)
+		);
+
+		$layout = Importer::layout_from_result( $result['imported'][0] );
+
+		$this->assertNotNull( $layout );
+		$this->assertCount( 1, $layout->conditions['include'] );
+		$this->assertSame( 'search', $layout->conditions['include'][0]['type'] );
+		$this->assertCount( 1, $layout->conditions['exclude'] );
+		$this->assertSame( 'front_page', $layout->conditions['exclude'][0]['type'] );
+	}
+
+	/**
+	 * The scope map is explicit: unknown scopes and `template` keep the
+	 * conditions shipped with the template.
+	 *
+	 * @return void
+	 */
+	public function test_scope_conditions_map() {
+		$this->assertSame( array(), Importer::scope_conditions( 'entire_site' )['include'] );
+		$this->assertSame( array( 'singular' ), Importer::scope_conditions( 'singular' )['include'] );
+		$this->assertNull( Importer::scope_conditions( 'template' ) );
+		$this->assertNull( Importer::scope_conditions( 'not-a-scope' ) );
+	}
+
+	/**
+	 * One-click demo packs resolve to bundled templates and reject unknown
+	 * pack ids; the pack list is filterable.
+	 *
+	 * @return void
+	 */
+	public function test_demo_packs_resolve_and_are_filterable() {
+		$templates = $this->importer->resolve_pack( 'header-footer' );
+
+		$this->assertTrue( is_array( $templates ) );
+		$this->assertCount( 2, $templates );
+		$this->assertSame( 'qevora-header-simple', $templates[0]->id );
+		$this->assertSame( 'qevora-footer-columns', $templates[1]->id );
+
+		$this->assertIsError( $this->importer->resolve_pack( 'not-a-pack' ) );
+
+		$add_solo = function ( $packs ) {
+			$packs['solo'] = array(
+				'label'     => 'Solo',
+				'templates' => array( 'qevora-section-hero' ),
+			);
+
+			return $packs;
+		};
+
+		add_filter( 'qevora_layouts_demo_packs', $add_solo );
+		$solo = $this->importer->resolve_pack( 'solo' );
+		remove_filter( 'qevora_layouts_demo_packs', $add_solo );
+
+		$this->assertTrue( is_array( $solo ) );
+		$this->assertCount( 1, $solo );
+	}
+
+	/**
+	 * A pack import creates every layout of the pack in one call.
+	 *
+	 * @return void
+	 */
+	public function test_pack_import_creates_every_layout() {
+		$templates = $this->importer->resolve_pack( 'header-footer' );
+
+		$result = $this->importer->import_templates(
+			$templates,
+			array(
+				'origin'        => 'bundled',
+				'display_scope' => 'entire_site',
+			)
+		);
+
+		$this->assertCount( 2, $result['imported'] );
+		$this->assertSame( 2, $this->repository->count_layouts() );
+	}
+
+	/**
 	 * A batch import can pull its policy from the settings.
 	 *
 	 * @return void

@@ -131,6 +131,9 @@ Open an issue at [the GitHub repository](https://github.com/qevorasoftware/qevor
 * Duplicate render guard, enable/disable switching, clone action and a list table with condition summaries.
 * Builder adapter layer: block editor through core APIs, Elementor through its documented public APIs, reference mode for any other builder.
 * Template library with eight bundled starter templates, `.json` uploads and an optional https remote source.
+* One-click demo packs: import a complete header and footer demo (or the full demo site) and display it right away.
+* Choose where each imported demo displays (entire site, front page, posts and pages, archives) and the conditions are applied on import; refine them per layout later.
+* Every demo shows a preview image on its card and a large preview dialog with its display rules and builder requirement.
 * Schema validation, forbidden-pattern scanning, duplicate-safe import policies and per-template import results.
 * Admin screens: All Layouts, Add New, Template Library, Settings and System Status.
 * REST namespace `qevora-layouts/v1`, shortcode, block and template tags.

@@ -8,6 +8,8 @@
 
 namespace QevoraLayouts\Import;
 
+use QevoraLayouts\Conditions\Condition_Sanitizer;
+
 use QevoraLayouts\Core\Cache;
 use QevoraLayouts\Core\Logger;
 use QevoraLayouts\Integrations\Builder_Manager;
@@ -389,7 +391,11 @@ class Template_Library {
 				}
 			}
 
-			$out[] = $template->to_array();
+			$row                       = $template->to_array();
+			$row['conditions']         = $template->conditions;
+			$row['conditions_summary'] = Condition_Sanitizer::summarize( $template->conditions );
+
+			$out[] = $row;
 		}
 
 		return $out;

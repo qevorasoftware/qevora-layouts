@@ -331,6 +331,15 @@ Off by default, with no built-in or hard-coded endpoint. When an administrator e
 * Every fetched template goes through the same validation as an upload.
 * The index is cached for 12 hours; "Refresh" clears it.
 
+### One-click demo, display scope and previews
+
+The library screen is built so a non-technical user can put a complete demo live in one click:
+
+* **One-click demo packs** - `Complete header and footer demo` imports one header and one footer starter and displays both immediately; `Full demo site` adds the three reusable sections. Packs are definitions, not files: `Importer::demo_packs()` with the `qevora_layouts_demo_packs` filter.
+* **Display scope on every import** - each template card (and the pack form) offers a *Display on* select: *Where the demo says*, *Entire site*, *Front page only*, *Posts and pages*, *Archives and blog lists*. The chosen scope becomes the layout's conditions at import time, so the default header/footer appears exactly where the user picked, without opening the editor. Scopes map to condition sets through `qevora_layouts_display_scope_conditions`, and the list itself is filterable (`qevora_layouts_display_scopes`). The REST route accepts the same `display_scope` key, or a full `conditions` object (`{include:[],exclude:[]}`) for programmatic imports.
+* **Previews for every demo** - each card shows its preview image and a *Preview* button that opens an accessible dialog (focus moved in, Escape or *Close* moves it back) with the large image, the type, the builder requirement and the display rules the demo ships with. Cards without a preview image fall back to the bundled placeholder, so a preview always exists.
+* **Enabled vs draft** - every import form keeps the *Enabled (display now)* / *Disabled (draft)* choice; "display now" simply means the layout is stored published with the chosen conditions.
+
 ### Duplicate handling
 
 Imports never overwrite silently. The policy is `skip` (default) or `copy`, per site and per import:
@@ -370,7 +379,7 @@ Namespace `qevora-layouts/v1`. Read routes require `edit_qevora_layouts`; the im
 | GET | `/layouts` | List layouts (`type`, `status`, `search`, `page`, `per_page`), with `X-WP-Total`. |
 | GET | `/layouts/{id}` | One layout, including conditions and provenance. |
 | GET | `/templates` | Library entries (bundled, remote or both) without content. |
-| POST | `/templates/import` | Import by `template_id`, `origin`, `on_duplicate`, `replace_id`, `status`. |
+| POST | `/templates/import` | Import by `template_id`, `origin`, `on_duplicate`, `replace_id`, `status`, plus `display_scope`, `demo_pack` or an explicit `conditions` object. |
 | GET | `/search` | Search posts, terms or users for the condition pickers. |
 | GET | `/system-status` | The same report the System Status screen shows (`manage_options` only). |
 
@@ -431,6 +440,8 @@ Settings are stored in one option (`qevora_layouts_settings`) with a registered 
 | `qevora_layouts_remote_request_args` | Remote request arguments. |
 | `qevora_layouts_admin_submenus`, `qevora_layouts_list_columns`, `qevora_layouts_library_view_context`, `qevora_layouts_settings_view_context`, `qevora_layouts_status_report` | Admin. |
 | `qevora_layouts_granted_roles` | Roles that receive the plugin capabilities on activation (default: `administrator`). |
+| `qevora_layouts_display_scopes`, `qevora_layouts_display_scope_conditions` | The *Display on* choices and their condition sets. |
+| `qevora_layouts_demo_packs` | The one-click demo packs. |
 | `qevora_layouts_rest_layout`, `qevora_layouts_allow_disabled_layout`, `qevora_layouts_auto_render_types`, `qevora_layouts_languages_dir` | Misc. |
 
 ### Actions
