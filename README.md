@@ -374,6 +374,14 @@ templates/demos/<slug>.php
 * **Importing:** the library screen has a *Ready-made demos* section - each card offers *Display on* (default: entire site, so the demo shows immediately), *Create a sample menu*, *Hide the theme header/footer* (checked by default) and *Enabled/Disabled*. The REST route accepts `demo` + `create_menu`; duplicate handling works through the `qevora-demo-<slug>` provenance id.
 * **Extending:** the demo list is filterable (`qevora_layouts_demos`) and so is the rendered markup per demo (`qevora_layouts_demo_markup`).
 
+### WordPress Playground
+
+The plugin runs unmodified on [WordPress Playground](https://playground.wordpress.net/) - the same PHP-WASM + SQLite runtime the checks in this repository use:
+
+* **One click:** open `https://playground.wordpress.net/?blueprint-url=` followed by the raw URL of this repository's `blueprint.json`. The blueprint installs the plugin, logs you in and lands on the Template Library with the live demo card.
+* **By hand:** drop `release/qevora-layouts-1.0.0.zip` onto the Playground page, or upload it through Plugins → Add New → Upload Plugin on any site.
+* The blueprint installs the plugin from the repository archive on `codeload.github.com`; point its `pluginZipFile.url` at your own hosted runtime ZIP (a GitHub release asset, for example) when you publish one.
+
 ### Duplicate handling
 
 Imports never overwrite silently. The policy is `skip` (default) or `copy`, per site and per import:
@@ -602,7 +610,7 @@ Last run against WordPress 7.1.4 and Elementor `main` (4.5.0): 165 WordPress fun
 bash tools/build-zip.sh
 ```
 
-It reads the version from the plugin header, stages every tracked file that `.distignore` does not exclude into a single top-level `qevora-layouts/` directory, writes `release/qevora-layouts-<version>.zip`, and then verifies the result: no `.git/`, `tests/`, `tools/`, `release/`, `*.sh`, `*.py`, `.distignore` or `node_modules`; the bootstrap, `uninstall.php`, `LICENSE`, `README.md`, `readme.txt`, `CHANGELOG.md`, `includes/`, `assets/`, `templates/demos/`, `languages/qevora-layouts.pot` and the `index.php` guards all present; exactly one top-level directory. The 1.0.0 archive holds 89 files (230 KB) and all 76 PHP files in it pass `php -l`.
+It reads the version from the plugin header, stages every tracked file that `.distignore` does not exclude into a single top-level `qevora-layouts/` directory, writes `release/qevora-layouts-<version>.zip`, and then verifies the result: no `.git/`, `tests/`, `tools/`, `release/`, `*.sh`, `*.py`, `.distignore` or `node_modules`; the bootstrap, `uninstall.php`, `LICENSE`, `README.md`, `readme.txt`, `CHANGELOG.md`, `includes/`, `assets/`, `templates/demos/`, `languages/qevora-layouts.pot` and the `index.php` guards all present; exactly one top-level directory. The 1.0.0 archive holds 89 files (231 KB) and all 76 PHP files in it pass `php -l`.
 
 ## Known limitations
 

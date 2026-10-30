@@ -135,6 +135,7 @@ Open an issue at [the GitHub repository](https://github.com/qevorasoftware/qevor
 * Ready-made PHP demo: the header is rendered by the plugin itself with plain HTML, responsive CSS and a little JavaScript - it keeps its own stylesheet and data, can create a real WordPress menu (Home plus your published pages) at import, and no page builder or block editor is needed.
 * Imported demos can replace the theme's own header and footer instead of stacking on top of it: the option is offered checked by default on every import form, block themes drop the theme template part outright, classic themes hide it with sanitized inline CSS, theme files are never modified and unticking the box restores them instantly.
 * Choose where each imported demo displays (entire site, front page, posts and pages, archives) and the conditions are applied on import; refine them per layout later.
+* Runs on WordPress Playground: ship blueprint.json for a one-click boot, or upload the release ZIP like any other plugin.
 * Every demo shows a live preview on its card and a large live preview dialog with its display rules and builder requirement; the layout edit screen previews the demo with your saved settings.
 * Schema validation, forbidden-pattern scanning, duplicate-safe import policies and per-template import results.
 * Admin screens: All Layouts, Add New, Template Library, Settings and System Status.
