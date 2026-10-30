@@ -354,7 +354,7 @@ One demo ships as a **pure PHP template** for sites that should not depend on th
 | --- | --- | --- | --- |
 | `header-dark-bar` | header | yes | `templates/demos/header-dark-bar.php` |
 
-**Dark Bar Header** is a floating dark bar: a coloured logo tile on the left, an uppercase dot-separated menu in the centre and a white call-to-action button on the right. Its settings metabox keeps exactly the fields it renders - `accent_color` (the logo tile colour, default `#f4511e`), `button_label`, `button_url` and `show_button` - and the edit screen shows the demo **live**: the metabox preview renders with the saved settings and updates the tile colour and button text as you type.
+**Dark Bar Header** is a floating dark bar: your logo on the left, an uppercase dot-separated menu in the centre and a white call-to-action button on the right. Its settings metabox keeps exactly the fields it renders - `logo_image` (picked from the media library; without it the first letter of the site name shows on a coloured tile), `menu` (any menu built under Appearance → Menus, defaulting to the one created at import), `button_label`, `button_url` and `show_button` - and the edit screen shows the demo **live**: the metabox preview renders with the saved settings and updates the logo and button text as you type. On phones the menu collapses behind a tap-friendly toggle and slides down under the bar.
 
 Each file returns one array with five keys:
 
@@ -610,7 +610,7 @@ Last run against WordPress 7.1.4 and Elementor `main` (4.5.0): 165 WordPress fun
 bash tools/build-zip.sh
 ```
 
-It reads the version from the plugin header, stages every tracked file that `.distignore` does not exclude into a single top-level `qevora-layouts/` directory, writes `release/qevora-layouts-<version>.zip`, and then verifies the result: no `.git/`, `tests/`, `tools/`, `release/`, `*.sh`, `*.py`, `.distignore` or `node_modules`; the bootstrap, `uninstall.php`, `LICENSE`, `README.md`, `readme.txt`, `CHANGELOG.md`, `includes/`, `assets/`, `templates/demos/`, `languages/qevora-layouts.pot` and the `index.php` guards all present; exactly one top-level directory. The 1.0.0 archive holds 89 files (232 KB) and all 76 PHP files in it pass `php -l`.
+It reads the version from the plugin header, stages every tracked file that `.distignore` does not exclude into a single top-level `qevora-layouts/` directory, writes `release/qevora-layouts-<version>.zip`, and then verifies the result: no `.git/`, `tests/`, `tools/`, `release/`, `*.sh`, `*.py`, `.distignore` or `node_modules`; the bootstrap, `uninstall.php`, `LICENSE`, `README.md`, `readme.txt`, `CHANGELOG.md`, `includes/`, `assets/`, `templates/demos/`, `languages/qevora-layouts.pot` and the `index.php` guards all present; exactly one top-level directory. The 1.0.0 archive holds 89 files (234 KB) and all 76 PHP files in it pass `php -l`.
 
 ## Known limitations
 

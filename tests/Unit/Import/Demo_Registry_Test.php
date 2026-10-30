@@ -193,9 +193,12 @@ class Demo_Registry_Test extends TestCase {
 	public function test_settings_schemas_load_per_demo() {
 		$demo = Demo_Registry::settings_schema( 'header-dark-bar' );
 
-		$this->assertSame( array( 'accent_color', 'button_label', 'button_url', 'show_button' ), array_keys( $demo ), 'The demo ships only the fields it actually renders.' );
-		$this->assertSame( 'color', $demo['accent_color']['type'] );
-		$this->assertSame( '#f4511e', $demo['accent_color']['default'] );
+		$this->assertSame( array( 'logo_image', 'menu', 'button_label', 'button_url', 'show_button' ), array_keys( $demo ), 'The demo ships only the fields it actually renders.' );
+		$this->assertSame( 'image', $demo['logo_image']['type'] );
+		$this->assertSame( '', $demo['logo_image']['default'] );
+		$this->assertSame( 'select', $demo['menu']['type'] );
+		$this->assertSame( '', $demo['menu']['default'] );
+		$this->assertArrayHasKey( '', $demo['menu']['options'], 'The menu chooser always offers the layout default.' );
 		$this->assertSame( 'text', $demo['button_label']['type'] );
 		$this->assertSame( 'url', $demo['button_url']['type'] );
 		$this->assertSame( 'checkbox', $demo['show_button']['type'] );
@@ -215,23 +218,29 @@ class Demo_Registry_Test extends TestCase {
 			'header-dark-bar',
 			array(
 				'button_label' => "  Acme <script>alert(1)</script> & sons  ",
-				'accent_color' => '#ZZZZZZ',
+				'logo_image'   => 'javascript:alert(1)',
+				'menu'         => '999',
 				'show_button'  => '1',
 				'evil'         => 'drop me',
 			)
 		);
 
-		$this->assertSame( array( 'accent_color', 'button_label', 'show_button' ), array_keys( $clean ), 'Unknown keys never survive.' );
+		$this->assertSame( array( 'logo_image', 'menu', 'button_label', 'show_button' ), array_keys( $clean ), 'Unknown keys never survive.' );
 		$this->assertStringNotContainsString( '<script>', $clean['button_label'] );
-		$this->assertSame( '#f4511e', $clean['accent_color'], 'An invalid colour falls back to the default.' );
+		$this->assertSame( '', $clean['logo_image'], 'A non-image URL is dropped from the logo field.' );
+		$this->assertSame( '', $clean['menu'], 'An unknown menu falls back to the layout default.' );
 		$this->assertTrue( $clean['show_button'] );
 
 		$clean = Demo_Registry::sanitize_settings(
 			'header-dark-bar',
-			array( 'button_url' => 'javascript:alert(1)' )
+			array(
+				'button_url' => 'javascript:alert(1)',
+				'logo_image' => 'https://example.org/logo.png',
+			)
 		);
 
 		$this->assertStringNotContainsString( 'javascript:', $clean['button_url'] );
+		$this->assertSame( 'https://example.org/logo.png', $clean['logo_image'] );
 
 		$this->assertSame( array(), Demo_Registry::sanitize_settings( 'header-dark-bar', 'not-an-array' ) );
 	}

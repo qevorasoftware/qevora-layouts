@@ -129,7 +129,8 @@ class Meta_Boxes_Test extends TestCase {
 
 		$this->assertStringContainsString( 'name="qevora_layout_demo_settings[button_label]"', $html );
 		$this->assertStringContainsString( 'value="Call the team"', $html, 'Stored values come back pre-filled.' );
-		$this->assertStringContainsString( 'type="color"', $html );
+		$this->assertStringContainsString( 'qevora-media-button', $html, 'The logo field opens the media library.' );
+		$this->assertStringContainsString( 'name="qevora_layout_demo_settings[menu]"', $html, 'The menu chooser lists the site menus.' );
 		$this->assertStringContainsString( 'type="checkbox"', $html );
 		$this->assertStringContainsString( 'qevora_layouts_demo_settings_nonce', $html );
 		$this->assertStringContainsString( 'templates/demos/header-dark-bar.php', $html, 'The box says where the markup lives.' );
@@ -151,7 +152,7 @@ class Meta_Boxes_Test extends TestCase {
 		$_POST['qevora_layouts_demo_settings_nonce'] = wp_create_nonce( 'qevora_layouts_demo_settings' );
 		$_POST['qevora_layout_demo_settings']        = array(
 			'button_label' => 'Acme <script>alert(1)</script>',
-			'accent_color' => 'red-ish',
+			'logo_image'   => 'https://example.org/logo.png',
 			'show_button'  => '1',
 			'not_a_field'   => 'drop me',
 		);
@@ -160,9 +161,9 @@ class Meta_Boxes_Test extends TestCase {
 
 		$saved = (array) get_post_meta( $id, Layout_Post_Type::META_DEMO_SETTINGS, true );
 
-		$this->assertSame( array( 'accent_color', 'button_label', 'show_button' ), array_keys( $saved ) );
+		$this->assertSame( array( 'logo_image', 'button_label', 'show_button' ), array_keys( $saved ) );
 		$this->assertStringNotContainsString( '<script>', $saved['button_label'] );
-		$this->assertSame( '#f4511e', $saved['accent_color'] );
+		$this->assertSame( 'https://example.org/logo.png', $saved['logo_image'] );
 		$this->assertTrue( $saved['show_button'] );
 
 		$_POST = array();

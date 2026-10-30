@@ -176,7 +176,7 @@ class Demo_Render_Test extends TestCase {
 
 		$this->assertStringContainsString( 'class="qhdb"', $html );
 		$this->assertStringContainsString( 'qhdb__bar', $html );
-		$this->assertStringContainsString( '--qhdb-accent: #f4511e', $html, 'The default logo tile colour renders.' );
+		$this->assertStringContainsString( 'qhdb__mark', $html, 'Without a logo image the site initial tile renders.' );
 		$this->assertTrue( wp_style_is( 'qevora-demo-header-dark-bar' ) );
 		$this->assertTrue( wp_script_is( 'qevora-demo-header-dark-bar-js' ) );
 	}
@@ -233,11 +233,11 @@ class Demo_Render_Test extends TestCase {
 	public function test_render_uses_the_stored_demo_settings() {
 		$id = $this->create_demo_layout();
 
-		update_post_meta( $id, '_qevora_layout_demo_settings', array( 'accent_color' => '#123456', 'button_label' => 'Acme Holdings 2026' ) );
+		update_post_meta( $id, '_qevora_layout_demo_settings', array( 'logo_image' => 'https://example.org/logo.png', 'button_label' => 'Acme Holdings 2026' ) );
 
 		$html = Plugin::instance()->builders()->render( Layout::from_post( get_post( $id ) ) );
 
-		$this->assertStringContainsString( '--qhdb-accent: #123456', $html, 'The stored colour renders.' );
+		$this->assertStringContainsString( '<img class="qhdb__logo-img" src="https://example.org/logo.png"', $html, 'The stored logo image renders.' );
 		$this->assertStringContainsString( 'Acme Holdings 2026', $html, 'The stored button label renders.' );
 	}
 

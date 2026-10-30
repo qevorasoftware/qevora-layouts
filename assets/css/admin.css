@@ -820,31 +820,38 @@ body.qevora-preview-open {
 	display: none;
 }
 
-/* One-click demo card: live stage on the left, details on the right. */
+/* One-click demo card: a simple vertical block layout that cannot collapse
+   or stretch oddly - stage on top, details and import form below. */
 .qevora-library__demos .qevora-library__grid {
-	grid-template-columns: 1fr;
+	display: block;
 }
 
 .qevora-demos {
 	margin: 0 0 24px;
+	padding: 20px;
+	border: 1px solid var( --qevora-border-soft, #dcdcde );
+	border-radius: 10px;
+	background: var( --qevora-surface, #fff );
+}
+
+.qevora-demos > .title {
+	margin: 0 0 6px;
+	font-size: 16px;
 }
 
 .qevora-demo-card {
-	display: flex;
-	flex-wrap: wrap;
-	align-items: stretch;
+	display: block;
 	width: 100%;
 }
 
 .qevora-demo-card .qevora-template__preview--live {
-	flex: 1 1 420px;
-	max-width: 640px;
-	position: relative;
 	display: block;
+	position: relative;
+	height: 250px;
 	aspect-ratio: auto;
-	min-height: 300px;
+	border: 1px solid var( --qevora-border-soft, #dcdcde );
+	border-radius: 10px 10px 0 0;
 	border-bottom: 0;
-	border-right: 1px solid var( --qevora-border-soft, #dcdcde );
 	background: transparent;
 }
 
@@ -852,22 +859,25 @@ body.qevora-preview-open {
 	position: absolute;
 	inset: 0;
 	height: auto;
+	border-radius: 10px 10px 0 0;
 }
 
 .qevora-demo-card__info {
-	flex: 1 1 380px;
-	display: flex;
-	flex-direction: column;
-	min-width: 0;
+	display: block;
+	padding: 18px 22px 22px;
+	border: 1px solid var( --qevora-border-soft, #dcdcde );
+	border-radius: 0 0 10px 10px;
+	background: var( --qevora-surface, #fff );
 }
 
 .qevora-demo-card .qevora-template__body {
-	padding: 20px 22px 8px;
+	display: block;
+	padding: 0 0 14px;
 }
 
 .qevora-demo-card .qevora-template__title {
 	margin: 0 0 2px;
-	font-size: 17px;
+	font-size: 18px;
 	line-height: 1.3;
 }
 
@@ -879,33 +889,38 @@ body.qevora-preview-open {
 	color: var( --qevora-muted, #50575e );
 }
 
+.qevora-demo-card__text {
+	margin: 0;
+	max-width: 78ch;
+	font-size: 13px;
+	line-height: 1.6;
+	color: var( --qevora-text-soft, #50575e );
+}
+
 .qevora-demo-card .qevora-template__form {
-	margin-top: auto;
-	margin-left: 22px;
-	margin-right: 22px;
-	padding: 14px 0 20px;
+	display: block;
+	margin: 0;
+	padding: 16px 0 0;
 	border-top: 1px dashed var( --qevora-border-soft, #dcdcde );
 }
 
 .qevora-demo-card .qevora-template__form > p {
-	display: flex;
-	flex-wrap: wrap;
-	align-items: center;
-	gap: 8px 18px;
-	margin: 0 0 10px;
-}
-
-.qevora-demo-card .qevora-template__form > p:last-of-type {
-	margin-bottom: 0;
+	display: block;
+	margin: 0 0 12px;
 }
 
 .qevora-demo-card .qevora-template__form label {
-	margin: 0;
+	display: inline-block;
+	margin: 0 8px 0 0;
+	font-weight: 600;
+}
+
+.qevora-demo-card .qevora-template__form select {
+	vertical-align: middle;
 }
 
 .qevora-demo-card .qevora-template__form .qevora-template__message {
 	display: block;
-	width: 100%;
 }
 
 /* The zoom button reads as a small chip on the live stage. */
@@ -981,22 +996,6 @@ body.qevora-preview-open {
 
 .qevora-empty-state p .button {
 	margin-left: auto;
-}
-
-@media ( max-width: 900px ) {
-
-	.qevora-demo-card .qevora-template__preview--live {
-		flex: 1 1 100%;
-		max-width: none;
-		min-height: 210px;
-		border-right: 0;
-		border-bottom: 1px solid var( --qevora-border-soft, #dcdcde );
-	}
-
-	.qevora-demo-card .qevora-template__form {
-		margin-left: 20px;
-		margin-right: 20px;
-	}
 }
 
 /* Tiny live preview of each demo layout inside the All Layouts list. */

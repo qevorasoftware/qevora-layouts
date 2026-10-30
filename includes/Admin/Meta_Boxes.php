@@ -829,7 +829,7 @@ class Meta_Boxes {
 		echo '<div class="qevora-demo-live qevora-demo-live--meta" id="qevora-demo-meta-preview" aria-hidden="true"><div class="qevora-demo-live__inner">';
 		echo Demo_Registry::preview_html( $slug, 2, $saved ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Bundled demo markup; escaped inside the demo file.
 		echo '</div></div>';
-		echo '<p class="description">' . esc_html__( 'Live preview of this demo with the settings saved on this layout. Colours and the button label below update the preview as you type; everything else applies when you update.', 'qevora-layouts' ) . '</p>';
+		echo '<p class="description">' . esc_html__( 'Live preview of this demo with the settings saved on this layout. The logo and the button label update the preview as you type; the menu choice and the button switch apply when you update.', 'qevora-layouts' ) . '</p>';
 		echo '<script>
 ( function () {
 	"use strict";
@@ -840,9 +840,27 @@ class Meta_Boxes {
 		if ( ! field ) { return; }
 		field.addEventListener( "input", function () { apply( field.value ); } );
 	}
-	bind( "accent_color", function ( value ) {
-		var root = preview.querySelector( ".qhdb" );
-		if ( root ) { root.style.setProperty( "--qhdb-accent", value ); }
+	bind( "logo_image", function ( value ) {
+		var logo = preview.querySelector( ".qhdb__logo" );
+		if ( ! logo ) { return; }
+		var img = logo.querySelector( "img" );
+		if ( value ) {
+			if ( ! img ) {
+				img = document.createElement( "img" );
+				img.className = "qhdb__logo-img";
+				logo.textContent = "";
+				logo.appendChild( img );
+			}
+			img.src = value;
+			img.alt = logo.getAttribute( "aria-label" ) || "";
+		} else if ( img ) {
+			var mark = document.createElement( "span" );
+			mark.className = "qhdb__mark";
+			mark.setAttribute( "aria-hidden", "true" );
+			mark.textContent = logo.getAttribute( "data-qhdb-fallback" ) || "";
+			logo.textContent = "";
+			logo.appendChild( mark );
+		}
 	} );
 	bind( "button_label", function ( value ) {
 		var button = preview.querySelector( ".qhdb__cta" );
@@ -887,6 +905,12 @@ class Meta_Boxes {
 						echo '<option value="' . esc_attr( $option_value ) . '" ' . selected( $value, $option_value, false ) . '>' . esc_html( $option_label ) . '</option>';
 					}
 					echo '</select>';
+					break;
+				case 'image':
+					echo '<input type="url" id="' . esc_attr( $id ) . '" name="qevora_layout_demo_settings[' . esc_attr( $key ) . ']" value="' . esc_attr( (string) $value ) . '" class="regular-text qevora-media-url" />';
+					echo ' <button type="button" class="button qevora-media-button" data-qevora-media-target="' . esc_attr( $id ) . '">' . esc_html__( 'Choose image', 'qevora-layouts' ) . '</button>';
+					echo ' <button type="button" class="button qevora-media-clear" data-qevora-media-target="' . esc_attr( $id ) . '">' . esc_html__( 'Remove', 'qevora-layouts' ) . '</button>';
+					echo '<br /><img class="qevora-media-thumb" src="' . esc_url( (string) $value ) . '" alt="" style="max-width:48px;max-height:48px;border-radius:6px;margin-top:8px;' . ( '' === (string) $value ? 'display:none;' : '' ) . '" />';
 					break;
 				case 'color':
 					echo '<input type="color" id="' . esc_attr( $id ) . '" name="qevora_layout_demo_settings[' . esc_attr( $key ) . ']" value="' . esc_attr( (string) $value ) . '" />';

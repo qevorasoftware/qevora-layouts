@@ -38,7 +38,7 @@ Qevora Layouts lets you create any number of headers, footers and reusable secti
 
 = Template library =
 
-* One bundled header demo - a floating dark bar with a coloured logo tile, a centred dot-separated menu and a white call-to-action button - as a single self-contained PHP file (markup, settings, CSS and JavaScript together), rendered by the plugin itself. The library previews it live, the layout edit screen shows a live preview that reacts to the saved settings, and only the fields the demo actually renders appear: no block editor, no page builder.
+* One bundled header demo - a floating dark bar with your logo (media library picker, or the site initial on a coloured tile), a menu you choose from Appearance → Menus, a centred dot-separated navigation and a white call-to-action button - as a single self-contained PHP file rendered by the plugin itself. The library previews it live, the layout edit screen shows a live preview that reacts to the saved settings, and on phones the menu slides down behind a toggle: no block editor, no page builder.
 * Import from the library, upload a `.json` file, or connect your own https endpoint.
 * Every template is validated against a schema before anything is created: type, builder, size, conditions, preview, requirements and a block list that rejects PHP tags, scripts, iframes, event handlers and `javascript:` URLs.
 * Imports never overwrite silently. The default policy is to skip a template that was imported before; you can ask for a copy, or pick one layout to replace explicitly.

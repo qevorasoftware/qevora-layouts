@@ -45,7 +45,7 @@ class Demo_Registry {
 	 * @since 1.0.0
 	 * @var   string[]
 	 */
-	const FIELD_TYPES = array( 'text', 'textarea', 'url', 'checkbox', 'select', 'color', 'number' );
+	const FIELD_TYPES = array( 'text', 'textarea', 'url', 'image', 'checkbox', 'select', 'color', 'number' );
 
 	/**
 	 * Validated demo definitions, cached per request. Null until first scan.
@@ -365,6 +365,7 @@ class Demo_Registry {
 					$clean[ $key ] = is_numeric( $value ) ? (int) $value : (int) $field['default'];
 					break;
 				case 'url':
+				case 'image':
 					$clean[ $key ] = esc_url_raw( (string) $value );
 					break;
 				case 'color':

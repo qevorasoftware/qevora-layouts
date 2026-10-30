@@ -19,28 +19,44 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+$qhdb_menus = array();
+
+if ( function_exists( 'wp_get_nav_menus' ) ) {
+	foreach ( wp_get_nav_menus() as $qhdb_menu_object ) {
+		$qhdb_menus[ (string) (int) $qhdb_menu_object->term_id ] = (string) $qhdb_menu_object->name;
+	}
+}
+
 return array(
 	'manifest' => array(
 		'id'          => 'header-dark-bar',
 		'name'        => __( 'Dark Bar Header', 'qevora-layouts' ),
 		'type'        => 'header',
-		'description' => __( 'A floating dark navigation bar with a coloured logo tile, a centred uppercase menu with dot separators and a light call-to-action button. Rendered entirely by the plugin from this one PHP file - responsive, with a tap-friendly slide-down menu on phones.', 'qevora-layouts' ),
+		'description' => __( 'A floating dark navigation bar with your logo, a centred uppercase menu with dot separators and a light call-to-action button. Rendered entirely by the plugin from this one PHP file - responsive, with a tap-friendly slide-down menu on phones.', 'qevora-layouts' ),
 		'menu'        => true,
 		'menu_label'  => __( 'Create a sample menu (Home plus your published pages)', 'qevora-layouts' ),
 		'tags'        => array( 'header', 'php', 'responsive', 'menu', 'dark' ),
 	),
 	'settings' => array(
 		'fields' => array(
-			'accent_color' => array(
-				'label'   => __( 'Logo tile colour', 'qevora-layouts' ),
-				'type'    => 'color',
-				'default' => '#f4511e',
+			'logo_image'   => array(
+				'label'   => __( 'Logo image', 'qevora-layouts' ),
+				'type'    => 'image',
+				'default' => '',
+				'help'    => __( 'Pick a square image from the media library. Leave empty to show the first letter of your site name on a coloured tile instead.', 'qevora-layouts' ),
+			),
+			'menu'         => array(
+				'label'   => __( 'Menu to display', 'qevora-layouts' ),
+				'type'    => 'select',
+				'default' => '',
+				'options' => array( '' => __( 'Default menu (the one created with this layout)', 'qevora-layouts' ) ) + $qhdb_menus,
+				'help'    => __( 'Choose any menu you built under Appearance → Menus; manage its links there.', 'qevora-layouts' ),
 			),
 			'button_label' => array(
 				'label'   => __( 'Button label', 'qevora-layouts' ),
 				'type'    => 'text',
 				'default' => '',
-				'help'    => __( 'Leave empty for the default wording, or clear it in combination with the link to hide the button.', 'qevora-layouts' ),
+				'help'    => __( 'Leave empty for the default wording, or switch the button off below.', 'qevora-layouts' ),
 			),
 			'button_url'   => array(
 				'label'   => __( 'Button link', 'qevora-layouts' ),
@@ -90,7 +106,7 @@ return array(
 	width: 40px;
 	height: 40px;
 	border-radius: 10px;
-	background: var( --qhdb-accent, #f4511e );
+	background: #f4511e;
 	color: #fff;
 	display: inline-flex;
 	align-items: center;
@@ -100,10 +116,19 @@ return array(
 	text-transform: uppercase;
 }
 
+.qhdb__logo-img {
+	width: 40px;
+	height: 40px;
+	border-radius: 10px;
+	object-fit: cover;
+	display: block;
+}
+
 .qhdb__nav {
 	flex: 1 1 auto;
 	display: flex;
 	justify-content: center;
+	min-width: 0;
 }
 
 .qhdb__menu,
@@ -142,7 +167,7 @@ return array(
 .qhdb__menu a:hover,
 .qhdb__menu a:focus,
 .qhdb__menu .current-menu-item > a {
-	color: var( --qhdb-accent, #f4511e );
+	color: #f4511e;
 }
 
 .qhdb__cta {
@@ -193,16 +218,21 @@ return array(
 	width: 1px;
 	height: 1px;
 	padding: 0;
-	margin: -1px;
 	overflow: hidden;
 	clip: rect( 0 0 0 0 );
 	white-space: nowrap;
 	border: 0;
 }
 
+/* Phones and small tablets: the menu slides down under the bar. */
 @media ( max-width: 782px ) {
 	.qhdb {
 		padding: 10px 10px;
+	}
+
+	.qhdb__bar {
+		gap: 10px;
+		padding: 8px 10px;
 	}
 
 	.qhdb__toggle {
@@ -221,6 +251,7 @@ return array(
 		margin-top: 8px;
 		padding: 8px 14px;
 		justify-content: flex-start;
+		z-index: 9990;
 	}
 
 	.qhdb__nav.is-open {
@@ -246,6 +277,26 @@ return array(
 	.qhdb__cta {
 		margin-left: auto;
 		padding: 10px 14px;
+	}
+}
+
+/* Very small phones: keep the bar to one tidy row. */
+@media ( max-width: 480px ) {
+	.qhdb__cta {
+		padding: 9px 10px;
+		font-size: 10px;
+		letter-spacing: 0.06em;
+	}
+
+	.qhdb__mark,
+	.qhdb__logo-img {
+		width: 34px;
+		height: 34px;
+	}
+
+	.qhdb__toggle {
+		width: 38px;
+		height: 38px;
 	}
 }
 QEVORA_DEMO_CSS,
@@ -286,20 +337,31 @@ QEVORA_DEMO_JS,
 	'render'   => static function ( $qevora_layout, $qevora_demo, $qevora_menu_id, $qevora_demo_settings ) {
 		ob_start();
 
-		$qhdb         = (array) $qevora_demo_settings;
-		$qhdb_accent  = (string) $qhdb['accent_color'];
-		$qhdb_label   = '' !== (string) $qhdb['button_label'] ? (string) $qhdb['button_label'] : __( 'Book a call', 'qevora-layouts' );
-		$qhdb_url     = '' !== (string) $qhdb['button_url'] ? (string) $qhdb['button_url'] : (string) home_url( '/' );
-		$qhdb_show    = ! empty( $qhdb['show_button'] );
-		$qhdb_name    = (string) get_bloginfo( 'name' );
-		$qhdb_mark    = function_exists( 'mb_substr' ) ? mb_substr( $qhdb_name, 0, 1 ) : substr( $qhdb_name, 0, 1 );
-		$qhdb_nav     = 'qhdb-nav-' . (int) $qevora_layout->id;
-		$qhdb_has_menu = $qevora_menu_id > 0 && function_exists( 'wp_nav_menu' );
+		$qhdb        = (array) $qevora_demo_settings;
+		$qhdb_logo   = (string) $qhdb['logo_image'];
+		$qhdb_label  = '' !== (string) $qhdb['button_label'] ? (string) $qhdb['button_label'] : __( 'Book a call', 'qevora-layouts' );
+		$qhdb_url    = '' !== (string) $qhdb['button_url'] ? (string) $qhdb['button_url'] : (string) home_url( '/' );
+		$qhdb_show   = ! empty( $qhdb['show_button'] );
+		$qhdb_name   = (string) get_bloginfo( 'name' );
+		$qhdb_mark   = function_exists( 'mb_substr' ) ? mb_substr( $qhdb_name, 0, 1 ) : substr( $qhdb_name, 0, 1 );
+		$qhdb_nav    = 'qhdb-nav-' . (int) $qevora_layout->id;
+		$qhdb_chosen = isset( $qhdb['menu'] ) ? (int) $qhdb['menu'] : 0;
+
+		if ( $qhdb_chosen > 0 && ( ! function_exists( 'wp_get_nav_menu_object' ) || ! wp_get_nav_menu_object( $qhdb_chosen ) ) ) {
+			$qhdb_chosen = 0;
+		}
+
+		$qhdb_menu_id  = $qhdb_chosen > 0 ? $qhdb_chosen : (int) $qevora_menu_id;
+		$qhdb_has_menu = $qhdb_menu_id > 0 && function_exists( 'wp_nav_menu' );
 		?>
-<div class="qhdb" style="--qhdb-accent: <?php echo esc_attr( $qhdb_accent ); ?>;">
+<div class="qhdb">
 	<div class="qhdb__bar">
-		<a class="qhdb__logo" href="<?php echo esc_url( (string) home_url( '/' ) ); ?>" aria-label="<?php echo esc_attr( $qhdb_name ); ?>">
-			<span class="qhdb__mark" aria-hidden="true"><?php echo esc_html( $qhdb_mark ); ?></span>
+		<a class="qhdb__logo" href="<?php echo esc_url( (string) home_url( '/' ) ); ?>" aria-label="<?php echo esc_attr( $qhdb_name ); ?>" data-qhdb-fallback="<?php echo esc_attr( $qhdb_mark ); ?>">
+			<?php if ( '' !== $qhdb_logo ) : ?>
+				<img class="qhdb__logo-img" src="<?php echo esc_url( $qhdb_logo ); ?>" alt="<?php echo esc_attr( $qhdb_name ); ?>" />
+			<?php else : ?>
+				<span class="qhdb__mark" aria-hidden="true"><?php echo esc_html( $qhdb_mark ); ?></span>
+			<?php endif; ?>
 		</a>
 
 		<?php if ( $qhdb_has_menu ) : ?>
@@ -313,7 +375,7 @@ QEVORA_DEMO_JS,
 				<?php
 				wp_nav_menu(
 					array(
-						'menu'        => $qevora_menu_id,
+						'menu'        => $qhdb_menu_id,
 						'container'   => '',
 						'menu_class'  => 'qhdb__menu',
 						'fallback_cb' => false,

@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Qevora Layouts 1.0.0\n"
 "Report-Msgid-Bugs-To: https://github.com/qevorasoftware/qevora-layouts/issues\n"
-"POT-Creation-Date: 2026-10-30T10:38:34+00:00\n"
+"POT-Creation-Date: 2026-10-30T10:54:45+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -106,169 +106,170 @@ msgstr ""
 msgid "System Status"
 msgstr ""
 
-#: includes/Admin/Admin.php:339
+#: includes/Admin/Admin.php:343
 #: includes/Admin/Meta_Boxes.php:358
 msgid "Select a condition"
 msgstr ""
 
-#: includes/Admin/Admin.php:340
+#: includes/Admin/Admin.php:344
 msgid "Select a value"
 msgstr ""
 
-#: includes/Admin/Admin.php:341
+#: includes/Admin/Admin.php:345
 #: includes/Admin/Meta_Boxes.php:451
 msgid "Comma separated IDs, e.g. 12, 48"
 msgstr ""
 
-#: includes/Admin/Admin.php:342
+#: includes/Admin/Admin.php:346
 msgid "theme_hook_name"
 msgstr ""
 
-#: includes/Admin/Admin.php:343
+#: includes/Admin/Admin.php:347
 #: includes/Admin/Meta_Boxes.php:520
+#: includes/Admin/Meta_Boxes.php:912
 msgid "Remove"
 msgstr ""
 
-#: includes/Admin/Admin.php:344
+#: includes/Admin/Admin.php:348
 msgid "Searching…"
 msgstr ""
 
-#: includes/Admin/Admin.php:345
+#: includes/Admin/Admin.php:349
 msgid "No results."
 msgstr ""
 
-#: includes/Admin/Admin.php:346
+#: includes/Admin/Admin.php:350
 msgid "Something went wrong. Please try again."
 msgstr ""
 
-#: includes/Admin/Admin.php:347
+#: includes/Admin/Admin.php:351
 msgid "Importing…"
 msgstr ""
 
-#: includes/Admin/Admin.php:348
+#: includes/Admin/Admin.php:352
 msgid "Imported."
 msgstr ""
 
-#: includes/Admin/Admin.php:349
+#: includes/Admin/Admin.php:353
 msgid "Skipped."
 msgstr ""
 
-#: includes/Admin/Admin.php:350
+#: includes/Admin/Admin.php:354
 msgid "The request did not reach the server. Check your connection and try again."
 msgstr ""
 
-#: includes/Admin/Admin.php:351
+#: includes/Admin/Admin.php:355
 msgid "You are not allowed to do this, or your session expired."
 msgstr ""
 
-#: includes/Admin/Admin.php:352
+#: includes/Admin/Admin.php:356
 msgid "Condition added. Choose a condition type."
 msgstr ""
 
-#: includes/Admin/Admin.php:353
+#: includes/Admin/Admin.php:357
 msgid "Condition removed."
 msgstr ""
 
-#: includes/Admin/Admin.php:354
+#: includes/Admin/Admin.php:358
 msgid "Search posts and pages"
 msgstr ""
 
-#: includes/Admin/Admin.php:355
+#: includes/Admin/Admin.php:359
 msgid "Search terms"
 msgstr ""
 
-#: includes/Admin/Admin.php:356
+#: includes/Admin/Admin.php:360
 msgid "Search users"
 msgstr ""
 
-#: includes/Admin/Admin.php:357
+#: includes/Admin/Admin.php:361
 msgid "Type at least two characters…"
 msgstr ""
 
-#: includes/Admin/Admin.php:358
+#: includes/Admin/Admin.php:362
 msgid "Search"
 msgstr ""
 
-#: includes/Admin/Admin.php:359
+#: includes/Admin/Admin.php:363
 msgid "Close"
 msgstr ""
 
-#: includes/Admin/Admin.php:360
+#: includes/Admin/Admin.php:364
 msgid "Type at least two characters to search."
 msgstr ""
 
-#: includes/Admin/Admin.php:361
+#: includes/Admin/Admin.php:365
 msgid "That ID is already in the list."
 msgstr ""
 
-#: includes/Admin/Admin.php:362
+#: includes/Admin/Admin.php:366
 msgid "Added."
 msgstr ""
 
-#: includes/Admin/Admin.php:363
+#: includes/Admin/Admin.php:367
 #: includes/Import/Importer.php:252
 msgid "Only .json template files are accepted."
 msgstr ""
 
-#: includes/Admin/Admin.php:364
+#: includes/Admin/Admin.php:368
 msgid "Ready to import."
 msgstr ""
 
-#: includes/Admin/Admin.php:365
+#: includes/Admin/Admin.php:369
 msgid "Uploading…"
 msgstr ""
 
-#: includes/Admin/Admin.php:366
+#: includes/Admin/Admin.php:370
 msgid "The request could not be sent. Submitting the form directly…"
 msgstr ""
 
-#: includes/Admin/Admin.php:367
+#: includes/Admin/Admin.php:371
 msgid "Open the imported layout"
 msgstr ""
 
-#: includes/Admin/Admin.php:368
+#: includes/Admin/Admin.php:372
 msgid "Open all layouts"
 msgstr ""
 
-#: includes/Admin/Admin.php:369
+#: includes/Admin/Admin.php:373
 msgid "Copied to the clipboard."
 msgstr ""
 
-#: includes/Admin/Admin.php:370
+#: includes/Admin/Admin.php:374
 #: includes/Admin/Views/system-status.php:38
 msgid "Copy status report"
 msgstr ""
 
-#: includes/Admin/Admin.php:371
+#: includes/Admin/Admin.php:375
 msgid "There is nothing to copy."
 msgstr ""
 
-#: includes/Admin/Admin.php:372
+#: includes/Admin/Admin.php:376
 msgid "Copy the text manually from the report box."
 msgstr ""
 
-#: includes/Admin/Admin.php:534
+#: includes/Admin/Admin.php:538
 msgid ""
 "Qevora Layouts: no third-party page builder was detected. Layouts are"
 "built with the WordPress block editor, which needs no extra plugin."
 msgstr ""
 
-#: includes/Admin/Admin.php:538
+#: includes/Admin/Admin.php:542
 msgid ""
 "Elementor is installed; enable the integration in Settings → Integrations"
 "if you want to build layouts with it."
 msgstr ""
 
-#: includes/Admin/Admin.php:547
+#: includes/Admin/Admin.php:551
 msgid ""
 "Qevora Layouts: one or more layouts were built with Elementor, but"
 "Elementor is not active. Those layouts fall back to their stored block"
 "content, which may be empty. Reactivate Elementor or edit the layouts."
 msgstr ""
 
-#: includes/Admin/Admin.php:635
-#: includes/Admin/Admin.php:650
-#: includes/Admin/Admin.php:665
+#: includes/Admin/Admin.php:639
+#: includes/Admin/Admin.php:654
+#: includes/Admin/Admin.php:669
 msgid "You are not allowed to view this page."
 msgstr ""
 
@@ -489,7 +490,7 @@ msgstr ""
 msgid "Date"
 msgstr ""
 
-#: includes/Admin/Meta_Boxes.php:1020
+#: includes/Admin/Meta_Boxes.php:1044
 msgid "A layout cannot reference itself. The reference was cleared."
 msgstr ""
 
@@ -763,16 +764,9 @@ msgstr ""
 
 #: includes/Admin/Meta_Boxes.php:832
 msgid ""
-"Live preview of this demo with the settings saved on this layout. Colours"
-"and the button label below update the preview as you type; everything else"
-"applies when you update."
-msgstr ""
-
-#. translators: %s: relative path of the demo template file.
-#: includes/Admin/Meta_Boxes.php:857
-msgid ""
-"Rendered on every request from %s - plain PHP, no block editor and no page"
-"builder. These options are the only content this demo uses."
+"Live preview of this demo with the settings saved on this layout. The logo"
+"and the button label update the preview as you type; the menu choice and"
+"the button switch apply when you update."
 msgstr ""
 
 #. translators: %s: name of the bundled demo.
@@ -780,8 +774,19 @@ msgstr ""
 msgid "%s - demo settings"
 msgstr ""
 
-#: includes/Admin/Meta_Boxes.php:863
+#. translators: %s: relative path of the demo template file.
+#: includes/Admin/Meta_Boxes.php:875
+msgid ""
+"Rendered on every request from %s - plain PHP, no block editor and no page"
+"builder. These options are the only content this demo uses."
+msgstr ""
+
+#: includes/Admin/Meta_Boxes.php:881
 msgid "This demo has no customisable options."
+msgstr ""
+
+#: includes/Admin/Meta_Boxes.php:911
+msgid "Choose image"
 msgstr ""
 
 #: includes/Admin/Meta_Boxes.php:98
@@ -2636,56 +2641,74 @@ msgstr ""
 msgid "Qevora Layouts is inactive:"
 msgstr ""
 
-#: templates/demos/header-dark-bar.php:25
+#: templates/demos/header-dark-bar.php:33
 msgid "Dark Bar Header"
 msgstr ""
 
-#: templates/demos/header-dark-bar.php:27
-msgid ""
-"A floating dark navigation bar with a coloured logo tile, a centred"
-"uppercase menu with dot separators and a light call-to-action button."
-"Rendered entirely by the plugin from this one PHP file - responsive, with"
-"a tap-friendly slide-down menu on phones."
-msgstr ""
-
-#: templates/demos/header-dark-bar.php:29
-msgid "Create a sample menu (Home plus your published pages)"
-msgstr ""
-
-#: templates/demos/header-dark-bar.php:291
+#: templates/demos/header-dark-bar.php:342
 msgid "Book a call"
 msgstr ""
 
-#: templates/demos/header-dark-bar.php:310
+#: templates/demos/header-dark-bar.php:35
+msgid ""
+"A floating dark navigation bar with your logo, a centred uppercase menu"
+"with dot separators and a light call-to-action button. Rendered entirely"
+"by the plugin from this one PHP file - responsive, with a tap-friendly"
+"slide-down menu on phones."
+msgstr ""
+
+#: templates/demos/header-dark-bar.php:37
+msgid "Create a sample menu (Home plus your published pages)"
+msgstr ""
+
+#: templates/demos/header-dark-bar.php:372
 msgid "Menu"
 msgstr ""
 
-#: templates/demos/header-dark-bar.php:312
+#: templates/demos/header-dark-bar.php:374
 msgid "Primary menu"
 msgstr ""
 
-#: templates/demos/header-dark-bar.php:35
-msgid "Logo tile colour"
-msgstr ""
-
-#: templates/demos/header-dark-bar.php:40
-msgid "Button label"
-msgstr ""
-
 #: templates/demos/header-dark-bar.php:43
-msgid ""
-"Leave empty for the default wording, or clear it in combination with the"
-"link to hide the button."
+msgid "Logo image"
 msgstr ""
 
 #: templates/demos/header-dark-bar.php:46
-msgid "Button link"
+msgid ""
+"Pick a square image from the media library. Leave empty to show the first"
+"letter of your site name on a coloured tile instead."
 msgstr ""
 
 #: templates/demos/header-dark-bar.php:49
-msgid "Leave empty to link to the front page."
+msgid "Menu to display"
 msgstr ""
 
 #: templates/demos/header-dark-bar.php:52
+msgid "Default menu (the one created with this layout)"
+msgstr ""
+
+#: templates/demos/header-dark-bar.php:53
+msgid ""
+"Choose any menu you built under Appearance → Menus; manage its links"
+"there."
+msgstr ""
+
+#: templates/demos/header-dark-bar.php:56
+msgid "Button label"
+msgstr ""
+
+#: templates/demos/header-dark-bar.php:59
+msgid "Leave empty for the default wording, or switch the button off below."
+msgstr ""
+
+#: templates/demos/header-dark-bar.php:62
+msgid "Button link"
+msgstr ""
+
+#: templates/demos/header-dark-bar.php:65
+msgid "Leave empty to link to the front page."
+msgstr ""
+
+#: templates/demos/header-dark-bar.php:68
 msgid "Show the call-to-action button"
 msgstr ""

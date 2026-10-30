@@ -149,6 +149,7 @@
 		initEditor();
 		initStatusReport();
 		initRowActions();
+		initMediaPickers();
 	} );
 
 	/**
@@ -378,6 +379,81 @@
 			window.setTimeout( function () {
 				$button.removeClass( 'qevora-button--done' ).text( api.text( 'copyReport', 'Copy status report' ) );
 			}, 2500 );
+		}
+	}
+
+	/**
+	 * Media library pickers for image settings in the demo metabox.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return {void}
+	 */
+	function initMediaPickers() {
+		$( document ).on( 'click', '.qevora-media-button', function ( event ) {
+			event.preventDefault();
+
+			var targetId = String( $( this ).data( 'media-target' ) || '' );
+			var $target  = $( document.getElementById( targetId ) );
+
+			if ( ! $target.length || ! window.wp || ! window.wp.media ) {
+				return;
+			}
+
+			var frame = window.wp.media( {
+				title: $( this ).text(),
+				multiple: false,
+				library: { type: 'image' },
+				button: { text: $( this ).text() }
+			} );
+
+			frame.on( 'select', function () {
+				var attachment = frame.state().get( 'selection' ).first().toJSON();
+				var url = attachment && attachment.url ? String( attachment.url ) : '';
+
+				$target.val( url ).trigger( 'input' );
+				updateThumb( targetId, url );
+			} );
+
+			frame.open();
+		} );
+
+		$( document ).on( 'click', '.qevora-media-clear', function ( event ) {
+			event.preventDefault();
+
+			var targetId = String( $( this ).data( 'media-target' ) || '' );
+			var $target  = $( document.getElementById( targetId ) );
+
+			if ( $target.length ) {
+				$target.val( '' ).trigger( 'input' );
+			}
+
+			updateThumb( targetId, '' );
+		} );
+
+		$( document ).on( 'input', '.qevora-media-url', function () {
+			updateThumb( String( $( this ).attr( 'id' ) || '' ), String( $( this ).val() || '' ) );
+		} );
+
+		/**
+		 * Shows or hides the little thumbnail next to an image field.
+		 *
+		 * @param {string} targetId Input id.
+		 * @param {string} url      Image URL.
+		 * @return {void}
+		 */
+		function updateThumb( targetId, url ) {
+			var $thumb = $( document.getElementById( targetId ) ).closest( 'td' ).find( '.qevora-media-thumb' );
+
+			if ( ! $thumb.length ) {
+				return;
+			}
+
+			if ( url ) {
+				$thumb.attr( 'src', url ).show();
+			} else {
+				$thumb.attr( 'src', '' ).hide();
+			}
 		}
 	}
 

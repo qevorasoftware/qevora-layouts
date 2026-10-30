@@ -309,6 +309,10 @@ class Admin {
 		$is_editor = in_array( $screen_id, array( Layout_Post_Type::POST_TYPE ), true );
 		$is_list   = 'edit-' . Layout_Post_Type::POST_TYPE === $screen_id;
 
+		if ( $is_editor && function_exists( 'wp_enqueue_media' ) ) {
+			wp_enqueue_media();
+		}
+
 		wp_enqueue_script(
 			'qevora-layouts-admin',
 			QEVORA_LAYOUTS_URL . 'assets/js/admin.js',
