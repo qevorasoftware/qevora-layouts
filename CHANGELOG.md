@@ -7,6 +7,11 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 
 ### Added
 
+- Second bundled demo: **Book Store Header** (`header-book-store`), again one self-contained PHP file - a terracotta announcement bar (delivery note, language label, social icons from a one-URL-per-line setting, account shortcut), a white row with logo, rounded category search (the category select really filters the WordPress search) and tap-to-call block, then a rose menu bar with a categories dropdown built from your real categories and a WooCommerce cart bubble with the live count when the shop plugin is active. Previews show representative sample menus, categories and social icons; the front end never invents any of them.
+- Per-demo styles are now covered by a regression test: rendering one demo enqueues only that demo's stylesheet handle, so two demos can never mix CSS on the same page.
+
+### Added
+
 - The Dark Bar Header demo gained two new switches in its settings box: "Keep the header fixed at the top while scrolling" (a sticky bar that respects the admin bar) and "Show a search button in the header" (on by default). Clicking the magnifier slides open a search panel under the bar; typing at least two characters shows live title suggestions from the site's REST search endpoint, and submitting runs a normal WordPress search. Both switches update the metabox preview instantly and work in the library previews too.
 
 ### Changed

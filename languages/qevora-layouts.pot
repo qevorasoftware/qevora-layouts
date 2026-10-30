@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Qevora Layouts 1.0.0\n"
 "Report-Msgid-Bugs-To: https://github.com/qevorasoftware/qevora-layouts/issues\n"
-"POT-Creation-Date: 2026-10-30T17:12:47+00:00\n"
+"POT-Creation-Date: 2026-10-30T17:54:00+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -187,6 +187,7 @@ msgid "Type at least two characters…"
 msgstr ""
 
 #: includes/Admin/Admin.php:362
+#: templates/demos/header-book-store.php:852
 #: templates/demos/header-dark-bar.php:526
 #: templates/demos/header-dark-bar.php:545
 msgid "Search"
@@ -1694,6 +1695,7 @@ msgid "Template file"
 msgstr ""
 
 #: includes/Admin/Views/template-library.php:463
+#: templates/demos/header-book-store.php:931
 #: templates/demos/header-dark-bar.php:535
 msgid "Menu"
 msgstr ""
@@ -2677,6 +2679,161 @@ msgstr ""
 msgid "Qevora Layouts is inactive:"
 msgstr ""
 
+#: templates/demos/header-book-store.php:32
+msgid "Book Store Header"
+msgstr ""
+
+#: templates/demos/header-book-store.php:34
+msgid ""
+"A three-row shop header: a terracotta announcement bar with language and"
+"social icons, a white row with your logo, a rounded category search and a"
+"call-us block, then a rose menu bar with a categories dropdown and a"
+"WooCommerce cart bubble when the shop is active. Rendered entirely by the"
+"plugin from this one PHP file."
+msgstr ""
+
+#: templates/demos/header-book-store.php:36
+#: templates/demos/header-dark-bar.php:37
+msgid "Create a sample menu (Home plus your published pages)"
+msgstr ""
+
+#: templates/demos/header-book-store.php:42
+#: templates/demos/header-dark-bar.php:43
+msgid "Logo image"
+msgstr ""
+
+#: templates/demos/header-book-store.php:45
+msgid ""
+"Pick your logo from the media library. Leave empty to show a book tile"
+"with your site name and tagline instead."
+msgstr ""
+
+#: templates/demos/header-book-store.php:48
+#: templates/demos/header-dark-bar.php:49
+msgid "Menu to display"
+msgstr ""
+
+#: templates/demos/header-book-store.php:51
+#: templates/demos/header-dark-bar.php:52
+msgid "Default menu (the one created with this layout)"
+msgstr ""
+
+#: templates/demos/header-book-store.php:52
+#: templates/demos/header-dark-bar.php:53
+msgid ""
+"Choose any menu you built under Appearance → Menus; manage its links"
+"there."
+msgstr ""
+
+#: templates/demos/header-book-store.php:55
+msgid "Announcement bar text"
+msgstr ""
+
+#: templates/demos/header-book-store.php:57
+#: templates/demos/header-book-store.php:700
+msgid "Fastest Delivery In Your City"
+msgstr ""
+
+#: templates/demos/header-book-store.php:58
+msgid "Shows on the left of the top bar, next to the delivery icon."
+msgstr ""
+
+#: templates/demos/header-book-store.php:61
+msgid "Phone number"
+msgstr ""
+
+#: templates/demos/header-book-store.php:64
+msgid ""
+"Digits, spaces, + and - are kept; the number becomes a tap-to-call link."
+"Leave empty to hide the call block."
+msgstr ""
+
+#: templates/demos/header-book-store.php:67
+msgid "Social links"
+msgstr ""
+
+#: templates/demos/header-book-store.php:70
+msgid ""
+"One URL per line, in this order: Facebook, X, Instagram, YouTube. Empty"
+"lines are skipped and icons without a URL stay hidden."
+msgstr ""
+
+#: templates/demos/header-book-store.php:73
+msgid "Show the announcement bar"
+msgstr ""
+
+#: templates/demos/header-book-store.php:78
+msgid "Show the category search"
+msgstr ""
+
+#: templates/demos/header-book-store.php:809
+msgid "Account"
+msgstr ""
+
+#: templates/demos/header-book-store.php:81
+msgid "The rounded search pill filters your site search by the chosen category."
+msgstr ""
+
+#: templates/demos/header-book-store.php:828
+msgid "Ocean of books"
+msgstr ""
+
+#: templates/demos/header-book-store.php:834
+msgid "Search within a category"
+msgstr ""
+
+#: templates/demos/header-book-store.php:836
+#: templates/demos/header-book-store.php:876
+msgid "Categories"
+msgstr ""
+
+#: templates/demos/header-book-store.php:84
+#: templates/demos/header-dark-bar.php:73
+msgid "Keep the header fixed at the top while scrolling"
+msgstr ""
+
+#: templates/demos/header-book-store.php:842
+#: templates/demos/header-book-store.php:885
+msgid "Books"
+msgstr ""
+
+#: templates/demos/header-book-store.php:843
+#: templates/demos/header-book-store.php:886
+msgid "Stationery"
+msgstr ""
+
+#: templates/demos/header-book-store.php:844
+#: templates/demos/header-book-store.php:887
+msgid "Gifts"
+msgstr ""
+
+#: templates/demos/header-book-store.php:848
+msgid "Search the site"
+msgstr ""
+
+#: templates/demos/header-book-store.php:849
+msgid "Search Here..."
+msgstr ""
+
+#: templates/demos/header-book-store.php:863
+msgid "Call Us 24/7"
+msgstr ""
+
+#: templates/demos/header-book-store.php:87
+msgid ""
+"All three rows stick to the top of the window as visitors scroll down the"
+"page."
+msgstr ""
+
+#: templates/demos/header-book-store.php:894
+#: templates/demos/header-dark-bar.php:486
+msgid "Primary menu"
+msgstr ""
+
+#: templates/demos/header-book-store.php:922
+msgid "Cart"
+msgstr ""
+
 #: templates/demos/header-dark-bar.php:33
 msgid "Dark Bar Header"
 msgstr ""
@@ -2689,14 +2846,6 @@ msgid ""
 "slide-down menu on phones."
 msgstr ""
 
-#: templates/demos/header-dark-bar.php:37
-msgid "Create a sample menu (Home plus your published pages)"
-msgstr ""
-
-#: templates/demos/header-dark-bar.php:43
-msgid "Logo image"
-msgstr ""
-
 #: templates/demos/header-dark-bar.php:456
 msgid "Book a call"
 msgstr ""
@@ -2705,24 +2854,6 @@ msgstr ""
 msgid ""
 "Pick a square image from the media library. Leave empty to show the first"
 "letter of your site name on a coloured tile instead."
-msgstr ""
-
-#: templates/demos/header-dark-bar.php:486
-msgid "Primary menu"
-msgstr ""
-
-#: templates/demos/header-dark-bar.php:49
-msgid "Menu to display"
-msgstr ""
-
-#: templates/demos/header-dark-bar.php:52
-msgid "Default menu (the one created with this layout)"
-msgstr ""
-
-#: templates/demos/header-dark-bar.php:53
-msgid ""
-"Choose any menu you built under Appearance → Menus; manage its links"
-"there."
 msgstr ""
 
 #: templates/demos/header-dark-bar.php:543
@@ -2751,10 +2882,6 @@ msgstr ""
 
 #: templates/demos/header-dark-bar.php:68
 msgid "Show the call-to-action button"
-msgstr ""
-
-#: templates/demos/header-dark-bar.php:73
-msgid "Keep the header fixed at the top while scrolling"
 msgstr ""
 
 #: templates/demos/header-dark-bar.php:76

@@ -38,7 +38,7 @@ Qevora Layouts lets you create any number of headers, footers and reusable secti
 
 = Template library =
 
-* One bundled header demo - a floating dark bar with your logo (media library picker, or the site initial on a coloured tile), a menu you choose from Appearance → Menus, a centred dot-separated navigation and a white call-to-action button - as a single self-contained PHP file rendered by the plugin itself. The library previews it live, the layout edit screen shows a live preview that reacts to the saved settings, and on phones the menu slides down behind a toggle: no block editor, no page builder.
+* Two bundled header demos - a floating dark bar with your logo (media library picker, or the site initial on a coloured tile), a menu you choose from Appearance → Menus, a centred dot-separated navigation and a white call-to-action button, plus a three-row book store header with an announcement bar, category search, categories dropdown and call block - each a single self-contained PHP file rendered by the plugin itself, and each demo's stylesheet loads only while that demo renders. The library previews it live, the layout edit screen shows a live preview that reacts to the saved settings, and on phones the menu slides down behind a toggle: no block editor, no page builder.
 * Import from the library, upload a `.json` file, or connect your own https endpoint.
 * Every template is validated against a schema before anything is created: type, builder, size, conditions, preview, requirements and a block list that rejects PHP tags, scripts, iframes, event handlers and `javascript:` URLs.
 * Imports never overwrite silently. The default policy is to skip a template that was imported before; you can ask for a copy, or pick one layout to replace explicitly.
@@ -130,7 +130,7 @@ Open an issue at [the GitHub repository](https://github.com/qevorasoftware/qevor
 * Placements: `wp_body_open`, `get_header`, `get_footer`, `wp_footer`, a custom hook or manual, with block theme detection.
 * Duplicate render guard, enable/disable switching, clone action and a list table with condition summaries.
 * Builder adapter layer: block editor through core APIs, Elementor through its documented public APIs, reference mode for any other builder.
-* Template library with the bundled dark bar header demo, validated `.json` uploads and an optional https remote source.
+* Template library with the bundled header demos, validated `.json` uploads and an optional https remote source.
 * Per-demo settings: every demo layout is customised through its own metabox (texts, links, colours, toggles) and rendered from plugin PHP files on every request.
 * Ready-made PHP demo: the header is rendered by the plugin itself with plain HTML, responsive CSS and a little JavaScript - it keeps its own stylesheet and data, can create a real WordPress menu (Home plus your published pages) at import, and no page builder or block editor is needed.
 * Imported demos can replace the theme's own header and footer instead of stacking on top of it: the option is offered checked by default on every import form, block themes drop the theme template part outright, classic themes hide it with sanitized inline CSS, theme files are never modified and unticking the box restores them instantly.

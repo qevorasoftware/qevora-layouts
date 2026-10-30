@@ -353,8 +353,11 @@ One demo ships as a **pure PHP template** for sites that should not depend on th
 | Demo | Type | Menu | File |
 | --- | --- | --- | --- |
 | `header-dark-bar` | header | yes | `templates/demos/header-dark-bar.php` |
+| `header-book-store` | header | yes | `templates/demos/header-book-store.php` |
 
 **Dark Bar Header** is a floating dark bar: your logo on the left, an uppercase dot-separated menu in the centre and a white call-to-action button on the right. Its settings metabox keeps exactly the fields it renders - `logo_image` (picked from the media library; without it the first letter of the site name shows on a coloured tile), `menu` (any menu built under Appearance → Menus, defaulting to the one created at import), `button_label`, `button_url` and `show_button` - and the edit screen shows the demo **live**: the metabox preview renders with the saved settings and updates the logo and button text as you type. On phones the menu collapses behind a tap-friendly toggle and slides down under the bar.
+
+**Book Store Header** is a three-row shop header: a terracotta announcement bar (delivery note, site language, your social links and an account shortcut), a white row with the logo, a rounded category search pill and a tap-to-call block, then a rose menu bar with a real categories dropdown and - when WooCommerce is active - a cart bubble with the live item count. Its settings add `delivery_note`, `phone_number`, `social_links` (one URL per line: Facebook, X, Instagram, YouTube), `show_top_bar`, `show_search` and `sticky_header`. Like every demo it lives in one PHP file and its scoped stylesheet loads only while this demo renders, so two demos never mix styles on one page.
 
 Each file returns one array with five keys:
 
@@ -540,7 +543,7 @@ Extend `Abstract_Builder_Adapter` to inherit the error guard, the availability c
 
 * The condition builder is keyboard operable: rules are added and removed with real `<button>` elements, the post/term/user picker is a `role="listbox"` with `aria-expanded`, `aria-activedescendant` and arrow-key navigation, and every state change is announced through an `aria-live="polite"` region.
 * Form fields have `<label for>`, error and success messages are associated with `aria-describedby`, focus is moved to the feedback region after an import, and no information is conveyed by colour alone.
-* All strings go through `__()/esc_html__()/esc_attr__()` with the `qevora-layouts` domain. `languages/qevora-layouts.pot` holds 599 strings, generated with `python3 tools/make-pot.py` (a dependency-free generator; `wp i18n make-pot` produces the same output if you prefer it). Drop `qevora-layouts-{locale}.mo` into `languages/` to translate.
+* All strings go through `__()/esc_html__()/esc_attr__()` with the `qevora-layouts` domain. `languages/qevora-layouts.pot` holds 624 strings, generated with `python3 tools/make-pot.py` (a dependency-free generator; `wp i18n make-pot` produces the same output if you prefer it). Drop `qevora-layouts-{locale}.mo` into `languages/` to translate.
 
 ## Uninstall and your data
 
@@ -610,7 +613,7 @@ Last run against WordPress 7.1.4 and Elementor `main` (4.5.0): 165 WordPress fun
 bash tools/build-zip.sh
 ```
 
-It reads the version from the plugin header, stages every tracked file that `.distignore` does not exclude into a single top-level `qevora-layouts/` directory, writes `release/qevora-layouts-<version>.zip`, and then verifies the result: no `.git/`, `tests/`, `tools/`, `release/`, `*.sh`, `*.py`, `.distignore` or `node_modules`; the bootstrap, `uninstall.php`, `LICENSE`, `README.md`, `readme.txt`, `CHANGELOG.md`, `includes/`, `assets/`, `templates/demos/`, `languages/qevora-layouts.pot` and the `index.php` guards all present; exactly one top-level directory. The 1.0.0 archive holds 89 files (241 KB) and all 76 PHP files in it pass `php -l`.
+It reads the version from the plugin header, stages every tracked file that `.distignore` does not exclude into a single top-level `qevora-layouts/` directory, writes `release/qevora-layouts-<version>.zip`, and then verifies the result: no `.git/`, `tests/`, `tools/`, `release/`, `*.sh`, `*.py`, `.distignore` or `node_modules`; the bootstrap, `uninstall.php`, `LICENSE`, `README.md`, `readme.txt`, `CHANGELOG.md`, `includes/`, `assets/`, `templates/demos/`, `languages/qevora-layouts.pot` and the `index.php` guards all present; exactly one top-level directory. The 1.0.0 archive holds 90 files (250 KB) and all 77 PHP files in it pass `php -l`.
 
 ## Known limitations
 
