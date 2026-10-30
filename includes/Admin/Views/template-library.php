@@ -471,6 +471,21 @@ $qevora_scopes    = Importer::display_scopes();
 		</div>
 	<?php endif; ?>
 
+	<style id="qevora-preview-dialog-css">
+	/* Ships with the dialog markup so the popup survives cached or
+	   optimised admin stylesheets on any host. */
+	.qevora-preview-dialog { position: fixed; inset: 0; z-index: 100100; display: flex; align-items: center; justify-content: center; padding: 24px; }
+	.qevora-preview-dialog[hidden] { display: none; }
+	.qevora-preview-dialog__backdrop { position: absolute; inset: 0; background: rgba( 10, 10, 15, 0.72 ); }
+	.qevora-preview-dialog__panel { position: relative; max-width: 920px; width: 100%; max-height: 90vh; overflow: auto; padding: 20px; border-radius: 10px; background: #fff; box-shadow: 0 12px 48px rgba( 0, 0, 0, 0.35 ); }
+	.qevora-preview-dialog__close { position: absolute; top: 10px; right: 10px; z-index: 2; }
+	.qevora-preview-dialog__image { display: block; width: 100%; height: auto; border: 1px solid #dcdcde; border-radius: 10px; background: #f6f7f7; }
+	.qevora-preview-dialog__live { margin: 0 0 16px; border: 1px solid #dcdcde; border-radius: 10px; overflow: hidden; background: #eef1f5; }
+	.qevora-preview-dialog__title { margin: 14px 0 4px; font-size: 18px; }
+	.qevora-preview-dialog__meta { margin: 0 0 8px; font-size: 12px; color: #50575e; }
+	.qevora-preview-dialog__description { margin: 0; }
+	body.qevora-preview-open { overflow: hidden; }
+	</style>
 	<div class="qevora-preview-dialog" data-qevora-preview-dialog hidden role="dialog" aria-modal="true" aria-labelledby="qevora-preview-dialog-title">
 		<div class="qevora-preview-dialog__backdrop" data-qevora-preview-close></div>
 		<div class="qevora-preview-dialog__panel" role="document">
