@@ -2460,6 +2460,20 @@ function user_can( $user, $capability ) {
 	return current_user_can( $capability );
 }
 
+function wp_login_url( $redirect = '' ) {
+	return site_url( 'wp-login.php' );
+}
+
+/**
+ * Returns the profile edit URL.
+ *
+ * @param int $user_id User ID.
+ * @return string
+ */
+function get_edit_profile_url( $user_id = 0 ) {
+	return site_url( 'wp-admin/profile.php' );
+}
+
 /**
  * Returns the current user ID.
  *

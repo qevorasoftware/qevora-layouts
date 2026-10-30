@@ -114,6 +114,32 @@ class Demo_Render_Test extends TestCase {
 	}
 
 	/**
+	 * Each demo runs only its own stylesheet: rendering the book store
+	 * header activates its scoped CSS and leaves the dark bar CSS idle.
+	 *
+	 * @return void
+	 */
+	public function test_each_demo_loads_only_its_own_stylesheet() {
+		Qevora_Test_Env::$query = array( 'is_front_page' => true );
+
+		$id     = $this->create_demo_layout(
+			array(
+				'title'     => 'Book store',
+				'demo_slug' => 'header-book-store',
+			)
+		);
+		$layout = Layout::from_post( get_post( $id ) );
+
+		$html = Plugin::instance()->builders()->render( $layout );
+
+		$this->assertStringContainsString( 'class="qbs', $html, 'The book store template rendered.' );
+		$this->assertStringContainsString( 'qbs__search', $html, 'The category search renders by default.' );
+		$this->assertStringContainsString( 'qbs__cats', $html, 'The categories dropdown renders.' );
+		$this->assertTrue( wp_style_is( 'qevora-demo-header-book-store' ), 'The book store stylesheet was enqueued.' );
+		$this->assertFalse( wp_style_is( 'qevora-demo-header-dark-bar' ), 'The other demo stylesheet stays inactive.' );
+	}
+
+	/**
 	 * A menu created for the demo renders inside the demo markup.
 	 *
 	 * @return void

@@ -55,12 +55,17 @@ class Demo_Registry_Test extends TestCase {
 	public function test_discovers_the_bundled_demos() {
 		$demos = Demo_Registry::demos();
 
-		$this->assertCount( 1, $demos, 'The bundled set is one focused header demo, one PHP file.' );
+		$this->assertCount( 2, $demos, 'Every bundled demo is one focused header, one PHP file.' );
 		$this->assertArrayHasKey( 'header-dark-bar', $demos );
 		$this->assertSame( 'header-dark-bar', $demos['header-dark-bar']['id'] );
 		$this->assertNotSame( '', $demos['header-dark-bar']['name'] );
 		$this->assertSame( 'header', $demos['header-dark-bar']['type'] );
 		$this->assertTrue( $demos['header-dark-bar']['menu'] );
+		$this->assertArrayHasKey( 'header-book-store', $demos );
+		$this->assertSame( 'header-book-store', $demos['header-book-store']['id'] );
+		$this->assertNotSame( '', $demos['header-book-store']['name'] );
+		$this->assertSame( 'header', $demos['header-book-store']['type'] );
+		$this->assertTrue( $demos['header-book-store']['menu'] );
 	}
 
 	/**
@@ -133,6 +138,22 @@ class Demo_Registry_Test extends TestCase {
 
 		$this->assertStringContainsString( 'Call the team', $custom, 'Previews can render stored settings.' );
 		$this->assertSame( '', Demo_Registry::preview_html( 'nope' ) );
+	}
+
+	/**
+	 * The second bundled demo previews with its own shop chrome.
+	 *
+	 * @return void
+	 */
+	public function test_book_store_preview_shows_the_shop_chrome() {
+		$preview = Demo_Registry::preview_html( 'header-book-store', 0 );
+
+		$this->assertStringContainsString( 'class="qbs', $preview );
+		$this->assertStringContainsString( 'qbs__menu', $preview, 'Previews show a representative sample menu.' );
+		$this->assertStringContainsString( 'Shop', $preview );
+		$this->assertStringContainsString( 'qbs__search', $preview, 'The category search previews too.' );
+		$this->assertStringContainsString( 'qbs__cats', $preview, 'The categories dropdown previews too.' );
+		$this->assertStringNotContainsString( 'class="qbs__toggle"', $preview, 'Previews never show the mobile toggle button.' );
 	}
 
 	/**
