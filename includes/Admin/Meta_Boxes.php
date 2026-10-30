@@ -826,6 +826,31 @@ class Meta_Boxes {
 
 		wp_nonce_field( 'qevora_layouts_demo_settings', 'qevora_layouts_demo_settings_nonce' );
 
+		echo '<div class="qevora-demo-live qevora-demo-live--meta" id="qevora-demo-meta-preview" aria-hidden="true"><div class="qevora-demo-live__inner">';
+		echo Demo_Registry::preview_html( $slug, 2, $saved ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Bundled demo markup; escaped inside the demo file.
+		echo '</div></div>';
+		echo '<p class="description">' . esc_html__( 'Live preview of this demo with the settings saved on this layout. Colours and the button label below update the preview as you type; everything else applies when you update.', 'qevora-layouts' ) . '</p>';
+		echo '<script>
+( function () {
+	"use strict";
+	var preview = document.getElementById( "qevora-demo-meta-preview" );
+	if ( ! preview ) { return; }
+	function bind( name, apply ) {
+		var field = document.querySelector( "[name=\"qevora_layout_demo_settings[" + name + "]\"]" );
+		if ( ! field ) { return; }
+		field.addEventListener( "input", function () { apply( field.value ); } );
+	}
+	bind( "accent_color", function ( value ) {
+		var root = preview.querySelector( ".qhdb" );
+		if ( root ) { root.style.setProperty( "--qhdb-accent", value ); }
+	} );
+	bind( "button_label", function ( value ) {
+		var button = preview.querySelector( ".qhdb__cta" );
+		if ( button ) { button.textContent = value; }
+	} );
+}() );
+</script>';
+
 		echo '<p class="description">' . esc_html(
 			sprintf(
 				/* translators: %s: relative path of the demo template file. */

@@ -77,7 +77,7 @@ class Meta_Boxes_Test extends TestCase {
 	public function test_demo_layouts_leave_the_block_editor() {
 		Meta_Boxes::register();
 
-		$demo  = get_post( $this->create_layout( array( 'builder' => 'demo', 'demo_slug' => 'header-classic' ) ) );
+		$demo  = get_post( $this->create_layout( array( 'builder' => 'demo', 'demo_slug' => 'header-dark-bar' ) ) );
 		$plain = get_post( $this->create_layout() );
 
 		$this->assertFalse( Meta_Boxes::use_block_editor( true, $demo ), 'A demo layout has no block content to edit.' );
@@ -91,7 +91,7 @@ class Meta_Boxes_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_the_settings_box_is_per_demo() {
-		$demo  = get_post( $this->create_layout( array( 'builder' => 'demo', 'demo_slug' => 'footer-simple' ) ) );
+		$demo  = get_post( $this->create_layout( array( 'builder' => 'demo', 'demo_slug' => 'header-dark-bar' ) ) );
 		$plain = get_post( $this->create_layout() );
 
 		Meta_Boxes::add_boxes( $demo );
@@ -101,7 +101,7 @@ class Meta_Boxes_Test extends TestCase {
 
 		$this->assertContains( 'qevora-layout-demo-settings', $ids );
 		$this->assertTrue( (bool) array_filter( $titles, function ( $title ) {
-			return false !== strpos( $title, 'Simple Footer Bar' );
+			return false !== strpos( $title, 'Dark Bar Header' );
 		} ), 'The box is titled after the demo it customises.' );
 
 		Qevora_Test_Env::$admin['meta_boxes'] = array();
@@ -118,22 +118,24 @@ class Meta_Boxes_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_the_box_renders_the_demo_schema() {
-		$id   = $this->create_layout( array( 'builder' => 'demo', 'demo_slug' => 'header-classic' ) );
+		$id   = $this->create_layout( array( 'builder' => 'demo', 'demo_slug' => 'header-dark-bar' ) );
 		$post = get_post( $id );
 
-		update_post_meta( $id, Layout_Post_Type::META_DEMO_SETTINGS, array( 'site_title' => 'Acme Corp' ) );
+		update_post_meta( $id, Layout_Post_Type::META_DEMO_SETTINGS, array( 'button_label' => 'Call the team' ) );
 
 		ob_start();
 		Meta_Boxes::render_demo_settings_box( $post );
 		$html = ob_get_clean();
 
-		$this->assertStringContainsString( 'name="qevora_layout_demo_settings[site_title]"', $html );
-		$this->assertStringContainsString( 'value="Acme Corp"', $html, 'Stored values come back pre-filled.' );
+		$this->assertStringContainsString( 'name="qevora_layout_demo_settings[button_label]"', $html );
+		$this->assertStringContainsString( 'value="Call the team"', $html, 'Stored values come back pre-filled.' );
 		$this->assertStringContainsString( 'type="color"', $html );
 		$this->assertStringContainsString( 'type="checkbox"', $html );
 		$this->assertStringContainsString( 'qevora_layouts_demo_settings_nonce', $html );
-		$this->assertStringContainsString( 'templates/demos/header-classic.php', $html, 'The box says where the markup lives.' );
-		$this->assertStringNotContainsString( 'qevora_layout_demo_settings[heading]', $html, 'Other demos\' fields never leak in.' );
+		$this->assertStringContainsString( 'templates/demos/header-dark-bar.php', $html, 'The box says where the markup lives.' );
+		$this->assertStringContainsString( 'qevora-demo-meta-preview', $html, 'The edit screen shows a live preview of the demo.' );
+		$this->assertStringContainsString( 'Call the team', $html, 'The live preview renders the stored settings.' );
+		$this->assertStringNotContainsString( 'qevora_layout_demo_settings[site_title]', $html, 'Other demos\' fields never leak in.' );
 	}
 
 	/**
@@ -143,14 +145,14 @@ class Meta_Boxes_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_save_stores_only_sanitised_schema_values() {
-		$id   = $this->create_layout( array( 'builder' => 'demo', 'demo_slug' => 'header-classic' ) );
+		$id   = $this->create_layout( array( 'builder' => 'demo', 'demo_slug' => 'header-dark-bar' ) );
 		$post = get_post( $id );
 
 		$_POST['qevora_layouts_demo_settings_nonce'] = wp_create_nonce( 'qevora_layouts_demo_settings' );
 		$_POST['qevora_layout_demo_settings']        = array(
-			'site_title'    => 'Acme <script>alert(1)</script>',
-			'accent_color'  => 'red-ish',
-			'sticky_header' => '1',
+			'button_label' => 'Acme <script>alert(1)</script>',
+			'accent_color' => 'red-ish',
+			'show_button'  => '1',
 			'not_a_field'   => 'drop me',
 		);
 
@@ -158,10 +160,10 @@ class Meta_Boxes_Test extends TestCase {
 
 		$saved = (array) get_post_meta( $id, Layout_Post_Type::META_DEMO_SETTINGS, true );
 
-		$this->assertSame( array( 'site_title', 'accent_color', 'sticky_header' ), array_keys( $saved ) );
-		$this->assertStringNotContainsString( '<script>', $saved['site_title'] );
-		$this->assertSame( '#2271b1', $saved['accent_color'] );
-		$this->assertTrue( $saved['sticky_header'] );
+		$this->assertSame( array( 'accent_color', 'button_label', 'show_button' ), array_keys( $saved ) );
+		$this->assertStringNotContainsString( '<script>', $saved['button_label'] );
+		$this->assertSame( '#f4511e', $saved['accent_color'] );
+		$this->assertTrue( $saved['show_button'] );
 
 		$_POST = array();
 	}
@@ -172,11 +174,11 @@ class Meta_Boxes_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_save_requires_a_valid_nonce() {
-		$id   = $this->create_layout( array( 'builder' => 'demo', 'demo_slug' => 'header-classic' ) );
+		$id   = $this->create_layout( array( 'builder' => 'demo', 'demo_slug' => 'header-dark-bar' ) );
 		$post = get_post( $id );
 
 		$_POST['qevora_layouts_demo_settings_nonce'] = 'wrong';
-		$_POST['qevora_layout_demo_settings']        = array( 'site_title' => 'Nope' );
+		$_POST['qevora_layout_demo_settings']        = array( 'button_label' => 'Nope' );
 
 		Meta_Boxes::save_demo_settings( $id, $post );
 
@@ -192,7 +194,7 @@ class Meta_Boxes_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_the_edit_screen_notice_hides_the_content_editor() {
-		$demo  = get_post( $this->create_layout( array( 'builder' => 'demo', 'demo_slug' => 'section-hero' ) ) );
+		$demo  = get_post( $this->create_layout( array( 'builder' => 'demo', 'demo_slug' => 'header-dark-bar' ) ) );
 		$plain = get_post( $this->create_layout() );
 
 		ob_start();
@@ -200,7 +202,7 @@ class Meta_Boxes_Test extends TestCase {
 		$html = ob_get_clean();
 
 		$this->assertStringContainsString( '#postdivrich', $html );
-		$this->assertStringContainsString( 'Hero Section', $html );
+		$this->assertStringContainsString( 'Dark Bar Header', $html );
 
 		ob_start();
 		Meta_Boxes::demo_editor_notice( $plain );

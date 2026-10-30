@@ -74,7 +74,7 @@ class Demo_Render_Test extends TestCase {
 				'status'    => 'publish',
 				'content'   => '',
 				'builder'   => 'demo',
-				'demo_slug' => 'header-classic',
+				'demo_slug' => 'header-dark-bar',
 				'menu_id'   => 0,
 			),
 			$overrides
@@ -103,11 +103,12 @@ class Demo_Render_Test extends TestCase {
 
 		$html = Plugin::instance()->builders()->render( $layout );
 
-		$this->assertStringContainsString( 'class="qdhc"', $html, 'The demo template markup rendered.' );
-		$this->assertStringContainsString( 'qdhc__brand', $html );
-		$this->assertTrue( wp_style_is( 'qevora-demo-header-classic' ), 'The demo stylesheet was enqueued.' );
-		$this->assertTrue( wp_script_is( 'qevora-demo-header-classic-js' ), 'The demo script was enqueued.' );
-		$this->assertFalse( wp_style_is( 'qevora-demo-footer-simple' ), 'No other demo assets load.' );
+		$this->assertStringContainsString( 'class="qhdb"', $html, 'The demo template markup rendered.' );
+		$this->assertStringContainsString( 'qhdb__logo', $html );
+		$this->assertStringContainsString( 'qhdb__cta', $html, 'The call-to-action button renders by default.' );
+		$this->assertTrue( wp_style_is( 'qevora-demo-header-dark-bar' ), 'The demo stylesheet was enqueued.' );
+		$this->assertTrue( wp_script_is( 'qevora-demo-header-dark-bar-js' ), 'The demo script was enqueued.' );
+		$this->assertFalse( wp_style_is( 'qevora-demo-not-a-demo' ), 'No other demo assets load.' );
 	}
 
 	/**
@@ -136,9 +137,9 @@ class Demo_Render_Test extends TestCase {
 
 		$html = Plugin::instance()->builders()->render( $layout );
 
-		$this->assertStringContainsString( '<ul class="qdhc__menu">', $html );
+		$this->assertStringContainsString( '<ul class="qhdb__menu">', $html );
 		$this->assertStringContainsString( '>Home<', $html );
-		$this->assertStringContainsString( 'qdhc__toggle', $html, 'The mobile toggle renders with a menu.' );
+		$this->assertStringContainsString( 'qhdb__toggle', $html, 'The mobile toggle renders with a menu.' );
 	}
 
 	/**
@@ -154,37 +155,30 @@ class Demo_Render_Test extends TestCase {
 
 		$html = Plugin::instance()->builders()->render( $layout );
 
-		$this->assertStringContainsString( 'class="qdhc"', $html );
-		$this->assertStringNotContainsString( 'qdhc__toggle', $html );
-		$this->assertStringNotContainsString( 'qdhc__nav', $html );
+		$this->assertStringContainsString( 'class="qhdb"', $html );
+		$this->assertStringNotContainsString( 'qhdb__toggle', $html );
+		$this->assertStringNotContainsString( 'qhdb__nav', $html );
 	}
 
 	/**
-	 * The footer demo renders its own scoped markup - every demo keeps its
-	 * own data and stylesheet separate.
+	 * The demo renders its own scoped markup and keeps its assets to
+	 * itself - one demo, one PHP file, one pair of handles.
 	 *
 	 * @return void
 	 */
-	public function test_footer_demo_renders_separately() {
+	public function test_the_demo_renders_its_own_scoped_markup() {
 		Qevora_Test_Env::$query = array( 'is_front_page' => true );
 
-		$id = $this->create_demo_layout(
-			array(
-				'title'     => 'Demo footer',
-				'type'      => 'footer',
-				'demo_slug' => 'footer-simple',
-			)
-		);
-
+		$id     = $this->create_demo_layout();
 		$layout = Layout::from_post( get_post( $id ) );
 
 		$html = Plugin::instance()->builders()->render( $layout );
 
-		$this->assertStringContainsString( 'class="qdfs"', $html );
-		$this->assertStringContainsString( 'qdfs__top', $html );
-		$this->assertTrue( wp_style_is( 'qevora-demo-footer-simple' ) );
-		$this->assertTrue( wp_script_is( 'qevora-demo-footer-simple-js' ) );
-		$this->assertFalse( wp_style_is( 'qevora-demo-header-classic' ) );
+		$this->assertStringContainsString( 'class="qhdb"', $html );
+		$this->assertStringContainsString( 'qhdb__bar', $html );
+		$this->assertStringContainsString( '--qhdb-accent: #f4511e', $html, 'The default logo tile colour renders.' );
+		$this->assertTrue( wp_style_is( 'qevora-demo-header-dark-bar' ) );
+		$this->assertTrue( wp_script_is( 'qevora-demo-header-dark-bar-js' ) );
 	}
 
 	/**
@@ -212,28 +206,22 @@ class Demo_Render_Test extends TestCase {
 	public function test_plan_enqueues_demo_assets_before_render() {
 		Qevora_Test_Env::$query = array( 'is_front_page' => true );
 
-		$this->create_demo_layout(
-			array(
-				'title'     => 'Demo footer',
-				'type'      => 'footer',
-				'demo_slug' => 'footer-columns',
-			)
-		);
+		$this->create_demo_layout();
 
 		do_action( 'wp' );
 
 		$frontend = Plugin::instance()->frontend();
 		$frontend->resolve();
 
-		$this->assertTrue( wp_style_is( 'qevora-demo-footer-columns' ), 'Queued at plan time, before wp_head.' );
-		$this->assertFalse( wp_script_is( 'qevora-demo-footer-columns-js' ), 'This demo ships no script.' );
+		$this->assertTrue( wp_style_is( 'qevora-demo-header-dark-bar' ), 'Queued at plan time, before wp_head.' );
+		$this->assertTrue( wp_script_is( 'qevora-demo-header-dark-bar-js' ), 'The demo ships its own script.' );
 
 		ob_start();
-		$frontend->render_get_footer();
+		$frontend->render_slot( 'header' );
 		$html = (string) ob_get_clean();
 
-		$this->assertStringContainsString( 'qevora-layouts--footer', $html );
-		$this->assertStringContainsString( 'class="qdfc"', $html );
+		$this->assertStringContainsString( 'qevora-layouts--header', $html );
+		$this->assertStringContainsString( 'class="qhdb"', $html );
 	}
 
 	/**
@@ -243,85 +231,30 @@ class Demo_Render_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_render_uses_the_stored_demo_settings() {
-		$id = $this->create_demo_layout(
-			array(
-				'title'     => 'Demo footer',
-				'type'      => 'footer',
-				'demo_slug' => 'footer-simple',
-			)
-		);
-
-		update_post_meta( $id, '_qevora_layout_demo_settings', array( 'copyright' => 'Acme Holdings 2026', 'show_back_to_top' => false ) );
-
-		$html = Plugin::instance()->builders()->render( Layout::from_post( get_post( $id ) ) );
-
-		$this->assertStringContainsString( 'Acme Holdings 2026', $html, 'The stored copyright line renders.' );
-		$this->assertStringNotContainsString( 'data-qdfs-top', $html, 'The back-to-top button was switched off.' );
-	}
-
-	/**
-	 * A sticky header setting reaches the root class of the template.
-	 *
-	 * @return void
-	 */
-	public function test_sticky_setting_changes_the_rendered_classes() {
 		$id = $this->create_demo_layout();
 
-		update_post_meta( $id, '_qevora_layout_demo_settings', array( 'sticky_header' => true, 'site_title' => 'Acme Corp' ) );
+		update_post_meta( $id, '_qevora_layout_demo_settings', array( 'accent_color' => '#123456', 'button_label' => 'Acme Holdings 2026' ) );
 
 		$html = Plugin::instance()->builders()->render( Layout::from_post( get_post( $id ) ) );
 
-		$this->assertStringContainsString( 'qdhc--sticky', $html );
-		$this->assertStringContainsString( 'Acme Corp', $html );
+		$this->assertStringContainsString( '--qhdb-accent: #123456', $html, 'The stored colour renders.' );
+		$this->assertStringContainsString( 'Acme Holdings 2026', $html, 'The stored button label renders.' );
 	}
 
 	/**
-	 * Section demos render through the same adapter, with their own
-	 * markup, assets and settings-driven content.
+	 * Switching the call-to-action off removes it from the markup.
 	 *
 	 * @return void
 	 */
-	public function test_section_demos_render_from_php() {
-		$id = $this->create_demo_layout(
-			array(
-				'title'     => 'Demo faq',
-				'type'      => 'section',
-				'demo_slug' => 'section-faq',
-			)
-		);
+	public function test_the_button_setting_removes_the_call_to_action() {
+		$id = $this->create_demo_layout();
 
-		update_post_meta(
-			$id,
-			'_qevora_layout_demo_settings',
-			array(
-				'title' => 'Good to know',
-				'items' => "Is it dynamic? | Yes, rendered from PHP on every request.\n<script>bad</script> | Dropped safely.",
-			)
-		);
+		update_post_meta( $id, '_qevora_layout_demo_settings', array( 'show_button' => false ) );
 
 		$html = Plugin::instance()->builders()->render( Layout::from_post( get_post( $id ) ) );
 
-		$this->assertStringContainsString( 'class="qdsf"', $html );
-		$this->assertStringContainsString( 'Good to know', $html );
-		$this->assertStringContainsString( 'Is it dynamic?', $html );
-		$this->assertStringContainsString( 'data-qdsf-toggle', $html, 'The accordion buttons render.' );
-		$this->assertStringNotContainsString( '<script>bad</script>', $html );
-		$this->assertTrue( wp_script_is( 'qevora-demo-section-faq-js' ), 'The FAQ demo ships its own script.' );
-
-		$hero = $this->create_demo_layout(
-			array(
-				'title'     => 'Demo hero',
-				'type'      => 'section',
-				'demo_slug' => 'section-hero',
-			)
-		);
-
-		update_post_meta( $hero, '_qevora_layout_demo_settings', array( 'heading' => 'Build faster', 'align' => 'left' ) );
-
-		$html = Plugin::instance()->builders()->render( Layout::from_post( get_post( $hero ) ) );
-
-		$this->assertStringContainsString( 'Build faster', $html );
-		$this->assertStringContainsString( 'qdsh--left', $html );
-		$this->assertTrue( wp_style_is( 'qevora-demo-section-hero' ), 'Each section demo keeps its own stylesheet.' );
+		$this->assertStringNotContainsString( 'qhdb__cta', $html, 'The button was switched off.' );
+		$this->assertStringContainsString( 'class="qhdb"', $html, 'The rest of the header still renders.' );
 	}
+
 }

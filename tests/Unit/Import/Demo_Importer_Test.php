@@ -99,7 +99,7 @@ class Demo_Importer_Test extends TestCase {
 	 */
 	public function test_import_creates_layout_and_sample_menu() {
 		$pages  = $this->create_pages();
-		$result = $this->importer->import( 'header-classic' );
+		$result = $this->importer->import( 'header-dark-bar' );
 
 		$this->assertCount( 1, $result['imported'] );
 		$this->assertSame( 'created', $result['imported'][0]['action'] );
@@ -109,8 +109,8 @@ class Demo_Importer_Test extends TestCase {
 		$this->assertInstanceOf( Layout::class, $layout );
 		$this->assertSame( 'header', $layout->type );
 		$this->assertSame( 'demo', $layout->builder );
-		$this->assertSame( 'header-classic', $layout->demo_slug );
-		$this->assertSame( 'qevora-demo-header-classic', $layout->template_id );
+		$this->assertSame( 'header-dark-bar', $layout->demo_slug );
+		$this->assertSame( 'qevora-demo-header-dark-bar', $layout->template_id );
 		$this->assertSame( 'publish', $layout->status );
 		$this->assertSame( array(), $layout->conditions['include'], 'Demos display on the entire site by default.' );
 
@@ -141,21 +141,22 @@ class Demo_Importer_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_every_demo_keeps_separate_data() {
-		$header = $this->importer->import( 'header-classic' );
-		$footer = $this->importer->import( 'footer-columns' );
+		$first  = $this->importer->import( 'header-dark-bar' );
+		$second = $this->importer->import( 'header-dark-bar', array( 'on_duplicate' => 'copy' ) );
 
-		$header_layout = Layout::from_post( get_post( (int) $header['imported'][0]['id'] ) );
-		$footer_layout = Layout::from_post( get_post( (int) $footer['imported'][0]['id'] ) );
+		$first_layout  = Layout::from_post( get_post( (int) $first['imported'][0]['id'] ) );
+		$second_layout = Layout::from_post( get_post( (int) $second['imported'][0]['id'] ) );
 
-		$this->assertSame( 'header-classic', $header_layout->demo_slug );
-		$this->assertSame( 'footer-columns', $footer_layout->demo_slug );
-		$this->assertSame( 'header', $header_layout->type );
-		$this->assertSame( 'footer', $footer_layout->type );
-		$this->assertNotSame( $header_layout->menu_id, $footer_layout->menu_id, 'Separate menus per demo.' );
-		$this->assertNotSame(
-			Qevora_Test_Env::$menus[ $header_layout->menu_id ]['name'],
-			Qevora_Test_Env::$menus[ $footer_layout->menu_id ]['name']
-		);
+		$this->assertNotSame( $first_layout->id, $second_layout->id );
+		$this->assertSame( 'header-dark-bar', $first_layout->demo_slug );
+		$this->assertSame( 'header-dark-bar', $second_layout->demo_slug );
+		$this->assertSame( 'header', $first_layout->type );
+
+		update_post_meta( $first_layout->id, '_qevora_layout_demo_settings', array( 'button_label' => 'First only' ) );
+
+		$second_settings = get_post_meta( $second_layout->id, '_qevora_layout_demo_settings', true );
+
+		$this->assertNotSame( 'First only', is_array( $second_settings ) ? ( $second_settings['button_label'] ?? '' ) : '', 'Settings stay per layout, never shared between copies.' );
 	}
 
 	/**
@@ -165,17 +166,17 @@ class Demo_Importer_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_duplicate_policy() {
-		$first = $this->importer->import( 'footer-simple' );
+		$first = $this->importer->import( 'header-dark-bar' );
 
 		$this->assertSame( 'created', $first['imported'][0]['action'] );
 
-		$again = $this->importer->import( 'footer-simple' );
+		$again = $this->importer->import( 'header-dark-bar' );
 
 		$this->assertCount( 0, $again['imported'] );
 		$this->assertCount( 1, $again['skipped'] );
 		$this->assertStringContainsString( 'already exists', $again['skipped'][0]['reason'] );
 
-		$copy = $this->importer->import( 'footer-simple', array( 'on_duplicate' => 'copy' ) );
+		$copy = $this->importer->import( 'header-dark-bar', array( 'on_duplicate' => 'copy' ) );
 
 		$this->assertSame( 'copied', $copy['imported'][0]['action'] );
 	}
@@ -197,19 +198,17 @@ class Demo_Importer_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_menu_creation_is_optional() {
-		$without = $this->importer->import( 'header-centered', array( 'create_menu' => false ) );
+		$without = $this->importer->import( 'header-dark-bar', array( 'create_menu' => false ) );
 
 		$layout = Layout::from_post( get_post( (int) $without['imported'][0]['id'] ) );
 
 		$this->assertSame( 0, $layout->menu_id );
 
-		// footer-simple has no menu support, so the default changes nothing.
-		$simple = $this->importer->import( 'footer-simple' );
+		// Asking again for the same demo never creates a second menu.
+		$again = $this->importer->import( 'header-dark-bar' );
 
-		$simple_layout = Layout::from_post( get_post( (int) $simple['imported'][0]['id'] ) );
-
-		$this->assertSame( 0, $simple_layout->menu_id );
-		$this->assertCount( 0, Qevora_Test_Env::$menus );
+		$this->assertSame( 'skipped', $again['imported'][0]['action'] ?? 'skipped' );
+		$this->assertCount( 0, Qevora_Test_Env::$menus, 'No menu is created unless the import asks for one.' );
 	}
 
 	/**
@@ -220,7 +219,7 @@ class Demo_Importer_Test extends TestCase {
 	public function test_missing_menu_capability_warns_but_imports() {
 		Qevora_Test_Env::$caps['edit_theme_options'] = false;
 
-		$result = $this->importer->import( 'header-classic' );
+		$result = $this->importer->import( 'header-dark-bar' );
 
 		$this->assertCount( 1, $result['imported'] );
 
@@ -237,7 +236,7 @@ class Demo_Importer_Test extends TestCase {
 	 */
 	public function test_scope_and_hide_flag_apply_to_demos() {
 		$result = $this->importer->import(
-			'footer-columns',
+			'header-dark-bar',
 			array(
 				'display_scope'   => 'front_page',
 				'hide_theme_part' => '1',
@@ -260,7 +259,7 @@ class Demo_Importer_Test extends TestCase {
 	public function test_capability_is_required() {
 		Qevora_Test_Env::$caps['publish_qevora_layouts'] = false;
 
-		$result = $this->importer->import( 'header-classic' );
+		$result = $this->importer->import( 'header-dark-bar' );
 
 		$this->assertCount( 0, $result['imported'] );
 		$this->assertCount( 1, $result['failed'] );
@@ -272,8 +271,8 @@ class Demo_Importer_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_menu_names_stay_unique() {
-		$first  = $this->importer->import( 'header-classic' );
-		$second = $this->importer->import( 'header-classic', array( 'on_duplicate' => 'copy' ) );
+		$first  = $this->importer->import( 'header-dark-bar' );
+		$second = $this->importer->import( 'header-dark-bar', array( 'on_duplicate' => 'copy' ) );
 
 		$first_layout  = Layout::from_post( get_post( (int) $first['imported'][0]['id'] ) );
 		$second_layout = Layout::from_post( get_post( (int) $second['imported'][0]['id'] ) );

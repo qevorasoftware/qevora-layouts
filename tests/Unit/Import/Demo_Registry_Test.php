@@ -55,19 +55,12 @@ class Demo_Registry_Test extends TestCase {
 	public function test_discovers_the_bundled_demos() {
 		$demos = Demo_Registry::demos();
 
-		foreach ( array( 'header-classic', 'header-centered', 'footer-columns', 'footer-simple', 'section-hero', 'section-cta', 'section-faq' ) as $slug ) {
-			$this->assertArrayHasKey( $slug, $demos );
-			$this->assertSame( $slug, $demos[ $slug ]['id'] );
-			$this->assertNotSame( '', $demos[ $slug ]['name'] );
-			$this->assertContains( $demos[ $slug ]['type'], array( 'header', 'footer', 'section' ) );
-		}
-
-		$this->assertCount( 7, $demos, 'Every bundled demo is exactly one PHP file in templates/demos/.' );
-		$this->assertTrue( $demos['header-classic']['menu'] );
-		$this->assertTrue( $demos['header-centered']['menu'] );
-		$this->assertTrue( $demos['footer-columns']['menu'] );
-		$this->assertFalse( $demos['footer-simple']['menu'], 'The simple footer needs no menu.' );
-		$this->assertFalse( $demos['section-faq']['menu'], 'Sections never ask for a menu.' );
+		$this->assertCount( 1, $demos, 'The bundled set is one focused header demo, one PHP file.' );
+		$this->assertArrayHasKey( 'header-dark-bar', $demos );
+		$this->assertSame( 'header-dark-bar', $demos['header-dark-bar']['id'] );
+		$this->assertNotSame( '', $demos['header-dark-bar']['name'] );
+		$this->assertSame( 'header', $demos['header-dark-bar']['type'] );
+		$this->assertTrue( $demos['header-dark-bar']['menu'] );
 	}
 
 	/**
@@ -76,11 +69,11 @@ class Demo_Registry_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_path_resolves_only_the_demo_file() {
-		$file = Demo_Registry::path( 'header-classic' );
+		$file = Demo_Registry::path( 'header-dark-bar' );
 
 		$this->assertNotSame( '', $file );
 		$this->assertTrue( is_file( $file ) );
-		$this->assertStringContainsString( 'header-classic.php', $file, 'One demo is one PHP file.' );
+		$this->assertStringContainsString( 'header-dark-bar.php', $file, 'One demo is one PHP file.' );
 
 		$this->assertSame( '', Demo_Registry::path( 'does-not-exist' ) );
 		$this->assertSame( '', Demo_Registry::path( '../qevora-layouts' ) );
@@ -93,17 +86,12 @@ class Demo_Registry_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_assets_are_inlined_per_demo() {
-		Demo_Registry::enqueue_assets( 'header-classic' );
+		Demo_Registry::enqueue_assets( 'header-dark-bar' );
 
-		$this->assertTrue( wp_style_is( 'qevora-demo-header-classic' ) );
-		$this->assertTrue( wp_script_is( 'qevora-demo-header-classic-js' ) );
-		$this->assertStringContainsString( '.qdhc', Qevora_Test_Env::$assets['qevora-demo-header-classic']['inline'], 'The stylesheet lives inside the demo file and prints inline.' );
-		$this->assertStringContainsString( 'qdhc', Qevora_Test_Env::$assets['qevora-demo-header-classic-js']['inline'] );
-
-		Demo_Registry::enqueue_assets( 'footer-columns' );
-
-		$this->assertFalse( wp_script_is( 'qevora-demo-footer-columns-js' ), 'Demos without JavaScript register none.' );
-		$this->assertStringNotContainsString( '.qdhc', Qevora_Test_Env::$assets['qevora-demo-footer-columns']['inline'], 'No CSS leaks between demos.' );
+		$this->assertTrue( wp_style_is( 'qevora-demo-header-dark-bar' ) );
+		$this->assertTrue( wp_script_is( 'qevora-demo-header-dark-bar-js' ) );
+		$this->assertStringContainsString( '.qhdb', Qevora_Test_Env::$assets['qevora-demo-header-dark-bar']['inline'], 'The stylesheet lives inside the demo file and prints inline.' );
+		$this->assertStringContainsString( 'qhdb', Qevora_Test_Env::$assets['qevora-demo-header-dark-bar-js']['inline'] );
 	}
 
 	/**
@@ -113,15 +101,20 @@ class Demo_Registry_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_preview_html_renders_the_real_demo() {
-		$preview = Demo_Registry::preview_html( 'header-classic', 0 );
+		$preview = Demo_Registry::preview_html( 'header-dark-bar', 0 );
 
-		$this->assertStringContainsString( 'class="qdhc', $preview );
-		$this->assertStringContainsString( '<style id="qevora-demo-preview-css-header-classic-0">', $preview );
+		$this->assertStringContainsString( 'class="qhdb"', $preview );
+		$this->assertStringContainsString( '<style id="qevora-demo-preview-css-header-dark-bar-0">', $preview );
 		$this->assertStringNotContainsString( '<nav', $preview, 'Previews render without a menu.' );
+		$this->assertStringContainsString( 'qhdb__cta', $preview, 'The call-to-action button previews too.' );
 
-		$dialog = Demo_Registry::preview_html( 'header-classic', 1 );
+		$dialog = Demo_Registry::preview_html( 'header-dark-bar', 1 );
 
-		$this->assertStringContainsString( 'qevora-demo-preview-css-header-classic-1', $dialog, 'Repeated previews keep unique ids.' );
+		$this->assertStringContainsString( 'qevora-demo-preview-css-header-dark-bar-1', $dialog, 'Repeated previews keep unique ids.' );
+
+		$custom = Demo_Registry::preview_html( 'header-dark-bar', 3, array( 'button_label' => 'Call the team' ) );
+
+		$this->assertStringContainsString( 'Call the team', $custom, 'Previews can render stored settings.' );
 		$this->assertSame( '', Demo_Registry::preview_html( 'nope' ) );
 	}
 
@@ -198,21 +191,15 @@ class Demo_Registry_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_settings_schemas_load_per_demo() {
-		$classic = Demo_Registry::settings_schema( 'header-classic' );
+		$demo = Demo_Registry::settings_schema( 'header-dark-bar' );
 
-		$this->assertArrayHasKey( 'site_title', $classic );
-		$this->assertSame( 'text', $classic['site_title']['type'] );
-		$this->assertSame( '', $classic['site_title']['default'] );
-		$this->assertSame( 'color', $classic['accent_color']['type'] );
-		$this->assertSame( '#2271b1', $classic['accent_color']['default'] );
-		$this->assertSame( 'checkbox', $classic['sticky_header']['type'] );
-		$this->assertFalse( $classic['sticky_header']['default'] );
-
-		$hero = Demo_Registry::settings_schema( 'section-hero' );
-
-		$this->assertSame( 'select', $hero['align']['type'] );
-		$this->assertSame( 'center', $hero['align']['default'] );
-		$this->assertArrayHasKey( 'left', $hero['align']['options'] );
+		$this->assertSame( array( 'accent_color', 'button_label', 'button_url', 'show_button' ), array_keys( $demo ), 'The demo ships only the fields it actually renders.' );
+		$this->assertSame( 'color', $demo['accent_color']['type'] );
+		$this->assertSame( '#f4511e', $demo['accent_color']['default'] );
+		$this->assertSame( 'text', $demo['button_label']['type'] );
+		$this->assertSame( 'url', $demo['button_url']['type'] );
+		$this->assertSame( 'checkbox', $demo['show_button']['type'] );
+		$this->assertTrue( $demo['show_button']['default'] );
 
 		$this->assertSame( array(), Demo_Registry::settings_schema( 'does-not-exist' ), 'Unknown demos have no settings.' );
 	}
@@ -225,32 +212,28 @@ class Demo_Registry_Test extends TestCase {
 	 */
 	public function test_sanitize_settings_is_type_aware_and_strict() {
 		$clean = Demo_Registry::sanitize_settings(
-			'header-classic',
+			'header-dark-bar',
 			array(
-				'site_title'    => "  Acme <script>alert(1)</script> & sons  ",
-				'accent_color'  => '#ZZZZZZ',
-				'sticky_header' => '1',
-				'evil'          => 'drop me',
+				'button_label' => "  Acme <script>alert(1)</script> & sons  ",
+				'accent_color' => '#ZZZZZZ',
+				'show_button'  => '1',
+				'evil'         => 'drop me',
 			)
 		);
 
-		$this->assertSame( array( 'site_title', 'accent_color', 'sticky_header' ), array_keys( $clean ), 'Unknown keys never survive.' );
-		$this->assertStringNotContainsString( '<script>', $clean['site_title'] );
-		$this->assertSame( '#2271b1', $clean['accent_color'], 'An invalid colour falls back to the default.' );
-		$this->assertTrue( $clean['sticky_header'] );
+		$this->assertSame( array( 'accent_color', 'button_label', 'show_button' ), array_keys( $clean ), 'Unknown keys never survive.' );
+		$this->assertStringNotContainsString( '<script>', $clean['button_label'] );
+		$this->assertSame( '#f4511e', $clean['accent_color'], 'An invalid colour falls back to the default.' );
+		$this->assertTrue( $clean['show_button'] );
 
 		$clean = Demo_Registry::sanitize_settings(
-			'section-hero',
-			array(
-				'align'      => 'sideways',
-				'button_url' => 'javascript:alert(1)',
-			)
+			'header-dark-bar',
+			array( 'button_url' => 'javascript:alert(1)' )
 		);
 
-		$this->assertSame( 'center', $clean['align'], 'An unknown select value falls back to the default.' );
 		$this->assertStringNotContainsString( 'javascript:', $clean['button_url'] );
 
-		$this->assertSame( array(), Demo_Registry::sanitize_settings( 'header-classic', 'not-an-array' ) );
+		$this->assertSame( array(), Demo_Registry::sanitize_settings( 'header-dark-bar', 'not-an-array' ) );
 	}
 
 	/**
@@ -261,16 +244,16 @@ class Demo_Registry_Test extends TestCase {
 	 */
 	public function test_get_settings_merges_stored_values_over_defaults() {
 		$settings = Demo_Registry::get_settings(
-			'footer-simple',
-			array( 'copyright' => 'Acme 2026' )
+			'header-dark-bar',
+			array( 'button_label' => 'Call the team' )
 		);
 
-		$this->assertSame( 'Acme 2026', $settings['copyright'] );
-		$this->assertTrue( $settings['show_back_to_top'], 'Untouched checkboxes keep their default.' );
-		$this->assertSame( '', $settings['top_label'] );
+		$this->assertSame( 'Call the team', $settings['button_label'] );
+		$this->assertTrue( $settings['show_button'], 'Untouched checkboxes keep their default.' );
+		$this->assertSame( '', $settings['button_url'] );
 
-		$defaults = Demo_Registry::get_settings( 'footer-simple' );
+		$defaults = Demo_Registry::get_settings( 'header-dark-bar' );
 
-		$this->assertSame( Demo_Registry::settings_defaults( 'footer-simple' ), $defaults );
+		$this->assertSame( Demo_Registry::settings_defaults( 'header-dark-bar' ), $defaults );
 	}
 }

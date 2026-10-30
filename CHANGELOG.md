@@ -5,6 +5,10 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 
 ## [Unreleased]
 
+### Changed
+
+- One focused demo, live in the editor: the seven earlier demos and all of their settings fields are removed, replaced by a single `header-dark-bar` demo (`templates/demos/header-dark-bar.php`) - a floating dark bar with a coloured logo tile, a centred uppercase dot-separated menu and a white call-to-action button. Its metabox exposes only the four fields it renders (`accent_color`, `button_label`, `button_url`, `show_button`) and now shows the demo **live**: the preview renders through the same closure as the front end with the saved settings, and the tile colour and button text update as you type. Library cards and the preview dialog keep their live previews; unused preview artwork was removed. Verified on WordPress 7.1.4: import, menu creation, front-end render, settings round-trip, metabox live preview and library previews.
+
 ### Added
 
 - Single-file demos with live previews: every bundled demo is now exactly one self-contained PHP file (`templates/demos/<slug>.php`) returning its manifest, settings schema, scoped CSS, vanilla JS and render closure - seven demos in seven files, nothing shared. The Template Library renders each demo live inside its card and in the preview dialog through the same render closure the front end uses, so the demo a user selects is exactly the markup the site displays; demo assets print inline under per-demo handles from the same file.

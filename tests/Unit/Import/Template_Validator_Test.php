@@ -410,13 +410,13 @@ class Template_Validator_Test extends TestCase {
 	 */
 	public function test_preview_validation() {
 		$bundled = $this->assert_accepts(
-			$this->payload( array( 'preview' => 'assets/images/previews/header-simple.svg' ) ),
+			$this->payload( array( 'preview' => 'assets/images/previews/header-dark-bar.svg' ) ),
 			array( 'origin' => 'bundled' )
 		);
 
-		$this->assertSame( 'assets/images/previews/header-simple.svg', $bundled->preview );
+		$this->assertSame( 'assets/images/previews/header-dark-bar.svg', $bundled->preview );
 		$this->assertSame(
-			QEVORA_LAYOUTS_URL . 'assets/images/previews/header-simple.svg',
+			QEVORA_LAYOUTS_URL . 'assets/images/previews/header-dark-bar.svg',
 			$bundled->get_preview_url()
 		);
 
@@ -437,7 +437,7 @@ class Template_Validator_Test extends TestCase {
 		$this->assertStringContainsString( 'does not exist', implode( ' ', $missing['warnings'] ) );
 
 		$upload = Template_Validator::validate(
-			$this->payload( array( 'preview' => 'assets/images/previews/header-simple.svg' ) ),
+			$this->payload( array( 'preview' => 'assets/images/previews/header-dark-bar.svg' ) ),
 			array( 'origin' => 'upload' )
 		);
 

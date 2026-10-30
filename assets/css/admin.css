@@ -834,3 +834,17 @@ body.qevora-preview-open {
 	width: 760px;
 	transform: scale(0.92);
 }
+
+/* Live demo preview inside the settings metabox on the edit screen. */
+.qevora-demo-live--meta {
+	height: 120px;
+	border: 1px solid #dcdcde;
+	border-radius: 6px;
+	margin: 0 0 10px;
+}
+
+.qevora-demo-live--meta .qevora-demo-live__inner {
+	width: 1100px;
+	transform: scale(0.68);
+	transform-origin: top left;
+}

@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Qevora Layouts 1.0.0\n"
 "Report-Msgid-Bugs-To: https://github.com/qevorasoftware/qevora-layouts/issues\n"
-"POT-Creation-Date: 2026-10-30T09:50:44+00:00\n"
+"POT-Creation-Date: 2026-10-30T10:10:46+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -485,6 +485,10 @@ msgstr ""
 msgid "Date"
 msgstr ""
 
+#: includes/Admin/Meta_Boxes.php:1020
+msgid "A layout cannot reference itself. The reference was cleared."
+msgstr ""
+
 #: includes/Admin/Meta_Boxes.php:116
 #: includes/Admin/Meta_Boxes.php:594
 msgid "Content source"
@@ -753,15 +757,18 @@ msgid ""
 "site immediately."
 msgstr ""
 
-#. translators: %s: relative path of the demo template file.
 #: includes/Admin/Meta_Boxes.php:832
+msgid ""
+"Live preview of this demo with the settings saved on this layout. Colours"
+"and the button label below update the preview as you type; everything else"
+"applies when you update."
+msgstr ""
+
+#. translators: %s: relative path of the demo template file.
+#: includes/Admin/Meta_Boxes.php:857
 msgid ""
 "Rendered on every request from %s - plain PHP, no block editor and no page"
 "builder. These options are the only content this demo uses."
-msgstr ""
-
-#: includes/Admin/Meta_Boxes.php:838
-msgid "This demo has no customisable options."
 msgstr ""
 
 #. translators: %s: name of the bundled demo.
@@ -769,12 +776,12 @@ msgstr ""
 msgid "%s - demo settings"
 msgstr ""
 
-#: includes/Admin/Meta_Boxes.php:98
-msgid "Layout type and placement"
+#: includes/Admin/Meta_Boxes.php:863
+msgid "This demo has no customisable options."
 msgstr ""
 
-#: includes/Admin/Meta_Boxes.php:995
-msgid "A layout cannot reference itself. The reference was cleared."
+#: includes/Admin/Meta_Boxes.php:98
+msgid "Layout type and placement"
 msgstr ""
 
 #: includes/Admin/Settings_Page.php:132
@@ -2625,309 +2632,56 @@ msgstr ""
 msgid "Qevora Layouts is inactive:"
 msgstr ""
 
-#: templates/demos/footer-columns.php:136
-msgid "Back to home"
+#: templates/demos/header-dark-bar.php:25
+msgid "Dark Bar Header"
 msgstr ""
 
-#. translators: 1: current year, 2: site name.
-#: templates/demos/footer-columns.php:149
-msgid "&copy; %1$s %2$s. All rights reserved."
-msgstr ""
-
-#: templates/demos/footer-columns.php:24
-msgid "Columns Footer"
-msgstr ""
-
-#: templates/demos/footer-columns.php:26
+#: templates/demos/header-dark-bar.php:27
 msgid ""
-"A three column footer: your site name and tagline, an optional navigation"
-"menu, and contact details pulled from the site info. The grid folds into a"
-"single column on phones. Rendered by the plugin with its own stylesheet -"
-"nothing is stored in the editor."
+"A floating dark navigation bar with a coloured logo tile, a centred"
+"uppercase menu with dot separators and a light call-to-action button."
+"Rendered entirely by the plugin from this one PHP file - responsive, with"
+"a tap-friendly slide-down menu on phones."
 msgstr ""
 
-#: templates/demos/footer-columns.php:28
-msgid "Create a sample footer menu (Home plus your published pages)"
-msgstr ""
-
-#: templates/demos/footer-columns.php:34
-msgid "About column heading"
-msgstr ""
-
-#: templates/demos/footer-columns.php:37
-#: templates/demos/section-hero.php:37
-msgid "Leave empty to use the site title."
-msgstr ""
-
-#: templates/demos/footer-columns.php:40
-msgid "About text"
-msgstr ""
-
-#: templates/demos/footer-columns.php:43
-#: templates/demos/section-hero.php:43
-msgid "Leave empty to use the site tagline."
-msgstr ""
-
-#: templates/demos/footer-columns.php:46
-msgid "Menu column heading"
-msgstr ""
-
-#: templates/demos/footer-columns.php:49
-#: templates/demos/footer-columns.php:55
-#: templates/demos/footer-simple.php:48
-#: templates/demos/section-cta.php:37
-#: templates/demos/section-cta.php:43
-#: templates/demos/section-cta.php:49
-#: templates/demos/section-faq.php:37
-msgid "Leave empty for the default wording."
-msgstr ""
-
-#: templates/demos/footer-columns.php:52
-msgid "Contact column heading"
-msgstr ""
-
-#: templates/demos/footer-columns.php:58
-#: templates/demos/footer-simple.php:34
-msgid "Copyright line"
-msgstr ""
-
-#: templates/demos/footer-columns.php:61
-#: templates/demos/footer-simple.php:37
-msgid "Leave empty for an automatic \"(c) year site name\" line."
-msgstr ""
-
-#: templates/demos/footer-columns.php:95
-msgid "Explore"
-msgstr ""
-
-#: templates/demos/footer-columns.php:96
-msgid "Contact"
-msgstr ""
-
-#: templates/demos/footer-simple.php:109
-msgid "Back to top"
-msgstr ""
-
-#. translators: 1: current year, 2: site name.
-#: templates/demos/footer-simple.php:122
-msgid "&copy; %1$s %2$s"
-msgstr ""
-
-#: templates/demos/footer-simple.php:24
-msgid "Simple Footer Bar"
-msgstr ""
-
-#: templates/demos/footer-simple.php:26
-msgid ""
-"A slim footer bar with the copyright line and a smooth back-to-top button."
-"Tiny, fast and fully responsive - rendered by the plugin with its own"
-"stylesheet and a few lines of vanilla JavaScript."
-msgstr ""
-
-#: templates/demos/footer-simple.php:40
-msgid "Show the back-to-top button"
-msgstr ""
-
-#: templates/demos/footer-simple.php:45
-msgid "Back-to-top label"
-msgstr ""
-
-#: templates/demos/header-centered.php:161
-#: templates/demos/header-classic.php:168
-msgid "Menu"
-msgstr ""
-
-#: templates/demos/header-centered.php:168
-#: templates/demos/header-classic.php:170
-msgid "Primary menu"
-msgstr ""
-
-#: templates/demos/header-centered.php:24
-msgid "Centered Header"
-msgstr ""
-
-#: templates/demos/header-centered.php:26
-msgid ""
-"A centered brand with the navigation neatly below it, collapsing into a"
-"full-width tap menu on phones. Pure plugin-rendered HTML, CSS and"
-"JavaScript - responsive at every width, no editor content involved."
-msgstr ""
-
-#: templates/demos/header-centered.php:28
-#: templates/demos/header-classic.php:28
+#: templates/demos/header-dark-bar.php:29
 msgid "Create a sample menu (Home plus your published pages)"
 msgstr ""
 
-#: templates/demos/header-centered.php:34
-#: templates/demos/header-classic.php:34
-msgid "Site title"
+#: templates/demos/header-dark-bar.php:291
+msgid "Book a call"
 msgstr ""
 
-#: templates/demos/header-centered.php:37
-#: templates/demos/header-classic.php:37
-msgid "Leave empty to use the site title from Settings - General."
+#: templates/demos/header-dark-bar.php:310
+msgid "Menu"
 msgstr ""
 
-#: templates/demos/header-centered.php:40
-msgid "Show the tagline under the title"
+#: templates/demos/header-dark-bar.php:312
+msgid "Primary menu"
 msgstr ""
 
-#: templates/demos/header-centered.php:45
-msgid "Tagline"
+#: templates/demos/header-dark-bar.php:35
+msgid "Logo tile colour"
 msgstr ""
 
-#: templates/demos/header-centered.php:48
-msgid "Leave empty to use the tagline from Settings - General."
-msgstr ""
-
-#: templates/demos/header-centered.php:51
-#: templates/demos/header-classic.php:45
-msgid "Stick the header to the top while scrolling"
-msgstr ""
-
-#: templates/demos/header-classic.php:24
-msgid "Classic Header"
-msgstr ""
-
-#: templates/demos/header-classic.php:26
-msgid ""
-"Site title with a colored brand mark on the left, a clean navigation menu"
-"on the right, and a tap-friendly slide-down menu on phones. Rendered"
-"entirely by the plugin with plain HTML, CSS and a little JavaScript - no"
-"page builder and no block editor needed."
-msgstr ""
-
-#: templates/demos/header-classic.php:40
-msgid "Brand mark colour"
-msgstr ""
-
-#: templates/demos/section-cta.php:141
-msgid "Ready to get started?"
-msgstr ""
-
-#: templates/demos/section-cta.php:142
-msgid "Tell your visitors what to do next - one clear sentence is plenty."
-msgstr ""
-
-#: templates/demos/section-cta.php:143
-msgid "Contact us"
-msgstr ""
-
-#: templates/demos/section-cta.php:24
-msgid "Call to Action Section"
-msgstr ""
-
-#: templates/demos/section-cta.php:26
-msgid ""
-"A compact coloured band with a title, one line of text and a button - the"
-"classic 'ready to get started?' strip. Rendered entirely by the plugin;"
-"texts, link and colours are customisable from the layout edit screen."
-msgstr ""
-
-#: templates/demos/section-cta.php:34
-msgid "Title"
-msgstr ""
-
-#: templates/demos/section-cta.php:40
-msgid "Text"
-msgstr ""
-
-#: templates/demos/section-cta.php:46
-#: templates/demos/section-hero.php:46
+#: templates/demos/header-dark-bar.php:40
 msgid "Button label"
 msgstr ""
 
-#: templates/demos/section-cta.php:52
-#: templates/demos/section-hero.php:52
+#: templates/demos/header-dark-bar.php:43
+msgid ""
+"Leave empty for the default wording, or clear it in combination with the"
+"link to hide the button."
+msgstr ""
+
+#: templates/demos/header-dark-bar.php:46
 msgid "Button link"
 msgstr ""
 
-#: templates/demos/section-cta.php:55
-#: templates/demos/section-hero.php:55
+#: templates/demos/header-dark-bar.php:49
 msgid "Leave empty to link to the front page."
 msgstr ""
 
-#: templates/demos/section-cta.php:58
-#: templates/demos/section-hero.php:67
-msgid "Background colour"
-msgstr ""
-
-#: templates/demos/section-cta.php:63
-msgid "Text colour"
-msgstr ""
-
-#: templates/demos/section-faq.php:216
-msgid "Frequently asked questions"
-msgstr ""
-
-#: templates/demos/section-faq.php:222
-msgid "Add questions in the demo settings of this layout."
-msgstr ""
-
-#: templates/demos/section-faq.php:24
-msgid "Frequently Asked Questions"
-msgstr ""
-
-#: templates/demos/section-faq.php:26
-msgid ""
-"An accessible question-and-answer accordion: plain HTML, its own"
-"stylesheet and a few lines of vanilla JavaScript for the open/close"
-"behaviour. Questions and answers are edited as plain lines of text on the"
-"layout edit screen."
-msgstr ""
-
-#: templates/demos/section-faq.php:34
-msgid "Section title"
-msgstr ""
-
-#: templates/demos/section-faq.php:40
-msgid "Questions and answers"
-msgstr ""
-
-#: templates/demos/section-faq.php:45
-msgid "One entry per line, written as: question | answer"
-msgstr ""
-
-#: templates/demos/section-faq.php:48
-msgid "Open the first question by default"
-msgstr ""
-
-#: templates/demos/section-hero.php:24
-msgid "Hero Section"
-msgstr ""
-
-#: templates/demos/section-hero.php:26
-msgid ""
-"A full-width welcome band with a heading, a supporting line and one"
-"call-to-action button. Rendered entirely by the plugin with plain HTML and"
-"its own responsive stylesheet; every text, the alignment and the colours"
-"are customisable from the layout edit screen."
-msgstr ""
-
-#: templates/demos/section-hero.php:34
-msgid "Heading"
-msgstr ""
-
-#: templates/demos/section-hero.php:40
-msgid "Supporting line"
-msgstr ""
-
-#: templates/demos/section-hero.php:49
-msgid "Leave empty to hide the button."
-msgstr ""
-
-#: templates/demos/section-hero.php:58
-msgid "Text alignment"
-msgstr ""
-
-#: templates/demos/section-hero.php:62
-msgid "Centred"
-msgstr ""
-
-#: templates/demos/section-hero.php:63
-msgid "Left"
-msgstr ""
-
-#: templates/demos/section-hero.php:72
-msgid "Button colour"
+#: templates/demos/header-dark-bar.php:52
+msgid "Show the call-to-action button"
 msgstr ""

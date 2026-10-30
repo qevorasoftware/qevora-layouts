@@ -38,7 +38,7 @@ Qevora Layouts lets you create any number of headers, footers and reusable secti
 
 = Template library =
 
-* Seven bundled demos, one self-contained PHP file each (markup, settings, CSS and JavaScript together), rendered by the plugin itself - two headers, two footers and three reusable sections. The library previews every demo live, and each demo is customised from its own settings box on the layout edit screen: no block editor, no page builder.
+* One bundled header demo - a floating dark bar with a coloured logo tile, a centred dot-separated menu and a white call-to-action button - as a single self-contained PHP file (markup, settings, CSS and JavaScript together), rendered by the plugin itself. The library previews it live, the layout edit screen shows a live preview that reacts to the saved settings, and only the fields the demo actually renders appear: no block editor, no page builder.
 * Import from the library, upload a `.json` file, or connect your own https endpoint.
 * Every template is validated against a schema before anything is created: type, builder, size, conditions, preview, requirements and a block list that rejects PHP tags, scripts, iframes, event handlers and `javascript:` URLs.
 * Imports never overwrite silently. The default policy is to skip a template that was imported before; you can ask for a copy, or pick one layout to replace explicitly.
@@ -130,12 +130,12 @@ Open an issue at [the GitHub repository](https://github.com/qevorasoftware/qevor
 * Placements: `wp_body_open`, `get_header`, `get_footer`, `wp_footer`, a custom hook or manual, with block theme detection.
 * Duplicate render guard, enable/disable switching, clone action and a list table with condition summaries.
 * Builder adapter layer: block editor through core APIs, Elementor through its documented public APIs, reference mode for any other builder.
-* Template library with seven bundled PHP demos, validated `.json` uploads and an optional https remote source.
+* Template library with the bundled dark bar header demo, validated `.json` uploads and an optional https remote source.
 * Per-demo settings: every demo layout is customised through its own metabox (texts, links, colours, toggles) and rendered from plugin PHP files on every request.
-* Ready-made PHP demos: headers and footers rendered by the plugin itself with plain HTML, responsive CSS and a little JavaScript - every demo keeps its own stylesheet and data, menu demos can create a real WordPress menu (Home plus your published pages) at import, and no page builder or block editor is needed.
+* Ready-made PHP demo: the header is rendered by the plugin itself with plain HTML, responsive CSS and a little JavaScript - it keeps its own stylesheet and data, can create a real WordPress menu (Home plus your published pages) at import, and no page builder or block editor is needed.
 * Imported demos can replace the theme's own header and footer instead of stacking on top of it: the option is offered checked by default on every import form, block themes drop the theme template part outright, classic themes hide it with sanitized inline CSS, theme files are never modified and unticking the box restores them instantly.
 * Choose where each imported demo displays (entire site, front page, posts and pages, archives) and the conditions are applied on import; refine them per layout later.
-* Every demo shows a preview image on its card and a large preview dialog with its display rules and builder requirement.
+* Every demo shows a live preview on its card and a large live preview dialog with its display rules and builder requirement; the layout edit screen previews the demo with your saved settings.
 * Schema validation, forbidden-pattern scanning, duplicate-safe import policies and per-template import results.
 * Admin screens: All Layouts, Add New, Template Library, Settings and System Status.
 * REST namespace `qevora-layouts/v1`, shortcode, block and template tags.

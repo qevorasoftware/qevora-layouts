@@ -229,20 +229,24 @@ class Demo_Registry {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param string $slug        Demo slug.
-	 * @param int    $instance_id Unique id suffix so several previews of the
-	 *                            same demo never share DOM ids.
+	 * @param string              $slug        Demo slug.
+	 * @param int                 $instance_id Unique id suffix so several
+	 *                                         previews of the same demo never
+	 *                                         share DOM ids.
+	 * @param array<string,mixed>|null $settings Settings to preview with;
+	 *                                         null means the demo defaults.
 	 * @return string HTML, empty for unknown demos.
 	 */
-	public static function preview_html( $slug, $instance_id = 0 ) {
+	public static function preview_html( $slug, $instance_id = 0, $settings = null ) {
 		$def = self::def( $slug );
 
 		if ( null === $def || ! is_callable( $def['render'] ) ) {
 			return '';
 		}
 
-		$layout = (object) array( 'id' => (int) $instance_id );
-		$html   = (string) call_user_func( $def['render'], $layout, $def['manifest'], 0, self::get_settings( (string) $def['manifest']['id'] ) );
+		$layout   = (object) array( 'id' => (int) $instance_id );
+		$settings = is_array( $settings ) ? self::get_settings( (string) $def['manifest']['id'], $settings ) : self::get_settings( (string) $def['manifest']['id'] );
+		$html     = (string) call_user_func( $def['render'], $layout, $def['manifest'], 0, $settings );
 
 		if ( '' === trim( $html ) ) {
 			return '';

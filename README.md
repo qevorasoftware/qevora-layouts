@@ -49,7 +49,7 @@ No third-party page builder is required to activate or use this plugin. Everythi
 
 **Builder adapters.** Content is authored in the block editor (always available) or in Elementor (when installed). The plugin never edits another builder's internal data: it calls documented APIs only, and falls back to core rendering if a builder cannot render.
 
-**Validated imports.** Seven bundled demos (two headers, two footers, three sections) are rendered by the plugin itself from PHP templates. Your own `.json` templates can still be uploaded or fetched from an optional https remote library: everything is validated against a schema before anything is created, imports never overwrite silently, and PHP is never executed from imported data.
+**Validated imports.** The bundled header demo is rendered by the plugin itself from a PHP template, live-previewed in the library and in the editor. Your own `.json` templates can still be uploaded or fetched from an optional https remote library: everything is validated against a schema before anything is created, imports never overwrite silently, and PHP is never executed from imported data.
 
 ## Installation
 
@@ -348,17 +348,13 @@ The library screen is built so a non-technical user can put a complete demo live
 
 ### Bundled PHP demos (no editor needed)
 
-Seven demos ship as **pure PHP templates** for sites that should not depend on the block editor or a page builder at all. **One demo is exactly one self-contained PHP file** - manifest, customisable settings, scoped stylesheet, vanilla JavaScript and the server-side render all live together, and nothing is shared between demos:
+One demo ships as a **pure PHP template** for sites that should not depend on the block editor or a page builder at all. **One demo is exactly one self-contained PHP file** - manifest, customisable settings, scoped stylesheet, vanilla JavaScript and the server-side render all live together:
 
 | Demo | Type | Menu | File |
 | --- | --- | --- | --- |
-| `header-classic` | header | yes | `templates/demos/header-classic.php` |
-| `header-centered` | header | yes | `templates/demos/header-centered.php` |
-| `footer-columns` | footer | yes | `templates/demos/footer-columns.php` |
-| `footer-simple` | footer | no | `templates/demos/footer-simple.php` |
-| `section-hero` | section | no | `templates/demos/section-hero.php` |
-| `section-cta` | section | no | `templates/demos/section-cta.php` |
-| `section-faq` | section | no | `templates/demos/section-faq.php` |
+| `header-dark-bar` | header | yes | `templates/demos/header-dark-bar.php` |
+
+**Dark Bar Header** is a floating dark bar: a coloured logo tile on the left, an uppercase dot-separated menu in the centre and a white call-to-action button on the right. Its settings metabox keeps exactly the fields it renders - `accent_color` (the logo tile colour, default `#f4511e`), `button_label`, `button_url` and `show_button` - and the edit screen shows the demo **live**: the metabox preview renders with the saved settings and updates the tile colour and button text as you type.
 
 Each file returns one array with five keys:
 
@@ -373,7 +369,7 @@ templates/demos/<slug>.php
 
 * **What you select is what you get:** the Template Library renders every demo **live** inside its card (and larger in the preview dialog) by calling the same render closure the front end uses - with the demo's own CSS in a scoped style tag - so the header, footer or section you pick is literally the markup your site displays. No screenshot can drift away from the template.
 * **Rendering:** layouts imported from a demo use the `demo` builder. `Demo_Adapter` calls the demo file's render closure with the layout, its menu id and its stored settings - the file is resolved through a strict allow list (`templates/demos/<slug>.php`, realpath-checked), so only files shipped inside the plugin can ever run, and imported JSON never becomes PHP. No post content is involved; the block editor never sees a demo.
-* **Assets, demo by demo:** the stylesheet and JavaScript are printed inline under per-demo handles (`qevora-demo-<slug>`, `qevora-demo-<slug>-js`) only while that exact demo is planned or rendered, queued at plan time so the CSS reaches `wp_head`. All markup and CSS is scoped to the demo (`qdhc`, `qdhh`, `qdfc`, `qdfs`, `qdsh`, `qdsc`, `qdsf` roots) and responsive down to phone widths.
+* **Assets, demo by demo:** the stylesheet and JavaScript are printed inline under per-demo handles (`qevora-demo-<slug>`, `qevora-demo-<slug>-js`) only while that exact demo is planned or rendered, queued at plan time so the CSS reaches `wp_head`. All markup and CSS is scoped to the demo (the `qhdb` root) and responsive down to phone widths.
 * **Real menus:** demos with menu support can create a genuine WordPress nav menu at import - the home link plus up to five published pages, never invented content. Menu names stay unique, creating one needs `edit_theme_options` (otherwise the demo imports anyway, with a warning), and the layout stores its own `menu_id` with an *Edit the menu created for this demo* link in the editor.
 * **Importing:** the library screen has a *Ready-made demos* section - each card offers *Display on* (default: entire site, so the demo shows immediately), *Create a sample menu*, *Hide the theme header/footer* (checked by default) and *Enabled/Disabled*. The REST route accepts `demo` + `create_menu`; duplicate handling works through the `qevora-demo-<slug>` provenance id.
 * **Extending:** the demo list is filterable (`qevora_layouts_demos`) and so is the rendered markup per demo (`qevora_layouts_demo_markup`).
@@ -648,7 +644,7 @@ qevora-layouts/
 ├── assets/                     css/, js/, images/previews/
 ├── templates/
 │   ├── frontend/layout-wrapper.php   Overridable from the theme
-│   └── demos/<slug>.php              Seven bundled demos, one self-contained PHP file each
+│   └── demos/<slug>.php              The bundled demo, one self-contained PHP file
 ├── languages/qevora-layouts.pot
 ├── tests/                      run.php, TestCase.php, stubs/, Unit/, Integration/
 └── tools/                      make-pot.py, build-zip.sh, verify-wp-functions.php
