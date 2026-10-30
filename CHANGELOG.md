@@ -7,6 +7,10 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 
 ### Added
 
+- Single-file demos with live previews: every bundled demo is now exactly one self-contained PHP file (`templates/demos/<slug>.php`) returning its manifest, settings schema, scoped CSS, vanilla JS and render closure - seven demos in seven files, nothing shared. The Template Library renders each demo live inside its card and in the preview dialog through the same render closure the front end uses, so the demo a user selects is exactly the markup the site displays; demo assets print inline under per-demo handles from the same file.
+
+### Added
+
 - Per-demo settings and a settings metabox: every bundled demo now keeps its customisable fields in its own `settings.php` schema (`templates/demos/<slug>/settings.php`), rendered as a metabox on the layout edit screen (texts, textareas, URLs, checkboxes, selects, colours, numbers) and saved schema-sanitised in `_qevora_layout_demo_settings`. Demo layouts no longer open in the block editor at all - their markup, styles and scripts live in plugin PHP files, the edit screen explains this and hides the empty content editor, and saved settings change the front end on the next request. Three new section demos join the four headers/footers (`section-hero`, `section-cta`, `section-faq`), so the bundled set covers headers, footers and reusable sections without any editor content. Verified on WordPress 7.1.4: metabox renders and saves sanitised settings, the rendered markup follows them, and section demos render through the same adapter.
 
 ### Removed

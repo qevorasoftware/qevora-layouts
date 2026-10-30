@@ -794,3 +794,43 @@ body.qevora-preview-open {
 		display: none;
 	}
 }
+
+/* Live demo previews in the template library: the bundled demo renders
+   itself, scaled down, exactly as the front end will show it. */
+.qevora-demo-live {
+	position: relative;
+	overflow: hidden;
+	height: 190px;
+	background: #fff;
+	pointer-events: none;
+}
+
+.qevora-demo-live__inner {
+	width: 1100px;
+	transform: scale(0.38);
+	transform-origin: top left;
+}
+
+.qevora-demo-live-source {
+	display: none;
+}
+
+.qevora-template__preview--live {
+	position: relative;
+}
+
+.qevora-preview-dialog__live {
+	margin: 0 0 16px;
+	border: 1px solid #dcdcde;
+	border-radius: 4px;
+	background: #fff;
+}
+
+.qevora-preview-dialog__live .qevora-demo-live {
+	height: 300px;
+}
+
+.qevora-preview-dialog__live .qevora-demo-live__inner {
+	width: 760px;
+	transform: scale(0.92);
+}

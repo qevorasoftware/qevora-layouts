@@ -132,7 +132,7 @@ class Meta_Boxes_Test extends TestCase {
 		$this->assertStringContainsString( 'type="color"', $html );
 		$this->assertStringContainsString( 'type="checkbox"', $html );
 		$this->assertStringContainsString( 'qevora_layouts_demo_settings_nonce', $html );
-		$this->assertStringContainsString( 'templates/demos/header-classic/template.php', $html, 'The box says where the markup lives.' );
+		$this->assertStringContainsString( 'templates/demos/header-classic.php', $html, 'The box says where the markup lives.' );
 		$this->assertStringNotContainsString( 'qevora_layout_demo_settings[heading]', $html, 'Other demos\' fields never leak in.' );
 	}
 

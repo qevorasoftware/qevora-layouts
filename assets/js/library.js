@@ -48,9 +48,22 @@
 
 		$dialog.data( 'qevora-opener', button );
 
-		$dialog.find( '.qevora-preview-dialog__image' )
-			.attr( 'src', String( button.getAttribute( 'data-preview-url' ) || '' ) )
-			.attr( 'alt', String( button.getAttribute( 'data-preview-name' ) || '' ) );
+		var htmlSource = button.getAttribute( 'data-preview-html' );
+		var $image = $dialog.find( '.qevora-preview-dialog__image' );
+		var $live = $dialog.find( '.qevora-preview-dialog__live' );
+
+		if ( htmlSource ) {
+			var source = document.querySelector( htmlSource );
+
+			$live.html( source ? $( source ).html() : '' ).prop( 'hidden', false );
+			$image.prop( 'hidden', true );
+		} else {
+			$image
+				.attr( 'src', String( button.getAttribute( 'data-preview-url' ) || '' ) )
+				.attr( 'alt', String( button.getAttribute( 'data-preview-name' ) || '' ) )
+				.prop( 'hidden', false );
+			$live.prop( 'hidden', true ).empty();
+		}
 
 		$dialog.find( '.qevora-preview-dialog__title' )
 			.text( String( button.getAttribute( 'data-preview-name' ) || '' ) );

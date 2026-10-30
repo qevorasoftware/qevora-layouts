@@ -10,6 +10,7 @@ namespace QevoraLayouts\Tests\Unit\Import;
 
 use QevoraLayouts\Import\Demo_Registry;
 use QevoraLayouts\Tests\TestCase;
+use Qevora_Test_Env;
 
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
@@ -54,17 +55,19 @@ class Demo_Registry_Test extends TestCase {
 	public function test_discovers_the_bundled_demos() {
 		$demos = Demo_Registry::demos();
 
-		foreach ( array( 'header-classic', 'header-centered', 'footer-columns', 'footer-simple' ) as $slug ) {
+		foreach ( array( 'header-classic', 'header-centered', 'footer-columns', 'footer-simple', 'section-hero', 'section-cta', 'section-faq' ) as $slug ) {
 			$this->assertArrayHasKey( $slug, $demos );
 			$this->assertSame( $slug, $demos[ $slug ]['id'] );
 			$this->assertNotSame( '', $demos[ $slug ]['name'] );
-			$this->assertContains( $demos[ $slug ]['type'], array( 'header', 'footer' ) );
+			$this->assertContains( $demos[ $slug ]['type'], array( 'header', 'footer', 'section' ) );
 		}
 
+		$this->assertCount( 7, $demos, 'Every bundled demo is exactly one PHP file in templates/demos/.' );
 		$this->assertTrue( $demos['header-classic']['menu'] );
 		$this->assertTrue( $demos['header-centered']['menu'] );
 		$this->assertTrue( $demos['footer-columns']['menu'] );
 		$this->assertFalse( $demos['footer-simple']['menu'], 'The simple footer needs no menu.' );
+		$this->assertFalse( $demos['section-faq']['menu'], 'Sections never ask for a menu.' );
 	}
 
 	/**
@@ -72,17 +75,16 @@ class Demo_Registry_Test extends TestCase {
 	 *
 	 * @return void
 	 */
-	public function test_path_resolves_only_allow_listed_files() {
-		$template = Demo_Registry::path( 'header-classic', 'template.php' );
+	public function test_path_resolves_only_the_demo_file() {
+		$file = Demo_Registry::path( 'header-classic' );
 
-		$this->assertNotSame( '', $template );
-		$this->assertTrue( is_file( $template ) );
+		$this->assertNotSame( '', $file );
+		$this->assertTrue( is_file( $file ) );
+		$this->assertStringContainsString( 'header-classic.php', $file, 'One demo is one PHP file.' );
 
-		$this->assertSame( '', Demo_Registry::path( 'header-classic', 'evil.php' ) );
-		$this->assertSame( '', Demo_Registry::path( 'header-classic', '../../starter-footer-minimal.json' ) );
-		$this->assertSame( '', Demo_Registry::path( 'header-classic', '../header-centered/template.php' ) );
-		$this->assertSame( '', Demo_Registry::path( 'does-not-exist', 'template.php' ) );
-		$this->assertSame( '', Demo_Registry::path( '../starter', 'template.php' ) );
+		$this->assertSame( '', Demo_Registry::path( 'does-not-exist' ) );
+		$this->assertSame( '', Demo_Registry::path( '../qevora-layouts' ) );
+		$this->assertSame( '', Demo_Registry::path( '' ) );
 	}
 
 	/**
@@ -90,18 +92,48 @@ class Demo_Registry_Test extends TestCase {
 	 *
 	 * @return void
 	 */
-	public function test_urls_are_per_demo_and_only_for_existing_files() {
-		$style = Demo_Registry::url( 'header-classic', 'style.css' );
+	public function test_assets_are_inlined_per_demo() {
+		Demo_Registry::enqueue_assets( 'header-classic' );
 
-		$this->assertStringContainsString( 'templates/demos/header-classic/style.css', $style );
-		$this->assertStringContainsString( 'templates/demos/header-centered/style.css', Demo_Registry::url( 'header-centered', 'style.css' ) );
-		$this->assertSame( '', Demo_Registry::url( 'header-classic', 'preview.png' ), 'Missing files resolve to nothing.' );
-		$this->assertSame( '', Demo_Registry::url( 'nope', 'style.css' ) );
+		$this->assertTrue( wp_style_is( 'qevora-demo-header-classic' ) );
+		$this->assertTrue( wp_script_is( 'qevora-demo-header-classic-js' ) );
+		$this->assertStringContainsString( '.qdhc', Qevora_Test_Env::$assets['qevora-demo-header-classic']['inline'], 'The stylesheet lives inside the demo file and prints inline.' );
+		$this->assertStringContainsString( 'qdhc', Qevora_Test_Env::$assets['qevora-demo-header-classic-js']['inline'] );
 
-		// Every demo keeps its own stylesheet and template.
+		Demo_Registry::enqueue_assets( 'footer-columns' );
+
+		$this->assertFalse( wp_script_is( 'qevora-demo-footer-columns-js' ), 'Demos without JavaScript register none.' );
+		$this->assertStringNotContainsString( '.qdhc', Qevora_Test_Env::$assets['qevora-demo-footer-columns']['inline'], 'No CSS leaks between demos.' );
+	}
+
+	/**
+	 * The library previews render the real demo markup, so what a user
+	 * selects is literally what the site will show.
+	 *
+	 * @return void
+	 */
+	public function test_preview_html_renders_the_real_demo() {
+		$preview = Demo_Registry::preview_html( 'header-classic', 0 );
+
+		$this->assertStringContainsString( 'class="qdhc', $preview );
+		$this->assertStringContainsString( '<style id="qevora-demo-preview-css-header-classic-0">', $preview );
+		$this->assertStringNotContainsString( '<nav', $preview, 'Previews render without a menu.' );
+
+		$dialog = Demo_Registry::preview_html( 'header-classic', 1 );
+
+		$this->assertStringContainsString( 'qevora-demo-preview-css-header-classic-1', $dialog, 'Repeated previews keep unique ids.' );
+		$this->assertSame( '', Demo_Registry::preview_html( 'nope' ) );
+	}
+
+	/**
+	 * Legacy placeholder so the old test name stays meaningful.
+	 *
+	 * @return void
+	 */
+	public function test_every_demo_keeps_its_own_file() {
+		// Every demo keeps its own single PHP file.
 		foreach ( array_keys( Demo_Registry::demos() ) as $slug ) {
-			$this->assertNotSame( '', Demo_Registry::path( (string) $slug, 'template.php' ), $slug . ' template' );
-			$this->assertNotSame( '', Demo_Registry::path( (string) $slug, 'style.css' ), $slug . ' stylesheet' );
+			$this->assertNotSame( '', Demo_Registry::path( (string) $slug ), $slug . ' demo file' );
 		}
 	}
 
@@ -115,13 +147,21 @@ class Demo_Registry_Test extends TestCase {
 			'qevora_layouts_demos',
 			function ( $demos ) {
 				$demos['extra-demo'] = array(
-					'id'          => 'extra-demo',
-					'name'        => 'Extra',
-					'type'        => 'header',
-					'description' => '',
-					'menu'        => false,
-					'menu_label'  => '',
-					'tags'        => array(),
+					'manifest' => array(
+						'id'          => 'extra-demo',
+						'name'        => 'Extra',
+						'type'        => 'header',
+						'description' => '',
+						'menu'        => false,
+						'menu_label'  => '',
+						'tags'        => array(),
+					),
+					'settings' => array(),
+					'css'      => '',
+					'js'       => '',
+					'render'   => static function () {
+						return '<div class="extra"></div>';
+					},
 				);
 
 				return $demos;
@@ -146,7 +186,7 @@ class Demo_Registry_Test extends TestCase {
 
 		$first = $cards[0];
 
-		foreach ( array( 'id', 'name', 'type', 'type_label', 'description', 'menu', 'menu_label', 'preview_url' ) as $key ) {
+		foreach ( array( 'id', 'name', 'type', 'type_label', 'description', 'menu', 'menu_label' ) as $key ) {
 			$this->assertArrayHasKey( $key, $first );
 		}
 	}

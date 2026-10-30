@@ -100,17 +100,17 @@ class Demo_Adapter extends Abstract_Builder_Adapter {
 			return '';
 		}
 
-		$demo = Demo_Registry::get( $layout->demo_slug );
+		$def = Demo_Registry::def( $layout->demo_slug );
 
-		if ( null === $demo ) {
+		if ( null === $def || ! is_callable( $def['render'] ) ) {
 			Logger::warning( 'Layout asks for an unknown demo.', array( 'layout_id' => $layout->id, 'demo' => $layout->demo_slug ) );
 
 			return '';
 		}
 
-		$file = Demo_Registry::path( (string) $demo['id'], 'template.php' );
+		$demo = $def['manifest'];
 
-		if ( '' === $file ) {
+		if ( '' === Demo_Registry::path( (string) $demo['id'] ) ) {
 			Logger::error( 'Demo template file is missing.', array( 'demo' => (string) $demo['id'] ) );
 
 			return '';
@@ -118,16 +118,13 @@ class Demo_Adapter extends Abstract_Builder_Adapter {
 
 		Demo_Registry::enqueue_assets( (string) $demo['id'] );
 
-		$qevora_layout        = $layout;
-		$qevora_demo          = $demo;
-		$qevora_menu_id       = (int) $layout->menu_id;
-		$qevora_demo_settings = Demo_Registry::get_settings( (string) $demo['id'], (array) get_post_meta( (int) $layout->id, Layout_Post_Type::META_DEMO_SETTINGS, true ) );
-
-		ob_start();
-
-		include $file; // phpcs:ignore WordPressVIPMinimum.Files.IncludingFile.NotAbsolutePath -- Resolved through the registry allow list above.
-
-		$html = (string) ob_get_clean();
+		$html = (string) call_user_func(
+			$def['render'],
+			$layout,
+			$demo,
+			(int) $layout->menu_id,
+			Demo_Registry::get_settings( (string) $demo['id'], (array) get_post_meta( (int) $layout->id, Layout_Post_Type::META_DEMO_SETTINGS, true ) )
+		);
 
 		/**
 		 * Filters the markup rendered by a bundled PHP demo.

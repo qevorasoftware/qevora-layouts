@@ -1,9 +1,0 @@
-{
-	"id": "header-classic",
-	"name": "Classic Header",
-	"type": "header",
-	"description": "Site title with a colored brand mark on the left, a clean navigation menu on the right, and a tap-friendly slide-down menu on phones. Rendered entirely by the plugin with plain HTML, CSS and a little JavaScript - no page builder and no block editor needed.",
-	"menu": true,
-	"menu_label": "Create a sample menu (Home plus your published pages)",
-	"tags": [ "header", "php", "responsive", "menu" ]
-}

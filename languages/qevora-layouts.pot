@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Qevora Layouts 1.0.0\n"
 "Report-Msgid-Bugs-To: https://github.com/qevorasoftware/qevora-layouts/issues\n"
-"POT-Creation-Date: 2026-10-30T09:26:03+00:00\n"
+"POT-Creation-Date: 2026-10-30T09:50:44+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -389,8 +389,8 @@ msgid "Auto detect"
 msgstr ""
 
 #: includes/Admin/Layout_Columns.php:198
-#: includes/Admin/Views/template-library.php:317
-#: includes/Admin/Views/template-library.php:330
+#: includes/Admin/Views/template-library.php:329
+#: includes/Admin/Views/template-library.php:342
 #: includes/Import/Template.php:270
 msgid "Block editor"
 msgstr ""
@@ -527,7 +527,7 @@ msgid ""
 msgstr ""
 
 #: includes/Admin/Meta_Boxes.php:216
-#: includes/Admin/Views/template-library.php:411
+#: includes/Admin/Views/template-library.php:423
 msgid "Hide the theme header/footer while this layout is displayed"
 msgstr ""
 
@@ -1528,8 +1528,8 @@ msgid "Template file (.json)"
 msgstr ""
 
 #: includes/Admin/Views/template-library.php:114
-#: includes/Admin/Views/template-library.php:236
-#: includes/Admin/Views/template-library.php:417
+#: includes/Admin/Views/template-library.php:248
+#: includes/Admin/Views/template-library.php:429
 msgid "Import as"
 msgstr ""
 
@@ -1538,13 +1538,13 @@ msgid "Enabled (published)"
 msgstr ""
 
 #: includes/Admin/Views/template-library.php:117
-#: includes/Admin/Views/template-library.php:239
-#: includes/Admin/Views/template-library.php:420
+#: includes/Admin/Views/template-library.php:251
+#: includes/Admin/Views/template-library.php:432
 msgid "Disabled (draft)"
 msgstr ""
 
 #: includes/Admin/Views/template-library.php:122
-#: includes/Admin/Views/template-library.php:423
+#: includes/Admin/Views/template-library.php:435
 msgid "If already imported"
 msgstr ""
 
@@ -1553,7 +1553,7 @@ msgid "Skip"
 msgstr ""
 
 #: includes/Admin/Views/template-library.php:125
-#: includes/Admin/Views/template-library.php:426
+#: includes/Admin/Views/template-library.php:438
 msgid "Import a copy"
 msgstr ""
 
@@ -1596,56 +1596,57 @@ msgstr ""
 
 #: includes/Admin/Views/template-library.php:191
 msgid ""
-"These headers and footers are built with plain HTML, CSS and a little"
-"JavaScript inside the plugin - fully responsive, and every demo has its"
-"own separate stylesheet and data. No block editor and no page builder"
-"needed, and demos with a menu can create a real WordPress menu for you at"
-"import."
+"Each card below shows the demo rendering live, straight from its PHP file"
+"- what you see here is exactly the header, footer or section your site"
+"will display after import. Every demo is one self-contained PHP file"
+"(markup, settings, CSS and JavaScript), fully responsive, with no block"
+"editor and no page builder; demos with a menu can create a real WordPress"
+"menu for you at import."
 msgstr ""
 
-#: includes/Admin/Views/template-library.php:207
-msgid "PHP demo (own CSS and JS)"
+#: includes/Admin/Views/template-library.php:211
+msgid "One PHP file: markup, settings, CSS and JS"
 msgstr ""
 
-#: includes/Admin/Views/template-library.php:208
+#: includes/Admin/Views/template-library.php:212
 msgid "Entire site by default"
 msgstr ""
 
-#: includes/Admin/Views/template-library.php:210
-msgid "Preview"
-msgstr ""
-
-#: includes/Admin/Views/template-library.php:217
-msgid "PHP demo"
+#: includes/Admin/Views/template-library.php:214
+msgid "Preview larger"
 msgstr ""
 
 #: includes/Admin/Views/template-library.php:229
-#: includes/Admin/Views/template-library.php:398
+msgid "PHP demo"
+msgstr ""
+
+#: includes/Admin/Views/template-library.php:241
+#: includes/Admin/Views/template-library.php:410
 msgid "Display on"
 msgstr ""
 
-#: includes/Admin/Views/template-library.php:238
-#: includes/Admin/Views/template-library.php:419
+#: includes/Admin/Views/template-library.php:250
+#: includes/Admin/Views/template-library.php:431
 msgid "Enabled (display now)"
 msgstr ""
 
-#: includes/Admin/Views/template-library.php:248
+#: includes/Admin/Views/template-library.php:260
 msgid "Create a sample menu"
 msgstr ""
 
-#: includes/Admin/Views/template-library.php:257
+#: includes/Admin/Views/template-library.php:269
 msgid "Hide the theme header/footer while this demo is displayed"
 msgstr ""
 
-#: includes/Admin/Views/template-library.php:262
+#: includes/Admin/Views/template-library.php:274
 msgid "Import demo"
 msgstr ""
 
-#: includes/Admin/Views/template-library.php:277
+#: includes/Admin/Views/template-library.php:289
 msgid "No templates to show"
 msgstr ""
 
-#: includes/Admin/Views/template-library.php:279
+#: includes/Admin/Views/template-library.php:291
 msgid ""
 "No importable JSON templates are registered right now - the bundled demos"
 "above cover headers, footers and sections without any editor content."
@@ -1654,41 +1655,41 @@ msgid ""
 "in Settings."
 msgstr ""
 
-#: includes/Admin/Views/template-library.php:282
+#: includes/Admin/Views/template-library.php:294
 msgid "Open import settings"
 msgstr ""
 
-#: includes/Admin/Views/template-library.php:317
-#: includes/Admin/Views/template-library.php:330
+#: includes/Admin/Views/template-library.php:329
+#: includes/Admin/Views/template-library.php:342
 #: includes/Import/Template.php:267
 msgid "Requires Elementor"
 msgstr ""
 
-#: includes/Admin/Views/template-library.php:333
+#: includes/Admin/Views/template-library.php:345
 msgid "Bundled"
 msgstr ""
 
-#: includes/Admin/Views/template-library.php:333
+#: includes/Admin/Views/template-library.php:345
 msgid "Remote"
 msgstr ""
 
-#: includes/Admin/Views/template-library.php:342
+#: includes/Admin/Views/template-library.php:354
 msgid "Displays on:"
 msgstr ""
 
 #. translators: %s: comma separated list of missing plugins.
-#: includes/Admin/Views/template-library.php:366
+#: includes/Admin/Views/template-library.php:378
 msgid "Not available yet: %s must be active."
 msgstr ""
 
 #. translators: %d: number of existing layouts.
-#: includes/Admin/Views/template-library.php:380
+#: includes/Admin/Views/template-library.php:392
 msgid "Already imported once."
 msgid_plural "Already imported %d times."
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/Admin/Views/template-library.php:385
+#: includes/Admin/Views/template-library.php:397
 msgid "Edit the existing layout"
 msgstr ""
 
@@ -1696,15 +1697,15 @@ msgstr ""
 msgid "Import settings"
 msgstr ""
 
-#: includes/Admin/Views/template-library.php:425
+#: includes/Admin/Views/template-library.php:437
 msgid "Skip duplicates"
 msgstr ""
 
-#: includes/Admin/Views/template-library.php:431
+#: includes/Admin/Views/template-library.php:443
 msgid "Import"
 msgstr ""
 
-#: includes/Admin/Views/template-library.php:447
+#: includes/Admin/Views/template-library.php:459
 msgid "Close preview"
 msgstr ""
 
@@ -2624,219 +2625,309 @@ msgstr ""
 msgid "Qevora Layouts is inactive:"
 msgstr ""
 
-#: templates/demos/footer-columns/settings.php:17
-msgid "About column heading"
-msgstr ""
-
-#: templates/demos/footer-columns/settings.php:20
-#: templates/demos/section-hero/settings.php:20
-msgid "Leave empty to use the site title."
-msgstr ""
-
-#: templates/demos/footer-columns/settings.php:23
-msgid "About text"
-msgstr ""
-
-#: templates/demos/footer-columns/settings.php:26
-#: templates/demos/section-hero/settings.php:26
-msgid "Leave empty to use the site tagline."
-msgstr ""
-
-#: templates/demos/footer-columns/settings.php:29
-msgid "Menu column heading"
-msgstr ""
-
-#: templates/demos/footer-columns/settings.php:32
-#: templates/demos/footer-columns/settings.php:38
-#: templates/demos/footer-simple/settings.php:31
-#: templates/demos/section-cta/settings.php:20
-#: templates/demos/section-cta/settings.php:26
-#: templates/demos/section-cta/settings.php:32
-#: templates/demos/section-faq/settings.php:20
-msgid "Leave empty for the default wording."
-msgstr ""
-
-#: templates/demos/footer-columns/settings.php:35
-msgid "Contact column heading"
-msgstr ""
-
-#: templates/demos/footer-columns/settings.php:41
-#: templates/demos/footer-simple/settings.php:17
-msgid "Copyright line"
-msgstr ""
-
-#: templates/demos/footer-columns/settings.php:44
-#: templates/demos/footer-simple/settings.php:20
-msgid "Leave empty for an automatic \"(c) year site name\" line."
-msgstr ""
-
-#: templates/demos/footer-columns/template.php:23
-msgid "Explore"
-msgstr ""
-
-#: templates/demos/footer-columns/template.php:24
-msgid "Contact"
-msgstr ""
-
-#: templates/demos/footer-columns/template.php:64
+#: templates/demos/footer-columns.php:136
 msgid "Back to home"
 msgstr ""
 
 #. translators: 1: current year, 2: site name.
-#: templates/demos/footer-columns/template.php:77
+#: templates/demos/footer-columns.php:149
 msgid "&copy; %1$s %2$s. All rights reserved."
 msgstr ""
 
-#: templates/demos/footer-simple/settings.php:23
-msgid "Show the back-to-top button"
+#: templates/demos/footer-columns.php:24
+msgid "Columns Footer"
 msgstr ""
 
-#: templates/demos/footer-simple/settings.php:28
-msgid "Back-to-top label"
+#: templates/demos/footer-columns.php:26
+msgid ""
+"A three column footer: your site name and tagline, an optional navigation"
+"menu, and contact details pulled from the site info. The grid folds into a"
+"single column on phones. Rendered by the plugin with its own stylesheet -"
+"nothing is stored in the editor."
 msgstr ""
 
-#: templates/demos/footer-simple/template.php:24
+#: templates/demos/footer-columns.php:28
+msgid "Create a sample footer menu (Home plus your published pages)"
+msgstr ""
+
+#: templates/demos/footer-columns.php:34
+msgid "About column heading"
+msgstr ""
+
+#: templates/demos/footer-columns.php:37
+#: templates/demos/section-hero.php:37
+msgid "Leave empty to use the site title."
+msgstr ""
+
+#: templates/demos/footer-columns.php:40
+msgid "About text"
+msgstr ""
+
+#: templates/demos/footer-columns.php:43
+#: templates/demos/section-hero.php:43
+msgid "Leave empty to use the site tagline."
+msgstr ""
+
+#: templates/demos/footer-columns.php:46
+msgid "Menu column heading"
+msgstr ""
+
+#: templates/demos/footer-columns.php:49
+#: templates/demos/footer-columns.php:55
+#: templates/demos/footer-simple.php:48
+#: templates/demos/section-cta.php:37
+#: templates/demos/section-cta.php:43
+#: templates/demos/section-cta.php:49
+#: templates/demos/section-faq.php:37
+msgid "Leave empty for the default wording."
+msgstr ""
+
+#: templates/demos/footer-columns.php:52
+msgid "Contact column heading"
+msgstr ""
+
+#: templates/demos/footer-columns.php:58
+#: templates/demos/footer-simple.php:34
+msgid "Copyright line"
+msgstr ""
+
+#: templates/demos/footer-columns.php:61
+#: templates/demos/footer-simple.php:37
+msgid "Leave empty for an automatic \"(c) year site name\" line."
+msgstr ""
+
+#: templates/demos/footer-columns.php:95
+msgid "Explore"
+msgstr ""
+
+#: templates/demos/footer-columns.php:96
+msgid "Contact"
+msgstr ""
+
+#: templates/demos/footer-simple.php:109
 msgid "Back to top"
 msgstr ""
 
 #. translators: 1: current year, 2: site name.
-#: templates/demos/footer-simple/template.php:37
+#: templates/demos/footer-simple.php:122
 msgid "&copy; %1$s %2$s"
 msgstr ""
 
-#: templates/demos/header-centered/settings.php:17
-#: templates/demos/header-classic/settings.php:21
-msgid "Site title"
+#: templates/demos/footer-simple.php:24
+msgid "Simple Footer Bar"
 msgstr ""
 
-#: templates/demos/header-centered/settings.php:20
-#: templates/demos/header-classic/settings.php:24
-msgid "Leave empty to use the site title from Settings - General."
+#: templates/demos/footer-simple.php:26
+msgid ""
+"A slim footer bar with the copyright line and a smooth back-to-top button."
+"Tiny, fast and fully responsive - rendered by the plugin with its own"
+"stylesheet and a few lines of vanilla JavaScript."
 msgstr ""
 
-#: templates/demos/header-centered/settings.php:23
-msgid "Show the tagline under the title"
+#: templates/demos/footer-simple.php:40
+msgid "Show the back-to-top button"
 msgstr ""
 
-#: templates/demos/header-centered/settings.php:28
-msgid "Tagline"
+#: templates/demos/footer-simple.php:45
+msgid "Back-to-top label"
 msgstr ""
 
-#: templates/demos/header-centered/settings.php:31
-msgid "Leave empty to use the tagline from Settings - General."
-msgstr ""
-
-#: templates/demos/header-centered/settings.php:34
-#: templates/demos/header-classic/settings.php:32
-msgid "Stick the header to the top while scrolling"
-msgstr ""
-
-#: templates/demos/header-centered/template.php:38
-#: templates/demos/header-classic/template.php:40
+#: templates/demos/header-centered.php:161
+#: templates/demos/header-classic.php:168
 msgid "Menu"
 msgstr ""
 
-#: templates/demos/header-centered/template.php:45
-#: templates/demos/header-classic/template.php:42
+#: templates/demos/header-centered.php:168
+#: templates/demos/header-classic.php:170
 msgid "Primary menu"
 msgstr ""
 
-#: templates/demos/header-classic/settings.php:27
+#: templates/demos/header-centered.php:24
+msgid "Centered Header"
+msgstr ""
+
+#: templates/demos/header-centered.php:26
+msgid ""
+"A centered brand with the navigation neatly below it, collapsing into a"
+"full-width tap menu on phones. Pure plugin-rendered HTML, CSS and"
+"JavaScript - responsive at every width, no editor content involved."
+msgstr ""
+
+#: templates/demos/header-centered.php:28
+#: templates/demos/header-classic.php:28
+msgid "Create a sample menu (Home plus your published pages)"
+msgstr ""
+
+#: templates/demos/header-centered.php:34
+#: templates/demos/header-classic.php:34
+msgid "Site title"
+msgstr ""
+
+#: templates/demos/header-centered.php:37
+#: templates/demos/header-classic.php:37
+msgid "Leave empty to use the site title from Settings - General."
+msgstr ""
+
+#: templates/demos/header-centered.php:40
+msgid "Show the tagline under the title"
+msgstr ""
+
+#: templates/demos/header-centered.php:45
+msgid "Tagline"
+msgstr ""
+
+#: templates/demos/header-centered.php:48
+msgid "Leave empty to use the tagline from Settings - General."
+msgstr ""
+
+#: templates/demos/header-centered.php:51
+#: templates/demos/header-classic.php:45
+msgid "Stick the header to the top while scrolling"
+msgstr ""
+
+#: templates/demos/header-classic.php:24
+msgid "Classic Header"
+msgstr ""
+
+#: templates/demos/header-classic.php:26
+msgid ""
+"Site title with a colored brand mark on the left, a clean navigation menu"
+"on the right, and a tap-friendly slide-down menu on phones. Rendered"
+"entirely by the plugin with plain HTML, CSS and a little JavaScript - no"
+"page builder and no block editor needed."
+msgstr ""
+
+#: templates/demos/header-classic.php:40
 msgid "Brand mark colour"
 msgstr ""
 
-#: templates/demos/section-cta/settings.php:17
-msgid "Title"
-msgstr ""
-
-#: templates/demos/section-cta/settings.php:23
-msgid "Text"
-msgstr ""
-
-#: templates/demos/section-cta/settings.php:29
-#: templates/demos/section-hero/settings.php:29
-msgid "Button label"
-msgstr ""
-
-#: templates/demos/section-cta/settings.php:35
-#: templates/demos/section-hero/settings.php:35
-msgid "Button link"
-msgstr ""
-
-#: templates/demos/section-cta/settings.php:38
-#: templates/demos/section-hero/settings.php:38
-msgid "Leave empty to link to the front page."
-msgstr ""
-
-#: templates/demos/section-cta/settings.php:41
-#: templates/demos/section-hero/settings.php:50
-msgid "Background colour"
-msgstr ""
-
-#: templates/demos/section-cta/settings.php:46
-msgid "Text colour"
-msgstr ""
-
-#: templates/demos/section-cta/template.php:21
+#: templates/demos/section-cta.php:141
 msgid "Ready to get started?"
 msgstr ""
 
-#: templates/demos/section-cta/template.php:22
+#: templates/demos/section-cta.php:142
 msgid "Tell your visitors what to do next - one clear sentence is plenty."
 msgstr ""
 
-#: templates/demos/section-cta/template.php:23
+#: templates/demos/section-cta.php:143
 msgid "Contact us"
 msgstr ""
 
-#: templates/demos/section-faq/settings.php:17
-msgid "Section title"
+#: templates/demos/section-cta.php:24
+msgid "Call to Action Section"
 msgstr ""
 
-#: templates/demos/section-faq/settings.php:23
-msgid "Questions and answers"
+#: templates/demos/section-cta.php:26
+msgid ""
+"A compact coloured band with a title, one line of text and a button - the"
+"classic 'ready to get started?' strip. Rendered entirely by the plugin;"
+"texts, link and colours are customisable from the layout edit screen."
 msgstr ""
 
-#: templates/demos/section-faq/settings.php:28
-msgid "One entry per line, written as: question | answer"
+#: templates/demos/section-cta.php:34
+msgid "Title"
 msgstr ""
 
-#: templates/demos/section-faq/settings.php:31
-msgid "Open the first question by default"
+#: templates/demos/section-cta.php:40
+msgid "Text"
 msgstr ""
 
-#: templates/demos/section-faq/template.php:46
+#: templates/demos/section-cta.php:46
+#: templates/demos/section-hero.php:46
+msgid "Button label"
+msgstr ""
+
+#: templates/demos/section-cta.php:52
+#: templates/demos/section-hero.php:52
+msgid "Button link"
+msgstr ""
+
+#: templates/demos/section-cta.php:55
+#: templates/demos/section-hero.php:55
+msgid "Leave empty to link to the front page."
+msgstr ""
+
+#: templates/demos/section-cta.php:58
+#: templates/demos/section-hero.php:67
+msgid "Background colour"
+msgstr ""
+
+#: templates/demos/section-cta.php:63
+msgid "Text colour"
+msgstr ""
+
+#: templates/demos/section-faq.php:216
 msgid "Frequently asked questions"
 msgstr ""
 
-#: templates/demos/section-faq/template.php:52
+#: templates/demos/section-faq.php:222
 msgid "Add questions in the demo settings of this layout."
 msgstr ""
 
-#: templates/demos/section-hero/settings.php:17
+#: templates/demos/section-faq.php:24
+msgid "Frequently Asked Questions"
+msgstr ""
+
+#: templates/demos/section-faq.php:26
+msgid ""
+"An accessible question-and-answer accordion: plain HTML, its own"
+"stylesheet and a few lines of vanilla JavaScript for the open/close"
+"behaviour. Questions and answers are edited as plain lines of text on the"
+"layout edit screen."
+msgstr ""
+
+#: templates/demos/section-faq.php:34
+msgid "Section title"
+msgstr ""
+
+#: templates/demos/section-faq.php:40
+msgid "Questions and answers"
+msgstr ""
+
+#: templates/demos/section-faq.php:45
+msgid "One entry per line, written as: question | answer"
+msgstr ""
+
+#: templates/demos/section-faq.php:48
+msgid "Open the first question by default"
+msgstr ""
+
+#: templates/demos/section-hero.php:24
+msgid "Hero Section"
+msgstr ""
+
+#: templates/demos/section-hero.php:26
+msgid ""
+"A full-width welcome band with a heading, a supporting line and one"
+"call-to-action button. Rendered entirely by the plugin with plain HTML and"
+"its own responsive stylesheet; every text, the alignment and the colours"
+"are customisable from the layout edit screen."
+msgstr ""
+
+#: templates/demos/section-hero.php:34
 msgid "Heading"
 msgstr ""
 
-#: templates/demos/section-hero/settings.php:23
+#: templates/demos/section-hero.php:40
 msgid "Supporting line"
 msgstr ""
 
-#: templates/demos/section-hero/settings.php:32
+#: templates/demos/section-hero.php:49
 msgid "Leave empty to hide the button."
 msgstr ""
 
-#: templates/demos/section-hero/settings.php:41
+#: templates/demos/section-hero.php:58
 msgid "Text alignment"
 msgstr ""
 
-#: templates/demos/section-hero/settings.php:45
+#: templates/demos/section-hero.php:62
 msgid "Centred"
 msgstr ""
 
-#: templates/demos/section-hero/settings.php:46
+#: templates/demos/section-hero.php:63
 msgid "Left"
 msgstr ""
 
-#: templates/demos/section-hero/settings.php:55
+#: templates/demos/section-hero.php:72
 msgid "Button colour"
 msgstr ""

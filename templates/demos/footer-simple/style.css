@@ -1,9 +1,0 @@
-/* Simple Footer Bar demo - scoped, responsive, no dependencies. */
-.qdfs{--qdfs-bg:#1e293b;--qdfs-fg:#e2e8f0;--qdfs-muted:#94a3b8;--qdfs-accent:#34d399;background:var(--qdfs-bg);color:var(--qdfs-fg);font-size:15px;line-height:1.5}
-.qdfs__inner{display:flex;align-items:center;justify-content:space-between;gap:12px;max-width:1200px;margin:0 auto;padding:16px 20px}
-.qdfs__copy{margin:0;color:var(--qdfs-muted)}
-.qdfs__top{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;background:transparent;border:1px solid rgba(226,232,240,.3);border-radius:999px;color:var(--qdfs-fg);font-size:.85rem;font-weight:600;cursor:pointer;transition:border-color .15s ease,color .15s ease}
-.qdfs__top:hover,.qdfs__top:focus{border-color:var(--qdfs-accent);color:var(--qdfs-accent)}
-@media (max-width:480px){
-	.qdfs__inner{flex-direction:column;text-align:center;padding:16px}
-}

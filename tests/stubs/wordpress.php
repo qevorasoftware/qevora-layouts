@@ -3827,6 +3827,18 @@ function wp_set_script_translations( $handle, $domain = '', $path = '' ) {
  * @param string $position Position.
  * @return bool
  */
+function wp_add_inline_script( $handle, $data, $position = 'after' ) {
+	return wp_add_inline_style( $handle, $data, $position );
+}
+
+/**
+ * Adds inline CSS to a stylesheet handle.
+ *
+ * @param string $handle Handle.
+ * @param string $data   CSS.
+ * @param string $position Position.
+ * @return bool
+ */
 function wp_add_inline_style( $handle, $data, $position = 'after' ) {
 	$handle = (string) $handle;
 

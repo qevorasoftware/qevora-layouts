@@ -830,7 +830,7 @@ class Meta_Boxes {
 			sprintf(
 				/* translators: %s: relative path of the demo template file. */
 				__( 'Rendered on every request from %s - plain PHP, no block editor and no page builder. These options are the only content this demo uses.', 'qevora-layouts' ),
-				'templates/demos/' . $slug . '/template.php'
+				'templates/demos/' . $slug . '.php'
 			)
 		) . '</p>';
 

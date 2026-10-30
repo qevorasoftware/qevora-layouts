@@ -341,39 +341,42 @@ Off by default, with no built-in or hard-coded endpoint. When an administrator e
 
 The library screen is built so a non-technical user can put a complete demo live in one click:
 
-* **Per-demo settings metabox** - every demo layout is customised on its edit screen through a metabox built from that demo's own `settings.php` schema (texts, links, colours, toggles, selects). Demo layouts never open in the block editor: their markup lives in plugin PHP files, the edit screen says so and hides the empty content editor, and saved settings render on the front end immediately.
+* **Per-demo settings metabox** - every demo layout is customised on its edit screen through a metabox built from the settings schema inside that demo's single PHP file (texts, links, colours, toggles, selects). Demo layouts never open in the block editor: their markup lives in plugin PHP files, the edit screen says so and hides the empty content editor, and saved settings render on the front end immediately.
 * **Display scope on every import** - each demo card offers a *Display on* select: *Where the demo says - recommended*, *Entire site*, *Front page only*, *Single posts and pages*, *Blog and archive listings*. The chosen scope becomes the layout's conditions at import time - for every import path (demo card, upload, admin AJAX and REST), so the default header/footer appears exactly where the user picked, without opening the editor. The import confirmation repeats it in plain words (*Displays on: Entire site*). Scopes map to condition sets through `qevora_layouts_display_scope_conditions`, and the list itself is filterable (`qevora_layouts_display_scopes`). The REST route accepts the same `display_scope` key, a full `conditions` object (`{include:[],exclude:[]}`) for programmatic imports, and - for the PHP demos below - `demo` (slug) plus `create_menu` (boolean).
 * **Previews for every demo** - each card shows its preview image and a *Preview* button that opens an accessible dialog (focus moved in, Escape or *Close* moves it back) with the large image, the type, the builder requirement and the display rules the demo ships with. Cards without a preview image fall back to the bundled placeholder, so a preview always exists.
 * **Enabled vs draft** - every import form keeps the *Enabled (display now)* / *Disabled (draft)* choice; "display now" simply means the layout is stored published with the chosen conditions.
 
 ### Bundled PHP demos (no editor needed)
 
-Seven demos ship as **pure PHP templates** for sites that should not depend on the block editor or a page builder at all. Each demo lives in its own folder and keeps its own data, styles and behaviour:
+Seven demos ship as **pure PHP templates** for sites that should not depend on the block editor or a page builder at all. **One demo is exactly one self-contained PHP file** - manifest, customisable settings, scoped stylesheet, vanilla JavaScript and the server-side render all live together, and nothing is shared between demos:
 
-| Demo | Type | Menu | Files |
+| Demo | Type | Menu | File |
 | --- | --- | --- | --- |
-| `header-classic` | header | yes | `template.php`, `style.css`, `script.js` |
-| `header-centered` | header | yes | `template.php`, `style.css`, `script.js` |
-| `footer-columns` | footer | yes | `template.php`, `style.css` |
-| `footer-simple` | footer | no | `template.php`, `style.css`, `script.js` |
-| `section-hero` | section | no | `template.php`, `style.css`, `settings.php` |
-| `section-cta` | section | no | `template.php`, `style.css`, `settings.php` |
-| `section-faq` | section | no | `template.php`, `style.css`, `script.js`, `settings.php` |
+| `header-classic` | header | yes | `templates/demos/header-classic.php` |
+| `header-centered` | header | yes | `templates/demos/header-centered.php` |
+| `footer-columns` | footer | yes | `templates/demos/footer-columns.php` |
+| `footer-simple` | footer | no | `templates/demos/footer-simple.php` |
+| `section-hero` | section | no | `templates/demos/section-hero.php` |
+| `section-cta` | section | no | `templates/demos/section-cta.php` |
+| `section-faq` | section | no | `templates/demos/section-faq.php` |
+
+Each file returns one array with five keys:
 
 ```
-templates/demos/<slug>/
-	demo.json      manifest: id, name, type, description, menu support
-	template.php   the HTML, rendered server-side with escaped WP APIs
-	settings.php   that demo's customisable fields (metabox + defaults)
-	style.css      that demo's own responsive stylesheet
-	script.js      that demo's own vanilla JavaScript (mobile menu, back to top)
+templates/demos/<slug>.php
+	'manifest'  id, name, type, description, menu support, tags
+	'settings'  the customisable fields (metabox schema + defaults)
+	'css'       that demo's own scoped, responsive stylesheet
+	'js'        that demo's own vanilla JavaScript (or '')
+	'render'    closure that prints the HTML with escaped WP APIs
 ```
 
-* **Rendering:** layouts imported from a demo use the `demo` builder. `Demo_Adapter` includes the demo's `template.php` - resolved through a strict allow list, so only files shipped inside the plugin can ever be included, and imported JSON never becomes PHP. No post content is involved; editing happens in the demo files, not the editor.
-* **Assets, demo by demo:** the stylesheet and script are enqueued only while that exact demo is planned or rendered (queued at plan time so the CSS reaches `wp_head`). All markup and CSS is scoped to the demo (`qdhc`, `qdhh`, `qdfc`, `qdfs` roots), responsive down to phone widths, and nothing is shared between demos.
+* **What you select is what you get:** the Template Library renders every demo **live** inside its card (and larger in the preview dialog) by calling the same render closure the front end uses - with the demo's own CSS in a scoped style tag - so the header, footer or section you pick is literally the markup your site displays. No screenshot can drift away from the template.
+* **Rendering:** layouts imported from a demo use the `demo` builder. `Demo_Adapter` calls the demo file's render closure with the layout, its menu id and its stored settings - the file is resolved through a strict allow list (`templates/demos/<slug>.php`, realpath-checked), so only files shipped inside the plugin can ever run, and imported JSON never becomes PHP. No post content is involved; the block editor never sees a demo.
+* **Assets, demo by demo:** the stylesheet and JavaScript are printed inline under per-demo handles (`qevora-demo-<slug>`, `qevora-demo-<slug>-js`) only while that exact demo is planned or rendered, queued at plan time so the CSS reaches `wp_head`. All markup and CSS is scoped to the demo (`qdhc`, `qdhh`, `qdfc`, `qdfs`, `qdsh`, `qdsc`, `qdsf` roots) and responsive down to phone widths.
 * **Real menus:** demos with menu support can create a genuine WordPress nav menu at import - the home link plus up to five published pages, never invented content. Menu names stay unique, creating one needs `edit_theme_options` (otherwise the demo imports anyway, with a warning), and the layout stores its own `menu_id` with an *Edit the menu created for this demo* link in the editor.
 * **Importing:** the library screen has a *Ready-made demos* section - each card offers *Display on* (default: entire site, so the demo shows immediately), *Create a sample menu*, *Hide the theme header/footer* (checked by default) and *Enabled/Disabled*. The REST route accepts `demo` + `create_menu`; duplicate handling works through the `qevora-demo-<slug>` provenance id.
-* **Extending:** the demo list is filterable (`qevora_layouts_demos`) and the rendered markup per demo (`qevora_layouts_demo_markup`).
+* **Extending:** the demo list is filterable (`qevora_layouts_demos`) and so is the rendered markup per demo (`qevora_layouts_demo_markup`).
 
 ### Duplicate handling
 
@@ -645,7 +648,7 @@ qevora-layouts/
 ├── assets/                     css/, js/, images/previews/
 ├── templates/
 │   ├── frontend/layout-wrapper.php   Overridable from the theme
-│   └── demos/<slug>/                 Seven bundled PHP demos (manifest, template, CSS, JS, settings)
+│   └── demos/<slug>.php              Seven bundled demos, one self-contained PHP file each
 ├── languages/qevora-layouts.pot
 ├── tests/                      run.php, TestCase.php, stubs/, Unit/, Integration/
 └── tools/                      make-pot.py, build-zip.sh, verify-wp-functions.php

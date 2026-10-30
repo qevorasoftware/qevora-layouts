@@ -188,27 +188,39 @@ $qevora_scopes    = Importer::display_scopes();
 		<div class="card qevora-library__demos">
 			<h2 class="title"><?php esc_html_e( 'Ready-made demos (rendered by the plugin)', 'qevora-layouts' ); ?></h2>
 			<p>
-				<?php esc_html_e( 'These headers and footers are built with plain HTML, CSS and a little JavaScript inside the plugin - fully responsive, and every demo has its own separate stylesheet and data. No block editor and no page builder needed, and demos with a menu can create a real WordPress menu for you at import.', 'qevora-layouts' ); ?>
+				<?php esc_html_e( 'Each card below shows the demo rendering live, straight from its PHP file - what you see here is exactly the header, footer or section your site will display after import. Every demo is one self-contained PHP file (markup, settings, CSS and JavaScript), fully responsive, with no block editor and no page builder; demos with a menu can create a real WordPress menu for you at import.', 'qevora-layouts' ); ?>
 			</p>
 
 			<div class="qevora-library__grid">
 				<?php foreach ( $qevora_demos as $qevora_demo ) : ?>
 					<article class="qevora-template qevora-demo-card" data-demo="<?php echo esc_attr( (string) $qevora_demo['id'] ); ?>">
-						<div class="qevora-template__preview">
-							<img src="<?php echo esc_url( '' !== (string) $qevora_demo['preview_url'] ? (string) $qevora_demo['preview_url'] : $qevora_placeholder ); ?>" alt="" width="400" height="220" loading="lazy" />
+						<div class="qevora-template__preview qevora-template__preview--live">
+							<div class="qevora-demo-live" aria-hidden="true">
+								<div class="qevora-demo-live__inner">
+									<?php echo Demo_Registry::preview_html( (string) $qevora_demo['id'], 0 ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Bundled demo markup; escaped inside the demo file. ?>
+								</div>
+							</div>
 							<button
 								type="button"
 								class="button qevora-template__preview-button"
 								data-qevora-preview
-								data-preview-url="<?php echo esc_url( '' !== (string) $qevora_demo['preview_url'] ? (string) $qevora_demo['preview_url'] : $qevora_placeholder ); ?>"
+								data-preview-html="#qevora-demo-dialog-source-<?php echo esc_attr( (string) $qevora_demo['id'] ); ?>"
 								data-preview-name="<?php echo esc_attr( (string) $qevora_demo['name'] ); ?>"
 								data-preview-description="<?php echo esc_attr( (string) $qevora_demo['description'] ); ?>"
 								data-preview-type="<?php echo esc_attr( (string) $qevora_demo['type_label'] ); ?>"
-								data-preview-builder="<?php esc_attr_e( 'PHP demo (own CSS and JS)', 'qevora-layouts' ); ?>"
+								data-preview-builder="<?php esc_attr_e( 'One PHP file: markup, settings, CSS and JS', 'qevora-layouts' ); ?>"
 								data-preview-scope="<?php esc_attr_e( 'Entire site by default', 'qevora-layouts' ); ?>"
 							>
-								<?php esc_html_e( 'Preview', 'qevora-layouts' ); ?>
+								<?php esc_html_e( 'Preview larger', 'qevora-layouts' ); ?>
 							</button>
+						</div>
+
+						<div class="qevora-demo-live-source" id="qevora-demo-dialog-source-<?php echo esc_attr( (string) $qevora_demo['id'] ); ?>" hidden>
+							<div class="qevora-demo-live">
+								<div class="qevora-demo-live__inner">
+									<?php echo Demo_Registry::preview_html( (string) $qevora_demo['id'], 1 ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Bundled demo markup; escaped inside the demo file. ?>
+								</div>
+							</div>
 						</div>
 
 						<div class="qevora-template__body">
@@ -447,6 +459,7 @@ $qevora_scopes    = Importer::display_scopes();
 				<?php esc_html_e( 'Close preview', 'qevora-layouts' ); ?>
 			</button>
 			<img class="qevora-preview-dialog__image" src="" alt="" />
+			<div class="qevora-preview-dialog__live" hidden></div>
 			<h2 id="qevora-preview-dialog-title" class="qevora-preview-dialog__title"></h2>
 			<p class="qevora-preview-dialog__meta"></p>
 			<p class="qevora-preview-dialog__description"></p>

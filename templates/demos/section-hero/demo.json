@@ -1,8 +1,0 @@
-{
-	"id": "section-hero",
-	"name": "Hero Section",
-	"type": "section",
-	"description": "A full-width welcome band with a heading, a supporting line and one call-to-action button. Rendered entirely by the plugin with plain HTML and its own responsive stylesheet; every text, the alignment and the colours are customisable from the layout edit screen.",
-	"menu": false,
-	"tags": [ "section", "php", "responsive", "hero" ]
-}
