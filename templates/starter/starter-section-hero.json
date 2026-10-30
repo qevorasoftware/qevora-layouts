@@ -1,0 +1,28 @@
+{
+  "$schema": "qevora-layouts/template/v1",
+  "id": "qevora-section-hero",
+  "name": "Hero Section",
+  "description": "A centered headline, a supporting sentence, one button and a three-column benefit row. Reusable on every page that needs the same introduction.",
+  "type": "section",
+  "builder": "block",
+  "content": "<!-- wp:group {\"align\":\"full\",\"style\":{\"spacing\":{\"padding\":{\"top\":\"80px\",\"right\":\"24px\",\"bottom\":\"80px\",\"left\":\"24px\"}}},\"layout\":{\"type\":\"constrained\"}} -->\n<div class=\"wp-block-group alignfull\" style=\"padding-top:80px;padding-right:24px;padding-bottom:80px;padding-left:24px\"><!-- wp:heading {\"textAlign\":\"center\",\"level\":1,\"style\":{\"typography\":{\"fontSize\":\"44px\",\"lineHeight\":\"1.15\"}}} -->\n<h1 class=\"wp-block-heading has-text-align-center\" style=\"font-size:44px;line-height:1.15\">Your headline goes here</h1>\n<!-- /wp:heading -->\n\n<!-- wp:paragraph {\"align\":\"center\",\"style\":{\"typography\":{\"fontSize\":\"18px\"}}} -->\n<p class=\"has-text-align-center\" style=\"font-size:18px\">A short supporting sentence that explains the offer in one line.</p>\n<!-- /wp:paragraph -->\n\n<!-- wp:buttons {\"layout\":{\"type\":\"flex\",\"justifyContent\":\"center\"}} -->\n<div class=\"wp-block-buttons\"><!-- wp:button -->\n<div class=\"wp-block-button\"><a class=\"wp-block-button__link wp-element-button\" href=\"#\">Get started</a></div>\n<!-- /wp:button --></div>\n<!-- /wp:buttons -->\n\n<!-- wp:spacer {\"height\":\"32px\"} -->\n<div style=\"height:32px\" aria-hidden=\"true\" class=\"wp-block-spacer\"></div>\n<!-- /wp:spacer -->\n\n<!-- wp:columns {\"align\":\"wide\"} -->\n<div class=\"wp-block-columns alignwide\"><!-- wp:column -->\n<div class=\"wp-block-column\"><!-- wp:heading {\"level\":3,\"style\":{\"typography\":{\"fontSize\":\"18px\"}}} -->\n<h3 class=\"wp-block-heading\" style=\"font-size:18px\">First benefit</h3>\n<!-- /wp:heading -->\n\n<!-- wp:paragraph {\"style\":{\"typography\":{\"fontSize\":\"14px\"}}} -->\n<p style=\"font-size:14px\">Describe the first benefit of your product or service.</p>\n<!-- /wp:paragraph --></div>\n<!-- /wp:column -->\n\n<!-- wp:column -->\n<div class=\"wp-block-column\"><!-- wp:heading {\"level\":3,\"style\":{\"typography\":{\"fontSize\":\"18px\"}}} -->\n<h3 class=\"wp-block-heading\" style=\"font-size:18px\">Second benefit</h3>\n<!-- /wp:heading -->\n\n<!-- wp:paragraph {\"style\":{\"typography\":{\"fontSize\":\"14px\"}}} -->\n<p style=\"font-size:14px\">Describe the second benefit of your product or service.</p>\n<!-- /wp:paragraph --></div>\n<!-- /wp:column -->\n\n<!-- wp:column -->\n<div class=\"wp-block-column\"><!-- wp:heading {\"level\":3,\"style\":{\"typography\":{\"fontSize\":\"18px\"}}} -->\n<h3 class=\"wp-block-heading\" style=\"font-size:18px\">Third benefit</h3>\n<!-- /wp:heading -->\n\n<!-- wp:paragraph {\"style\":{\"typography\":{\"fontSize\":\"14px\"}}} -->\n<p style=\"font-size:14px\">Describe the third benefit of your product or service.</p>\n<!-- /wp:paragraph --></div>\n<!-- /wp:column --></div>\n<!-- /wp:columns --></div>\n<!-- /wp:group -->\n",
+  "conditions": {
+    "include": [],
+    "exclude": []
+  },
+  "priority": 10,
+  "placement": "manual",
+  "preview": "assets/images/previews/section-hero.svg",
+  "tags": [
+    "section",
+    "hero",
+    "reusable"
+  ],
+  "requires": {
+    "wordpress": "6.4",
+    "php": "7.4"
+  },
+  "version": "1.0.0",
+  "author": "Qevora Software",
+  "license": "GPL-2.0-or-later"
+}

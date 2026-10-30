@@ -1,0 +1,33 @@
+{
+  "$schema": "qevora-layouts/template/v1",
+  "id": "qevora-header-announcement",
+  "name": "Header with Announcement Bar",
+  "description": "An announcement bar above the simple header row. Applies everywhere except single posts, and wins over the other headers thanks to its higher priority.",
+  "type": "header",
+  "builder": "block",
+  "content": "<!-- wp:group {\"align\":\"full\",\"style\":{\"color\":{\"background\":\"#1d2327\",\"text\":\"#f6f7f7\"},\"spacing\":{\"padding\":{\"top\":\"10px\",\"right\":\"24px\",\"bottom\":\"10px\",\"left\":\"24px\"}}},\"layout\":{\"type\":\"flex\",\"justifyContent\":\"center\"}} -->\n<div class=\"wp-block-group alignfull has-text-color has-background\" style=\"color:#f6f7f7;background-color:#1d2327;padding-top:10px;padding-right:24px;padding-bottom:10px;padding-left:24px\"><!-- wp:paragraph {\"align\":\"center\",\"style\":{\"typography\":{\"fontSize\":\"14px\"}}} -->\n<p class=\"has-text-align-center\" style=\"font-size:14px\">Replace this announcement with your own message. It is a normal paragraph block, so it can hold any text or link.</p>\n<!-- /wp:paragraph --></div>\n<!-- /wp:group -->\n\n<!-- wp:group {\"align\":\"full\",\"style\":{\"spacing\":{\"padding\":{\"top\":\"16px\",\"right\":\"24px\",\"bottom\":\"16px\",\"left\":\"24px\"}}},\"layout\":{\"type\":\"flex\",\"flexWrap\":\"nowrap\",\"justifyContent\":\"space-between\"}} -->\n<div class=\"wp-block-group alignfull\" style=\"padding-top:16px;padding-right:24px;padding-bottom:16px;padding-left:24px\"><!-- wp:group {\"layout\":{\"type\":\"flex\",\"flexWrap\":\"nowrap\"}} -->\n<div class=\"wp-block-group\"><!-- wp:site-logo {\"width\":42,\"shouldSyncIcon\":true} /-->\n\n<!-- wp:site-title {\"level\":1} /--></div>\n<!-- /wp:group -->\n\n<!-- wp:navigation {\"overlayMenu\":\"mobile\",\"layout\":{\"type\":\"flex\",\"setCascadingProperties\":true,\"justifyContent\":\"right\",\"orientation\":\"horizontal\"}} /--></div>\n<!-- /wp:group -->\n",
+  "conditions": {
+    "include": [],
+    "exclude": [
+      {
+        "type": "post_type",
+        "value": "post"
+      }
+    ]
+  },
+  "priority": 30,
+  "placement": "wp_body_open",
+  "preview": "assets/images/previews/header-announcement.svg",
+  "tags": [
+    "header",
+    "announcement",
+    "priority"
+  ],
+  "requires": {
+    "wordpress": "6.4",
+    "php": "7.4"
+  },
+  "version": "1.0.0",
+  "author": "Qevora Software",
+  "license": "GPL-2.0-or-later"
+}

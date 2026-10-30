@@ -1,0 +1,17 @@
+# Build output
+/release/
+*.zip
+
+# Tooling / editor noise
+node_modules/
+vendor/
+.DS_Store
+Thumbs.db
+*.log
+*.swp
+.idea/
+.vscode/
+
+# PHP tooling caches
+.phpunit.result.cache
+.phpcs-cache

@@ -1,0 +1,28 @@
+{
+  "$schema": "qevora-layouts/template/v1",
+  "id": "qevora-section-faq",
+  "name": "Frequently Asked Questions",
+  "description": "A heading with core details/summary blocks holding three questions. Reusable on product, service and support pages.",
+  "type": "section",
+  "builder": "block",
+  "content": "<!-- wp:group {\"align\":\"wide\",\"style\":{\"spacing\":{\"padding\":{\"top\":\"40px\",\"right\":\"24px\",\"bottom\":\"40px\",\"left\":\"24px\"}}},\"layout\":{\"type\":\"constrained\"}} -->\n<div class=\"wp-block-group alignwide\" style=\"padding-top:40px;padding-right:24px;padding-bottom:40px;padding-left:24px\"><!-- wp:heading {\"textAlign\":\"center\",\"level\":2,\"style\":{\"typography\":{\"fontSize\":\"28px\"}}} -->\n<h2 class=\"wp-block-heading has-text-align-center\" style=\"font-size:28px\">Frequently asked questions</h2>\n<!-- /wp:heading -->\n\n<!-- wp:details -->\n<details class=\"wp-block-details\"><!-- wp:summary -->\n<summary>How do I show this section on a page?</summary>\n<!-- /wp:summary -->\n\n<!-- wp:paragraph -->\n<p>Open the page in the block editor, add the \"Qevora Layout\" block and pick this section, or place the [qevora_layout] shortcode in any text area.</p>\n<!-- /wp:paragraph --></details>\n<!-- /wp:details -->\n\n<!-- wp:details -->\n<details class=\"wp-block-details\"><!-- wp:summary -->\n<summary>Can I use a page builder instead?</summary>\n<!-- /wp:summary -->\n\n<!-- wp:paragraph -->\n<p>Yes. Set the layout content source to \"reference\" and point it at a page or a builder template that you edit in that builder.</p>\n<!-- /wp:paragraph --></details>\n<!-- /wp:details --></div>\n<!-- /wp:group -->\n",
+  "conditions": {
+    "include": [],
+    "exclude": []
+  },
+  "priority": 10,
+  "placement": "manual",
+  "preview": "assets/images/previews/section-faq.svg",
+  "tags": [
+    "section",
+    "faq",
+    "reusable"
+  ],
+  "requires": {
+    "wordpress": "6.4",
+    "php": "7.4"
+  },
+  "version": "1.0.0",
+  "author": "Qevora Software",
+  "license": "GPL-2.0-or-later"
+}

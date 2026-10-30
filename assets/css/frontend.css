@@ -1,0 +1,39 @@
+/**
+ * Qevora Layouts - frontend styles.
+ *
+ * Loaded only when a layout renders. Kept deliberately small and neutral so it
+ * never fights with the active theme or a page builder.
+ */
+
+.qevora-layouts {
+	position: relative;
+	width: 100%;
+	box-sizing: border-box;
+}
+
+.qevora-layouts * {
+	box-sizing: inherit;
+}
+
+.qevora-layouts--header {
+	z-index: 10;
+}
+
+.qevora-layouts--footer {
+	z-index: 1;
+}
+
+.qevora-layouts img {
+	max-width: 100%;
+	height: auto;
+}
+
+/* Only visible to users who can edit layouts. */
+.qevora-layouts-notice {
+	margin: 0.5em 0;
+	padding: 0.5em 0.75em;
+	border-left: 4px solid #d63638;
+	background: #fcf9f8;
+	color: #1d2327;
+	font-size: 13px;
+}
