@@ -157,6 +157,12 @@ class Rest_Controller {
 							'default'           => '',
 							'sanitize_callback' => 'sanitize_key',
 						),
+						'hide_theme_part' => array(
+							'description'       => __( 'Hide the theme header or footer while the imported layout displays.', 'qevora-layouts' ),
+							'type'              => 'boolean',
+							'required'          => false,
+							'default'           => null,
+						),
 						'conditions'    => array(
 							'required'          => false,
 							'default'           => null,
@@ -543,6 +549,7 @@ class Rest_Controller {
 				'replace_id'    => (int) $request->get_param( 'replace_id' ),
 				'display_scope' => (string) $request->get_param( 'display_scope' ),
 				'demo_pack'     => (string) $request->get_param( 'demo_pack' ),
+				'hide_theme_part' => $request->get_param( 'hide_theme_part' ),
 				'conditions'    => $request->get_param( 'conditions' ),
 			)
 		);

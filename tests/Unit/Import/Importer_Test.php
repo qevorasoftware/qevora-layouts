@@ -631,6 +631,41 @@ class Importer_Test extends TestCase {
 	}
 
 	/**
+	 * The hide-theme-part flag reaches the created layout through both the
+	 * batch importer and single library imports, and stays off by default.
+	 *
+	 * @return void
+	 */
+	public function test_hide_theme_part_option_is_stored_on_the_layout() {
+		$result = $this->importer->import_templates(
+			array( $this->template() ),
+			array( 'hide_theme_part' => true )
+		);
+
+		$layout = Importer::layout_from_result( $result['imported'][0] );
+
+		$this->assertNotNull( $layout );
+		$this->assertTrue( $layout->hide_theme_part );
+
+		$single = $this->importer->import_from_library(
+			'qevora-footer-minimal',
+			array( 'hide_theme_part' => '1' )
+		);
+
+		$footer = Importer::layout_from_result( $single );
+
+		$this->assertNotNull( $footer );
+		$this->assertTrue( $footer->hide_theme_part, 'Checkbox strings count as consent.' );
+
+		$plain = $this->importer->import_from_library( 'qevora-header-simple' );
+
+		$header = Importer::layout_from_result( $plain );
+
+		$this->assertNotNull( $header );
+		$this->assertFalse( $header->hide_theme_part, 'Nothing is hidden without an explicit choice.' );
+	}
+
+	/**
 	 * The import summary tells the user where the new layout will display,
 	 * in plain words, straight after the import.
 	 *

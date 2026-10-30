@@ -63,7 +63,8 @@ Then create a layout by hand (**Add New**, write a group block, placement `wp_bo
 
 ## 5. Hiding the theme header (consent)
 
-- [ ] With `hide_theme_header_selectors` empty, no `<style id="qevora-layouts-hide-theme">` is printed at all.
+- [ ] With `hide_theme_header_selectors` empty and no layout flagged to replace the theme part, no `<style id="qevora-layouts-hide-theme">` is printed at all.
+- [ ] A header/footer layout with *Hide the theme header/footer* checked removes the theme's own part: template part block dropped on block themes, `<style id="qevora-layouts-hide-theme">` with the default selectors on classic themes.
 - [ ] After entering `.site-header`, exactly that element gets `display:none !important` and nothing else changes.
 - [ ] Entering `.site-header } body { display: block` saves as empty (the token is dropped) and prints nothing.
 - [ ] Entering `</style><script>alert(1)</script>` prints nothing and stores nothing executable.

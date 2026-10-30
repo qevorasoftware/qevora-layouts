@@ -86,6 +86,17 @@ class Layout {
 	public $placement = '';
 
 	/**
+	 * Hide the theme's own header or footer while this layout is displayed.
+	 *
+	 * Only meaningful for header and footer layouts. Theme files are never
+	 * modified: the suppression happens per request and is fully reversible.
+	 *
+	 * @since 1.0.0
+	 * @var   bool
+	 */
+	public $hide_theme_part = false;
+
+	/**
 	 * Custom hook name when placement is `custom_hook`.
 	 *
 	 * @since 1.0.0
@@ -173,6 +184,7 @@ class Layout {
 		$layout->priority       = Layout_Post_Type::sanitize_priority( get_post_meta( $layout->id, Layout_Post_Type::META_PRIORITY, true ) );
 		$layout->conditions     = Condition_Sanitizer::normalize( get_post_meta( $layout->id, Layout_Post_Type::META_CONDITIONS, true ) );
 		$layout->placement      = Layout_Post_Type::sanitize_placement( get_post_meta( $layout->id, Layout_Post_Type::META_PLACEMENT, true ) );
+		$layout->hide_theme_part = Layout_Post_Type::sanitize_hide_theme_part( get_post_meta( $layout->id, Layout_Post_Type::META_HIDE_THEME_PART, true ) );
 		$layout->hook           = Layout_Post_Type::sanitize_hook_name( get_post_meta( $layout->id, Layout_Post_Type::META_HOOK, true ) );
 		$layout->hook_priority  = Layout_Post_Type::sanitize_hook_priority( get_post_meta( $layout->id, Layout_Post_Type::META_HOOK_PRIORITY, true ) );
 		$layout->builder        = Layout_Post_Type::sanitize_builder( get_post_meta( $layout->id, Layout_Post_Type::META_BUILDER, true ) );
@@ -203,6 +215,7 @@ class Layout {
 		$layout->priority       = Layout_Post_Type::sanitize_priority( isset( $data['priority'] ) ? $data['priority'] : 10 );
 		$layout->conditions     = Condition_Sanitizer::normalize( isset( $data['conditions'] ) ? $data['conditions'] : array() );
 		$layout->placement      = Layout_Post_Type::sanitize_placement( isset( $data['placement'] ) ? $data['placement'] : '' );
+		$layout->hide_theme_part = Layout_Post_Type::sanitize_hide_theme_part( isset( $data['hide_theme_part'] ) ? $data['hide_theme_part'] : false );
 		$layout->hook           = Layout_Post_Type::sanitize_hook_name( isset( $data['hook'] ) ? $data['hook'] : '' );
 		$layout->hook_priority  = Layout_Post_Type::sanitize_hook_priority( isset( $data['hook_priority'] ) ? $data['hook_priority'] : 10 );
 		$layout->builder        = Layout_Post_Type::sanitize_builder( isset( $data['builder'] ) ? $data['builder'] : 'auto' );
@@ -231,6 +244,7 @@ class Layout {
 			'priority'       => $this->priority,
 			'conditions'     => $this->conditions,
 			'placement'      => $this->placement,
+			'hide_theme_part' => $this->hide_theme_part,
 			'hook'           => $this->hook,
 			'hook_priority'  => $this->hook_priority,
 			'builder'        => $this->builder,

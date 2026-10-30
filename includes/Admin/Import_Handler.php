@@ -52,6 +52,7 @@ class Import_Handler {
 			'status'        => self::sanitize_status( isset( $params['status'] ) ? $params['status'] : 'publish' ),
 			'replace_id'    => isset( $params['replace_id'] ) ? (int) $params['replace_id'] : 0,
 			'display_scope' => isset( $params['display_scope'] ) ? sanitize_key( (string) $params['display_scope'] ) : '',
+			'hide_theme_part' => self::checkbox_param( $params, 'hide_theme_part' ),
 		);
 
 		// Explicit condition sets arrive from the REST API only; admin forms
@@ -143,6 +144,27 @@ class Import_Handler {
 		}
 
 		return self::normalize( $result );
+	}
+
+	/**
+	 * Reads an optional checkbox parameter.
+	 *
+	 * Import forms pair a hidden `0` input with the checkbox so the value is
+	 * always explicit; the REST API sends a real boolean. `null` means the
+	 * parameter was not submitted and the layout default (false) applies.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param array<string,mixed> $params Request parameters.
+	 * @param string              $key    Parameter key.
+	 * @return bool|null
+	 */
+	private static function checkbox_param( array $params, $key ) {
+		if ( ! isset( $params[ $key ] ) ) {
+			return null;
+		}
+
+		return Layout_Post_Type::sanitize_hide_theme_part( $params[ $key ] );
 	}
 
 	/**

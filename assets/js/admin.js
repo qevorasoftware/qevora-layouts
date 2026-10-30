@@ -181,6 +181,7 @@
 			toggle( '[data-qevora-hook-fields]', 'custom_hook' === placement );
 			toggle( '[data-qevora-reference-fields]', 'reference' === source );
 			toggle( '[data-qevora-placement-fields]', 'section' !== type );
+			toggle( '[data-qevora-hide-theme-field]', 'section' !== type );
 
 			if ( $placement.length ) {
 				rebuildPlacements( type, placement );

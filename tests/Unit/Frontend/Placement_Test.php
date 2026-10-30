@@ -18,6 +18,7 @@ namespace QevoraLayouts\Tests\Unit\Frontend;
 use QevoraLayouts\Core\Layout_Repository;
 use QevoraLayouts\Core\Plugin;
 use QevoraLayouts\Frontend\Duplicate_Guard;
+use QevoraLayouts\Frontend\Frontend;
 use QevoraLayouts\Tests\TestCase;
 use Qevora_Test_Env;
 
@@ -150,5 +151,130 @@ class Placement_Test extends TestCase {
 
 		// wp_footer must not double-render the same layout.
 		$this->assertSame( '', $this->render_hook( 'render_wp_footer' ) );
+	}
+
+	/**
+	 * A layout flagged to replace the theme part suppresses it: block themes
+	 * drop the matching template part outright and the inline CSS covers
+	 * classic themes (and acts as a fallback).
+	 *
+	 * @return void
+	 */
+	public function test_hide_theme_part_suppresses_the_theme_part() {
+		Qevora_Test_Env::$block_theme = true;
+		Qevora_Test_Env::$query       = array( 'is_front_page' => true );
+
+		$repository = new Layout_Repository();
+
+		$repository->save(
+			array(
+				'title'           => 'Replacing header',
+				'type'            => 'header',
+				'placement'       => 'wp_body_open',
+				'status'          => 'publish',
+				'content'         => '<p>our header</p>',
+				'hide_theme_part' => true,
+			)
+		);
+
+		$repository->save(
+			array(
+				'title'           => 'Replacing footer',
+				'type'            => 'footer',
+				'placement'       => 'get_footer',
+				'status'          => 'publish',
+				'content'         => '<p>our footer</p>',
+				'hide_theme_part' => true,
+			)
+		);
+
+		do_action( 'wp' );
+
+		$frontend = Plugin::instance()->frontend();
+		$frontend->resolve();
+
+		$this->assertTrue( $frontend->is_part_suppressed( 'header' ) );
+		$this->assertTrue( $frontend->is_part_suppressed( 'footer' ) );
+
+		// Block themes: the theme's own header/footer parts render empty.
+		$header_block = array(
+			'blockName' => 'core/template-part',
+			'attrs'     => array( 'slug' => 'header' ),
+		);
+		$footer_block = array(
+			'blockName' => 'core/template-part',
+			'attrs'     => array( 'slug' => 'footer' ),
+		);
+
+		$this->assertSame( '', $frontend->suppress_template_part( '<header>theme</header>', $header_block ) );
+		$this->assertSame( '', $frontend->suppress_template_part( '<footer>theme</footer>', $footer_block ) );
+
+		// Anything else keeps rendering.
+		$this->assertSame( '<p>x</p>', $frontend->suppress_template_part( '<p>x</p>', array( 'blockName' => 'core/paragraph' ) ) );
+		$this->assertSame( 'keep', $frontend->suppress_template_part( 'keep', array( 'blockName' => 'core/template-part', 'attrs' => array( 'slug' => 'sidebar' ) ) ) );
+
+		// Classic themes and fallback: inline CSS with the default selectors.
+		ob_start();
+		$frontend->print_hide_css();
+		$css = (string) ob_get_clean();
+
+		$this->assertStringContainsString( 'qevora-layouts-hide-theme', $css );
+		$this->assertStringContainsString( '#masthead', $css );
+		$this->assertStringContainsString( '.site-header', $css );
+		$this->assertStringContainsString( '#colophon', $css );
+		$this->assertStringContainsString( '.site-footer', $css );
+	}
+
+	/**
+	 * Without the flag nothing is hidden - the theme part is never removed
+	 * without consent.
+	 *
+	 * @return void
+	 */
+	public function test_theme_part_is_not_hidden_without_the_flag() {
+		Qevora_Test_Env::$block_theme = true;
+		Qevora_Test_Env::$query       = array( 'is_front_page' => true );
+
+		$this->create_layouts( 'wp_body_open', 'get_footer' );
+
+		do_action( 'wp' );
+
+		$frontend = Plugin::instance()->frontend();
+		$frontend->resolve();
+
+		$this->assertFalse( $frontend->is_part_suppressed( 'header' ) );
+		$this->assertFalse( $frontend->is_part_suppressed( 'footer' ) );
+
+		$block = array(
+			'blockName' => 'core/template-part',
+			'attrs'     => array( 'slug' => 'header' ),
+		);
+
+		$this->assertSame( '<header>theme</header>', $frontend->suppress_template_part( '<header>theme</header>', $block ) );
+
+		ob_start();
+		$frontend->print_hide_css();
+
+		$this->assertSame( '', (string) ob_get_clean(), 'No hide CSS without consent.' );
+	}
+
+	/**
+	 * The default selector list is filterable, so unusual theme markup can
+	 * be targeted without touching the plugin.
+	 *
+	 * @return void
+	 */
+	public function test_default_hide_selectors_are_filterable() {
+		add_filter(
+			'qevora_layouts_theme_part_selectors',
+			function ( $selectors, $type ) {
+				return 'footer' === $type ? array( '.my-theme-footer' ) : $selectors;
+			},
+			10,
+			2
+		);
+
+		$this->assertSame( array( '.my-theme-footer' ), Frontend::default_hide_selectors( 'footer' ) );
+		$this->assertContains( '#masthead', Frontend::default_hide_selectors( 'header' ) );
 	}
 }

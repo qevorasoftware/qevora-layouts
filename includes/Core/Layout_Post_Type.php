@@ -68,6 +68,15 @@ class Layout_Post_Type {
 	const META_PLACEMENT = '_qevora_layout_placement';
 
 	/**
+	 * Meta key: hide the theme's own header or footer while this layout is
+	 * displayed. The consent lives on the layout itself.
+	 *
+	 * @since 1.0.0
+	 * @var   string
+	 */
+	const META_HIDE_THEME_PART = '_qevora_layout_hide_theme_part';
+
+	/**
 	 * Meta key: custom hook name.
 	 *
 	 * @since 1.0.0
@@ -233,6 +242,12 @@ class Layout_Post_Type {
 				'type'     => 'string',
 				'default'  => '',
 				'sanitize' => array( __CLASS__, 'sanitize_placement' ),
+				'rest'     => true,
+			),
+			self::META_HIDE_THEME_PART => array(
+				'type'     => 'boolean',
+				'default'  => false,
+				'sanitize' => array( __CLASS__, 'sanitize_hide_theme_part' ),
 				'rest'     => true,
 			),
 			self::META_HOOK            => array(
@@ -401,6 +416,22 @@ class Layout_Post_Type {
 		}
 
 		return ucfirst( (string) $type );
+	}
+
+	/**
+	 * Sanitizes the hide-the-theme-part flag.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param mixed $value Raw value.
+	 * @return bool
+	 */
+	public static function sanitize_hide_theme_part( $value ) {
+		if ( is_bool( $value ) ) {
+			return $value;
+		}
+
+		return in_array( (string) $value, array( '1', 'on', 'true' ), true );
 	}
 
 	/**

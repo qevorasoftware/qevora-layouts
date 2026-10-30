@@ -432,6 +432,7 @@ class Importer {
 				'status'        => 'publish',
 				'conditions'    => null,
 				'display_scope' => '',
+				'hide_theme_part' => null,
 			)
 		);
 
@@ -562,7 +563,7 @@ class Importer {
 				return $base;
 			}
 
-			$saved = $this->repository->save( $this->to_layout_data( $template, $status, $replace, $conditions ) );
+			$saved = $this->repository->save( $this->to_layout_data( $template, $status, $replace, $conditions, isset( $options['hide_theme_part'] ) ? $options['hide_theme_part'] : null ) );
 
 			if ( is_wp_error( $saved ) ) {
 				$base['errors'][] = $saved->get_error_message();
@@ -590,7 +591,7 @@ class Importer {
 			return $base;
 		}
 
-		$saved = $this->repository->save( $this->to_layout_data( $template, $status, 0, $conditions ) );
+		$saved = $this->repository->save( $this->to_layout_data( $template, $status, 0, $conditions, isset( $options['hide_theme_part'] ) ? $options['hide_theme_part'] : null ) );
 
 		if ( is_wp_error( $saved ) ) {
 			$base['errors'][] = $saved->get_error_message();
@@ -623,7 +624,7 @@ class Importer {
 	 * @param int      $id       Existing layout ID, 0 to create.
 	 * @return array<string,mixed>
 	 */
-	private function to_layout_data( Template $template, $status, $id = 0, $conditions = null ) {
+	private function to_layout_data( Template $template, $status, $id = 0, $conditions = null, $hide_theme_part = null ) {
 		$data = array(
 			'title'         => $template->name,
 			'content'       => $template->content,
@@ -631,6 +632,7 @@ class Importer {
 			'status'        => $status,
 			'priority'      => $template->priority,
 			'conditions'    => is_array( $conditions ) ? $conditions : $template->conditions,
+			'hide_theme_part' => null === $hide_theme_part ? false : Layout_Post_Type::sanitize_hide_theme_part( $hide_theme_part ),
 			'placement'     => $template->placement,
 			'builder'       => $template->builder,
 			'template_id'   => $template->id,

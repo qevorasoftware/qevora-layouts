@@ -185,6 +185,21 @@ class Meta_Boxes {
 
 		echo '</div>'; // data-qevora-placement-fields
 
+		echo '<div class="qevora-field" data-qevora-hide-theme-field>';
+
+		echo '<p>';
+		echo '<input type="hidden" name="qevora_layout[hide_theme_part]" value="0" />';
+		printf(
+			'<label for="qevora-layout-hide-theme-part"><input type="checkbox" id="qevora-layout-hide-theme-part" name="qevora_layout[hide_theme_part]" value="1"%1$s /> <strong>%2$s</strong></label>',
+			checked( ! empty( $layout->hide_theme_part ), true, false ),
+			esc_html__( 'Hide the theme header/footer while this layout is displayed', 'qevora-layouts' )
+		);
+		echo '</p>';
+
+		echo '<p class="description">' . esc_html__( 'Stops the theme header or footer and this layout from showing at the same time. Theme files are never changed - untick this box and the theme part comes straight back. Applies to header and footer layouts only.', 'qevora-layouts' ) . '</p>';
+
+		echo '</div>'; // data-qevora-hide-theme-field
+
 		echo '<div class="qevora-field" data-qevora-hook-fields>';
 
 		echo '<p>';
@@ -737,6 +752,7 @@ class Meta_Boxes {
 		update_post_meta( $post_id, Layout_Post_Type::META_HOOK, Layout_Post_Type::sanitize_hook_name( isset( $raw['hook'] ) ? $raw['hook'] : '' ) );
 		update_post_meta( $post_id, Layout_Post_Type::META_HOOK_PRIORITY, Layout_Post_Type::sanitize_hook_priority( isset( $raw['hook_priority'] ) ? $raw['hook_priority'] : 10 ) );
 		update_post_meta( $post_id, Layout_Post_Type::META_BUILDER, Layout_Post_Type::sanitize_builder( isset( $raw['builder'] ) ? $raw['builder'] : 'auto' ) );
+		update_post_meta( $post_id, Layout_Post_Type::META_HIDE_THEME_PART, Layout_Post_Type::sanitize_hide_theme_part( isset( $raw['hide_theme_part'] ) ? $raw['hide_theme_part'] : false ) );
 
 		$source = Layout_Post_Type::sanitize_content_source( isset( $raw['content_source'] ) ? $raw['content_source'] : 'self' );
 

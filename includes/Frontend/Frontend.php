@@ -66,6 +66,25 @@ class Frontend {
 	);
 
 	/**
+	 * Theme parts suppressed on this request, keyed by part slug.
+	 *
+	 * Set when a planned layout asks to hide the theme's own header or
+	 * footer, so the two never render at the same time.
+	 *
+	 * @since 1.0.0
+	 * @var   array<string,bool>
+	 */
+	private $suppressed = array();
+
+	/**
+	 * Whether the block-theme template part filter was added.
+	 *
+	 * @since 1.0.0
+	 * @var   bool
+	 */
+	private $part_filter_added = false;
+
+	/**
 	 * Whether the frontend should render at all.
 	 *
 	 * @since 1.0.0
@@ -204,6 +223,11 @@ class Frontend {
 			if ( 'manual' === $placement ) {
 				Logger::debug( 'Layout is manual only.', array( 'layout_id' => $layout->id, 'type' => $type ) );
 				continue;
+			}
+
+			// A layout may replace the theme's own header or footer.
+			if ( ! empty( $layout->hide_theme_part ) ) {
+				$this->suppress_part( $type );
 			}
 
 			if ( 'custom_hook' === $placement ) {
@@ -415,10 +439,119 @@ class Frontend {
 	}
 
 	/**
+	 * Marks a theme part as suppressed for this request.
+	 *
+	 * On block themes the matching `core/template-part` block is removed
+	 * from the response outright through the `render_block` filter; the
+	 * inline CSS in {@see Frontend::print_hide_css()} covers classic themes
+	 * and acts as a fallback. Theme files are never modified and the
+	 * suppression disappears the moment the layout flag is unchecked.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param string $type Part slug: header or footer.
+	 * @return void
+	 */
+	private function suppress_part( $type ) {
+		if ( 'header' !== $type && 'footer' !== $type ) {
+			return;
+		}
+
+		$this->suppressed[ $type ] = true;
+
+		if ( ! $this->part_filter_added && function_exists( 'wp_is_block_theme' ) && wp_is_block_theme() ) {
+			$this->part_filter_added = true;
+
+			add_filter( 'render_block', array( $this, 'suppress_template_part' ), 10, 2 );
+		}
+	}
+
+	/**
+	 * Whether a theme part is suppressed on this request.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param string $type Part slug: header or footer.
+	 * @return bool
+	 */
+	public function is_part_suppressed( $type ) {
+		return ! empty( $this->suppressed[ $type ] );
+	}
+
+	/**
+	 * `render_block` callback: drops the theme's own header or footer
+	 * template part on block themes while a layout replaces it.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param string              $block_content Rendered block HTML.
+	 * @param array<string,mixed> $block         Parsed block.
+	 * @return string
+	 */
+	public function suppress_template_part( $block_content, $block ) {
+		if ( ! is_array( $block ) || ! isset( $block['blockName'] ) || 'core/template-part' !== $block['blockName'] ) {
+			return $block_content;
+		}
+
+		$slug = isset( $block['attrs']['slug'] ) ? (string) $block['attrs']['slug'] : '';
+
+		if ( ( 'header' === $slug || 'footer' === $slug ) && ! empty( $this->suppressed[ $slug ] ) ) {
+			return '';
+		}
+
+		return $block_content;
+	}
+
+	/**
+	 * Conservative default selectors for the theme's own header or footer.
+	 *
+	 * Covers the markup of the default WordPress themes and the most common
+	 * classic themes (`#masthead`, `.site-header`, `#colophon`,
+	 * `.site-footer`) plus the block-theme template part wrappers. Themes
+	 * with unusual markup can be targeted through the filter below or the
+	 * custom selectors on the settings page.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param string $type Part slug: header or footer.
+	 * @return string[] Sanitized selectors.
+	 */
+	public static function default_hide_selectors( $type ) {
+		$selectors = 'header' === $type
+			? array( '#masthead', '#site-header', '.site-header', 'header.wp-block-template-part' )
+			: array( '#colophon', '#site-footer', '.site-footer', 'footer.wp-block-template-part' );
+
+		/**
+		 * Filters the default CSS selectors used to hide a theme part that a
+		 * layout replaces.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param string[] $selectors Default selectors.
+		 * @param string   $type      Part slug: header or footer.
+		 */
+		$selectors = (array) apply_filters( 'qevora_layouts_theme_part_selectors', $selectors, $type );
+
+		$clean = array();
+
+		foreach ( $selectors as $selector ) {
+			$selector = Settings::sanitize_css_selectors( (string) $selector );
+
+			if ( '' !== $selector ) {
+				$clean[] = $selector;
+			}
+		}
+
+		return $clean;
+	}
+
+	/**
 	 * Prints the opt-in CSS that hides the theme's own header or footer.
 	 *
 	 * Only printed when a layout of the same type actually renders on this
 	 * request, so the theme markup is never removed without a replacement.
+	 * Selectors come from the layout's own hide flag (a conservative default
+	 * list) and from the optional site-wide selectors in the settings.
 	 *
 	 * @since 1.0.0
 	 *
@@ -433,15 +566,26 @@ class Frontend {
 
 		$rules = array();
 
-		$header_selectors = Settings::sanitize_css_selectors( (string) Settings::get( 'hide_theme_header_selectors', '' ) );
-		$footer_selectors = Settings::sanitize_css_selectors( (string) Settings::get( 'hide_theme_footer_selectors', '' ) );
+		foreach ( array( 'header', 'footer' ) as $type ) {
+			$planned    = $this->plan[ $type ] instanceof Layout;
+			$suppressed = ! empty( $this->suppressed[ $type ] );
 
-		if ( '' !== $header_selectors && $this->plan['header'] instanceof Layout ) {
-			$rules[] = $header_selectors;
-		}
+			if ( ! $planned && ! $suppressed ) {
+				continue;
+			}
 
-		if ( '' !== $footer_selectors && $this->plan['footer'] instanceof Layout ) {
-			$rules[] = $footer_selectors;
+			$selectors = $suppressed ? self::default_hide_selectors( $type ) : array();
+
+			$setting_key = 'header' === $type ? 'hide_theme_header_selectors' : 'hide_theme_footer_selectors';
+			$extra       = Settings::sanitize_css_selectors( (string) Settings::get( $setting_key, '' ) );
+
+			if ( '' !== $extra ) {
+				$selectors[] = $extra;
+			}
+
+			if ( ! empty( $selectors ) ) {
+				$rules[] = implode( ', ', $selectors );
+			}
 		}
 
 		if ( empty( $rules ) ) {
@@ -599,6 +743,7 @@ class Frontend {
 			'header' => null,
 			'footer' => null,
 		);
+		$this->suppressed = array();
 
 		Duplicate_Guard::reset();
 	}

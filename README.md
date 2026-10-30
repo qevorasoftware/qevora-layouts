@@ -201,6 +201,18 @@ This is **always opt-in**. Settings → Rendering has two selector fields (`hide
 
 Selectors are sanitized twice — once when saved (`Settings::sanitize_css_selectors()`: max 20 selectors, 200 characters each, no `{ } ; < / \ & @`, no `expression(`, `javascript:` or `behavior`) and again immediately before printing (`Frontend::sanitize_css_block()`: single declaration block, no `<`, no `url(`, no `@import`, no comments, max 4000 bytes). If anything looks wrong, nothing is printed. The theme's files and markup are never modified.
 
+### Replacing the theme header and footer
+
+An imported demo that stacks on top of the theme's own header or footer shows two of each. Every header/footer layout therefore carries a **Hide the theme header/footer while this layout is displayed** flag (`_qevora_layout_hide_theme_part`):
+
+* The demo pack form, every header/footer template card and the upload form offer the flag **checked by default** - importing a demo replaces the theme parts instead of doubling them. It is a visible, untickable-by-choice control: unchecking it (on the form or later in the layout editor) brings the theme header/footer straight back.
+* Only the part a layout actually replaces is touched, only on requests where that layout renders, and only for `header`/`footer` types - `manual` layouts never suppress anything.
+* **Block themes:** the matching `core/template-part` block (`slug` = `header`/`footer`) is dropped from the response through the core `render_block` filter, so the theme markup is genuinely gone, not just invisible.
+* **Classic themes (and as a fallback):** the inline hide CSS above is printed with a conservative default selector list - `#masthead`, `#site-header`, `.site-header`, `header.wp-block-template-part` for the header; `#colophon`, `#site-footer`, `.site-footer`, `footer.wp-block-template-part` for the footer - merged with the optional site-wide selectors from Settings. The list is filterable (`qevora_layouts_theme_part_selectors`) and passes the same double sanitization as all hide CSS.
+* The REST import route accepts `hide_theme_part` (boolean). Theme files and database entries of the theme are never modified.
+
+Verified end-to-end on a real WordPress 7.1.4 install with Twenty Twenty-Five: with the flag on, the rendered blog home contains the plugin header/footer wrappers and zero theme template-part markup; with the flag off, the theme parts render untouched and no hide CSS is printed.
+
 ### Wrapper
 
 Rendered layouts are wrapped in:
@@ -217,7 +229,7 @@ Layouts live in the `qevora_layout` post type. It is `show_in_menu => false` (th
 
 ### Meta keys
 
-All twelve keys are registered with `register_meta()` including sanitize callbacks, so they are cleaned even when written by other code:
+All thirteen keys are registered with `register_meta()` including sanitize callbacks, so they are cleaned even when written by other code:
 
 | Meta key | Contents |
 | --- | --- |
@@ -225,6 +237,7 @@ All twelve keys are registered with `register_meta()` including sanitize callbac
 | `_qevora_layout_priority` | 0–999 |
 | `_qevora_layout_conditions` | `{include:[],exclude:[]}` |
 | `_qevora_layout_placement` | Placement slug |
+| `_qevora_layout_hide_theme_part` | `1` while the layout replaces the theme's own header/footer |
 | `_qevora_layout_hook` | Custom hook name |
 | `_qevora_layout_hook_priority` | 0–999 |
 | `_qevora_layout_builder` | `auto`, `block`, `elementor` (extensible) |
@@ -433,6 +446,7 @@ Settings are stored in one option (`qevora_layouts_settings`) with a registered 
 | `qevora_layouts_pre_render_content`, `qevora_layouts_rendered_content`, `qevora_layouts_render_layout` | Content rendering. |
 | `qevora_layouts_wrapper_classes`, `qevora_layouts_wrapper_attributes` | Wrapper markup. |
 | `qevora_layouts_hide_theme_css` | The hide-theme CSS block (re-validated afterwards). |
+| `qevora_layouts_theme_part_selectors` | Default selectors used when a layout replaces the theme header/footer. |
 | `qevora_layouts_enqueue_frontend_assets` | Frontend asset loading. |
 | `qevora_layouts_sanitize_content` | Stored layout content. |
 | `qevora_layouts_post_type_args`, `qevora_layouts_meta_definitions` | CPT and meta registration. |

@@ -136,6 +136,13 @@ $qevora_packs     = Importer::demo_packs();
 						</select>
 					</p>
 
+					<p class="qevora-pack__hide">
+						<input type="hidden" name="hide_theme_part" value="0" />
+						<label for="qevora-pack-hide">
+							<input type="checkbox" id="qevora-pack-hide" name="hide_theme_part" value="1" checked="checked" />
+							<?php esc_html_e( 'Hide the theme header and footer while the demo is displayed (recommended)', 'qevora-layouts' ); ?>
+						</label>
+					</p>
 					<p>
 						<?php submit_button( __( 'Import demo and display', 'qevora-layouts' ), 'primary', 'qevora_import_pack', false ); ?>
 						<span class="spinner qevora-library__spinner" aria-hidden="true"></span>
@@ -181,6 +188,13 @@ $qevora_packs     = Importer::demo_packs();
 						</select>
 					</p>
 
+					<p>
+						<input type="hidden" name="hide_theme_part" value="0" />
+						<label for="qevora-upload-hide">
+							<input type="checkbox" id="qevora-upload-hide" name="hide_theme_part" value="1" checked="checked" />
+							<?php esc_html_e( 'Hide the theme header/footer while an imported header or footer is displayed', 'qevora-layouts' ); ?>
+						</label>
+					</p>
 					<p>
 						<?php submit_button( __( 'Upload and import', 'qevora-layouts' ), 'primary', 'qevora_upload_import', false ); ?>
 						<span class="spinner qevora-library__spinner" aria-hidden="true"></span>
@@ -360,6 +374,16 @@ $qevora_packs     = Importer::demo_packs();
 									<?php endforeach; ?>
 								</select>
 							</p>
+
+							<?php if ( 'header' === $qevora_type || 'footer' === $qevora_type ) : ?>
+								<p class="qevora-template__hide">
+									<input type="hidden" name="hide_theme_part" value="0" />
+									<label for="qevora-hide-<?php echo esc_attr( $qevora_id ); ?>">
+										<input type="checkbox" id="qevora-hide-<?php echo esc_attr( $qevora_id ); ?>" name="hide_theme_part" value="1" checked="checked" />
+										<?php esc_html_e( 'Hide the theme header/footer while this layout is displayed', 'qevora-layouts' ); ?>
+									</label>
+								</p>
+							<?php endif; ?>
 
 							<p>
 								<label for="qevora-status-<?php echo esc_attr( $qevora_id ); ?>" class="screen-reader-text"><?php esc_html_e( 'Import as', 'qevora-layouts' ); ?></label>

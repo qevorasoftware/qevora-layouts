@@ -5,6 +5,10 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 
 ## [Unreleased]
 
+### Added
+
+- Header and footer layouts can replace the theme's own header/footer: a per-layout *Hide the theme header/footer* flag (`_qevora_layout_hide_theme_part` meta, editor checkbox, `hide_theme_part` REST/import parameter). The demo pack form, every header/footer template card and the upload form offer it checked by default, so an imported demo replaces the theme parts instead of showing two of each. Block themes drop the matching `core/template-part` block via the `render_block` filter; classic themes get sanitized inline CSS from a conservative default selector list (filterable with `qevora_layouts_theme_part_selectors`), merged with the existing site-wide settings selectors. Theme files are never modified and unchecking restores the theme part immediately. Verified on WordPress 7.1.4 with Twenty Twenty-Five.
+
 ### Fixed
 
 - A display scope chosen on a single-template import (library card form, admin AJAX or REST) was silently ignored and the template's own conditions were kept - importing a footer with *Entire site* could still land on *Single posts and pages*. Scope resolution now happens in `Importer::import_template()`, so every import path honours it (regression-tested and verified on a real WordPress 7.1.4 install).
