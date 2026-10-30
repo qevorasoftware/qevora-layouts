@@ -825,18 +825,24 @@ body.qevora-preview-open {
 	grid-template-columns: 1fr;
 }
 
+.qevora-demos {
+	margin: 0 0 24px;
+}
+
 .qevora-demo-card {
-	display: grid;
-	grid-template-columns: minmax( 300px, 46% ) 1fr;
-	grid-template-rows: auto 1fr;
+	display: flex;
+	flex-wrap: wrap;
+	align-items: stretch;
+	width: 100%;
 }
 
 .qevora-demo-card .qevora-template__preview--live {
-	grid-column: 1;
-	grid-row: 1 / span 2;
+	flex: 1 1 420px;
+	max-width: 640px;
+	position: relative;
 	display: block;
 	aspect-ratio: auto;
-	min-height: 280px;
+	min-height: 300px;
 	border-bottom: 0;
 	border-right: 1px solid var( --qevora-border-soft, #dcdcde );
 	background: transparent;
@@ -848,9 +854,14 @@ body.qevora-preview-open {
 	height: auto;
 }
 
+.qevora-demo-card__info {
+	flex: 1 1 380px;
+	display: flex;
+	flex-direction: column;
+	min-width: 0;
+}
+
 .qevora-demo-card .qevora-template__body {
-	grid-column: 2;
-	grid-row: 1;
 	padding: 20px 22px 8px;
 }
 
@@ -869,10 +880,9 @@ body.qevora-preview-open {
 }
 
 .qevora-demo-card .qevora-template__form {
-	grid-column: 2;
-	grid-row: 2;
-	align-self: end;
-	margin: 6px 22px 0;
+	margin-top: auto;
+	margin-left: 22px;
+	margin-right: 22px;
 	padding: 14px 0 20px;
 	border-top: 1px dashed var( --qevora-border-soft, #dcdcde );
 }
@@ -975,27 +985,29 @@ body.qevora-preview-open {
 
 @media ( max-width: 900px ) {
 
-	.qevora-demo-card {
-		grid-template-columns: 1fr;
-		grid-template-rows: auto;
-	}
-
 	.qevora-demo-card .qevora-template__preview--live {
-		grid-column: 1;
-		grid-row: 1;
+		flex: 1 1 100%;
+		max-width: none;
 		min-height: 210px;
 		border-right: 0;
 		border-bottom: 1px solid var( --qevora-border-soft, #dcdcde );
 	}
 
-	.qevora-demo-card .qevora-template__body {
-		grid-column: 1;
-		grid-row: 2;
-	}
-
 	.qevora-demo-card .qevora-template__form {
-		grid-column: 1;
-		grid-row: 3;
-		margin: 6px 20px 0;
+		margin-left: 20px;
+		margin-right: 20px;
 	}
+}
+
+/* Tiny live preview of each demo layout inside the All Layouts list. */
+.column-ql_preview {
+	width: 300px;
+}
+
+.qevora-demo-live--row {
+	--qevora-demo-scale: 0.26;
+	height: 84px;
+	border: 1px solid var( --qevora-border-soft, #dcdcde );
+	border-radius: 8px;
+	overflow: hidden;
 }

@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Qevora Layouts 1.0.0\n"
 "Report-Msgid-Bugs-To: https://github.com/qevorasoftware/qevora-layouts/issues\n"
-"POT-Creation-Date: 2026-10-30T10:10:46+00:00\n"
+"POT-Creation-Date: 2026-10-30T10:38:34+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -106,169 +106,169 @@ msgstr ""
 msgid "System Status"
 msgstr ""
 
-#: includes/Admin/Admin.php:324
+#: includes/Admin/Admin.php:339
 #: includes/Admin/Meta_Boxes.php:358
 msgid "Select a condition"
 msgstr ""
 
-#: includes/Admin/Admin.php:325
+#: includes/Admin/Admin.php:340
 msgid "Select a value"
 msgstr ""
 
-#: includes/Admin/Admin.php:326
+#: includes/Admin/Admin.php:341
 #: includes/Admin/Meta_Boxes.php:451
 msgid "Comma separated IDs, e.g. 12, 48"
 msgstr ""
 
-#: includes/Admin/Admin.php:327
+#: includes/Admin/Admin.php:342
 msgid "theme_hook_name"
 msgstr ""
 
-#: includes/Admin/Admin.php:328
+#: includes/Admin/Admin.php:343
 #: includes/Admin/Meta_Boxes.php:520
 msgid "Remove"
 msgstr ""
 
-#: includes/Admin/Admin.php:329
+#: includes/Admin/Admin.php:344
 msgid "Searching…"
 msgstr ""
 
-#: includes/Admin/Admin.php:330
+#: includes/Admin/Admin.php:345
 msgid "No results."
 msgstr ""
 
-#: includes/Admin/Admin.php:331
+#: includes/Admin/Admin.php:346
 msgid "Something went wrong. Please try again."
 msgstr ""
 
-#: includes/Admin/Admin.php:332
+#: includes/Admin/Admin.php:347
 msgid "Importing…"
 msgstr ""
 
-#: includes/Admin/Admin.php:333
+#: includes/Admin/Admin.php:348
 msgid "Imported."
 msgstr ""
 
-#: includes/Admin/Admin.php:334
+#: includes/Admin/Admin.php:349
 msgid "Skipped."
 msgstr ""
 
-#: includes/Admin/Admin.php:335
+#: includes/Admin/Admin.php:350
 msgid "The request did not reach the server. Check your connection and try again."
 msgstr ""
 
-#: includes/Admin/Admin.php:336
+#: includes/Admin/Admin.php:351
 msgid "You are not allowed to do this, or your session expired."
 msgstr ""
 
-#: includes/Admin/Admin.php:337
+#: includes/Admin/Admin.php:352
 msgid "Condition added. Choose a condition type."
 msgstr ""
 
-#: includes/Admin/Admin.php:338
+#: includes/Admin/Admin.php:353
 msgid "Condition removed."
 msgstr ""
 
-#: includes/Admin/Admin.php:339
+#: includes/Admin/Admin.php:354
 msgid "Search posts and pages"
 msgstr ""
 
-#: includes/Admin/Admin.php:340
+#: includes/Admin/Admin.php:355
 msgid "Search terms"
 msgstr ""
 
-#: includes/Admin/Admin.php:341
+#: includes/Admin/Admin.php:356
 msgid "Search users"
 msgstr ""
 
-#: includes/Admin/Admin.php:342
+#: includes/Admin/Admin.php:357
 msgid "Type at least two characters…"
 msgstr ""
 
-#: includes/Admin/Admin.php:343
+#: includes/Admin/Admin.php:358
 msgid "Search"
 msgstr ""
 
-#: includes/Admin/Admin.php:344
+#: includes/Admin/Admin.php:359
 msgid "Close"
 msgstr ""
 
-#: includes/Admin/Admin.php:345
+#: includes/Admin/Admin.php:360
 msgid "Type at least two characters to search."
 msgstr ""
 
-#: includes/Admin/Admin.php:346
+#: includes/Admin/Admin.php:361
 msgid "That ID is already in the list."
 msgstr ""
 
-#: includes/Admin/Admin.php:347
+#: includes/Admin/Admin.php:362
 msgid "Added."
 msgstr ""
 
-#: includes/Admin/Admin.php:348
+#: includes/Admin/Admin.php:363
 #: includes/Import/Importer.php:252
 msgid "Only .json template files are accepted."
 msgstr ""
 
-#: includes/Admin/Admin.php:349
+#: includes/Admin/Admin.php:364
 msgid "Ready to import."
 msgstr ""
 
-#: includes/Admin/Admin.php:350
+#: includes/Admin/Admin.php:365
 msgid "Uploading…"
 msgstr ""
 
-#: includes/Admin/Admin.php:351
+#: includes/Admin/Admin.php:366
 msgid "The request could not be sent. Submitting the form directly…"
 msgstr ""
 
-#: includes/Admin/Admin.php:352
+#: includes/Admin/Admin.php:367
 msgid "Open the imported layout"
 msgstr ""
 
-#: includes/Admin/Admin.php:353
+#: includes/Admin/Admin.php:368
 msgid "Open all layouts"
 msgstr ""
 
-#: includes/Admin/Admin.php:354
+#: includes/Admin/Admin.php:369
 msgid "Copied to the clipboard."
 msgstr ""
 
-#: includes/Admin/Admin.php:355
+#: includes/Admin/Admin.php:370
 #: includes/Admin/Views/system-status.php:38
 msgid "Copy status report"
 msgstr ""
 
-#: includes/Admin/Admin.php:356
+#: includes/Admin/Admin.php:371
 msgid "There is nothing to copy."
 msgstr ""
 
-#: includes/Admin/Admin.php:357
+#: includes/Admin/Admin.php:372
 msgid "Copy the text manually from the report box."
 msgstr ""
 
-#: includes/Admin/Admin.php:519
+#: includes/Admin/Admin.php:534
 msgid ""
 "Qevora Layouts: no third-party page builder was detected. Layouts are"
 "built with the WordPress block editor, which needs no extra plugin."
 msgstr ""
 
-#: includes/Admin/Admin.php:523
+#: includes/Admin/Admin.php:538
 msgid ""
 "Elementor is installed; enable the integration in Settings → Integrations"
 "if you want to build layouts with it."
 msgstr ""
 
-#: includes/Admin/Admin.php:532
+#: includes/Admin/Admin.php:547
 msgid ""
 "Qevora Layouts: one or more layouts were built with Elementor, but"
 "Elementor is not active. Those layouts fall back to their stored block"
 "content, which may be empty. Reactivate Elementor or edit the layouts."
 msgstr ""
 
-#: includes/Admin/Admin.php:620
 #: includes/Admin/Admin.php:635
 #: includes/Admin/Admin.php:650
+#: includes/Admin/Admin.php:665
 msgid "You are not allowed to view this page."
 msgstr ""
 
@@ -375,113 +375,117 @@ msgid "The remote template library is disabled."
 msgstr ""
 
 #. translators: %s: theme hook name.
-#: includes/Admin/Layout_Columns.php:169
+#: includes/Admin/Layout_Columns.php:203
 msgid "Hook: %s"
 msgstr ""
 
 #. translators: %s: referenced content title.
-#: includes/Admin/Layout_Columns.php:191
+#: includes/Admin/Layout_Columns.php:225
 msgid "Reference: %s"
 msgstr ""
 
-#: includes/Admin/Layout_Columns.php:197
+#: includes/Admin/Layout_Columns.php:231
 msgid "Auto detect"
 msgstr ""
 
-#: includes/Admin/Layout_Columns.php:198
-#: includes/Admin/Views/template-library.php:329
-#: includes/Admin/Views/template-library.php:342
+#: includes/Admin/Layout_Columns.php:232
+#: includes/Admin/Views/template-library.php:331
+#: includes/Admin/Views/template-library.php:344
 #: includes/Import/Template.php:270
 msgid "Block editor"
 msgstr ""
 
-#: includes/Admin/Layout_Columns.php:199
+#: includes/Admin/Layout_Columns.php:233
 #: includes/Admin/Meta_Boxes.php:557
 #: includes/Integrations/Adapters/Elementor_Adapter.php:74
 msgid "Elementor"
 msgstr ""
 
-#: includes/Admin/Layout_Columns.php:215
+#: includes/Admin/Layout_Columns.php:249
 msgid "Created here"
 msgstr ""
 
-#: includes/Admin/Layout_Columns.php:219
+#: includes/Admin/Layout_Columns.php:253
 msgid "Starter template"
 msgstr ""
 
-#: includes/Admin/Layout_Columns.php:220
+#: includes/Admin/Layout_Columns.php:254
 #: includes/Admin/System_Status_Page.php:303
 #: includes/Admin/Views/template-library.php:79
 #: includes/Admin/Views/template-library.php:159
 msgid "Remote library"
 msgstr ""
 
-#: includes/Admin/Layout_Columns.php:221
+#: includes/Admin/Layout_Columns.php:255
 msgid "Uploaded file"
 msgstr ""
 
-#: includes/Admin/Layout_Columns.php:224
+#: includes/Admin/Layout_Columns.php:258
 #: includes/Admin/Meta_Boxes.php:682
 msgid "Imported"
 msgstr ""
 
-#: includes/Admin/Layout_Columns.php:270
+#: includes/Admin/Layout_Columns.php:304
 msgid "Filter by layout type"
 msgstr ""
 
-#: includes/Admin/Layout_Columns.php:276
+#: includes/Admin/Layout_Columns.php:310
 msgid "All layout types"
 msgstr ""
 
-#: includes/Admin/Layout_Columns.php:374
+#: includes/Admin/Layout_Columns.php:408
 msgid "Disable"
 msgstr ""
 
-#: includes/Admin/Layout_Columns.php:375
+#: includes/Admin/Layout_Columns.php:409
 msgid "Enable"
 msgstr ""
 
-#: includes/Admin/Layout_Columns.php:398
+#: includes/Admin/Layout_Columns.php:432
 msgid "Clone"
 msgstr ""
 
-#: includes/Admin/Layout_Columns.php:444
+#: includes/Admin/Layout_Columns.php:478
 msgid "Change type and priority"
 msgstr ""
 
-#: includes/Admin/Layout_Columns.php:73
+#: includes/Admin/Layout_Columns.php:74
 #: includes/Core/Layout_Post_Type.php:177
 msgid "Layout"
 msgstr ""
 
-#: includes/Admin/Layout_Columns.php:74
+#: includes/Admin/Layout_Columns.php:75
+msgid "Preview"
+msgstr ""
+
+#: includes/Admin/Layout_Columns.php:76
 msgid "Type"
 msgstr ""
 
-#: includes/Admin/Layout_Columns.php:75
+#: includes/Admin/Layout_Columns.php:77
 #: includes/Admin/Meta_Boxes.php:107
 msgid "Display conditions"
 msgstr ""
 
-#: includes/Admin/Layout_Columns.php:76
+#: includes/Admin/Layout_Columns.php:78
 #: includes/Admin/Meta_Boxes.php:177
 msgid "Priority"
 msgstr ""
 
-#: includes/Admin/Layout_Columns.php:77
+#: includes/Admin/Layout_Columns.php:79
 #: includes/Admin/Meta_Boxes.php:190
 msgid "Placement"
 msgstr ""
 
-#: includes/Admin/Layout_Columns.php:78
+#: includes/Admin/Layout_Columns.php:80
 msgid "Built with"
 msgstr ""
 
-#: includes/Admin/Layout_Columns.php:79
+#: includes/Admin/Layout_Columns.php:81
 msgid "Source"
 msgstr ""
 
-#: includes/Admin/Layout_Columns.php:80
+#: includes/Admin/Layout_Columns.php:82
 msgid "Date"
 msgstr ""
 
@@ -531,7 +535,7 @@ msgid ""
 msgstr ""
 
 #: includes/Admin/Meta_Boxes.php:216
-#: includes/Admin/Views/template-library.php:423
+#: includes/Admin/Views/template-library.php:425
 msgid "Hide the theme header/footer while this layout is displayed"
 msgstr ""
 
@@ -1535,8 +1539,8 @@ msgid "Template file (.json)"
 msgstr ""
 
 #: includes/Admin/Views/template-library.php:114
-#: includes/Admin/Views/template-library.php:248
-#: includes/Admin/Views/template-library.php:429
+#: includes/Admin/Views/template-library.php:249
+#: includes/Admin/Views/template-library.php:431
 msgid "Import as"
 msgstr ""
 
@@ -1545,13 +1549,13 @@ msgid "Enabled (published)"
 msgstr ""
 
 #: includes/Admin/Views/template-library.php:117
-#: includes/Admin/Views/template-library.php:251
-#: includes/Admin/Views/template-library.php:432
+#: includes/Admin/Views/template-library.php:252
+#: includes/Admin/Views/template-library.php:434
 msgid "Disabled (draft)"
 msgstr ""
 
 #: includes/Admin/Views/template-library.php:122
-#: includes/Admin/Views/template-library.php:435
+#: includes/Admin/Views/template-library.php:437
 msgid "If already imported"
 msgstr ""
 
@@ -1560,7 +1564,7 @@ msgid "Skip"
 msgstr ""
 
 #: includes/Admin/Views/template-library.php:125
-#: includes/Admin/Views/template-library.php:438
+#: includes/Admin/Views/template-library.php:440
 msgid "Import a copy"
 msgstr ""
 
@@ -1623,37 +1627,37 @@ msgstr ""
 msgid "Preview larger"
 msgstr ""
 
-#: includes/Admin/Views/template-library.php:229
+#: includes/Admin/Views/template-library.php:230
 msgid "PHP demo"
 msgstr ""
 
-#: includes/Admin/Views/template-library.php:241
-#: includes/Admin/Views/template-library.php:410
+#: includes/Admin/Views/template-library.php:242
+#: includes/Admin/Views/template-library.php:412
 msgid "Display on"
 msgstr ""
 
-#: includes/Admin/Views/template-library.php:250
-#: includes/Admin/Views/template-library.php:431
+#: includes/Admin/Views/template-library.php:251
+#: includes/Admin/Views/template-library.php:433
 msgid "Enabled (display now)"
 msgstr ""
 
-#: includes/Admin/Views/template-library.php:260
+#: includes/Admin/Views/template-library.php:261
 msgid "Create a sample menu"
 msgstr ""
 
-#: includes/Admin/Views/template-library.php:269
+#: includes/Admin/Views/template-library.php:270
 msgid "Hide the theme header/footer while this demo is displayed"
 msgstr ""
 
-#: includes/Admin/Views/template-library.php:274
+#: includes/Admin/Views/template-library.php:275
 msgid "Import demo"
 msgstr ""
 
-#: includes/Admin/Views/template-library.php:289
+#: includes/Admin/Views/template-library.php:291
 msgid "No templates to show"
 msgstr ""
 
-#: includes/Admin/Views/template-library.php:291
+#: includes/Admin/Views/template-library.php:293
 msgid ""
 "No importable JSON templates are registered right now - the bundled demos"
 "above cover headers, footers and sections without any editor content."
@@ -1662,41 +1666,41 @@ msgid ""
 "in Settings."
 msgstr ""
 
-#: includes/Admin/Views/template-library.php:294
+#: includes/Admin/Views/template-library.php:296
 msgid "Open import settings"
 msgstr ""
 
-#: includes/Admin/Views/template-library.php:329
-#: includes/Admin/Views/template-library.php:342
+#: includes/Admin/Views/template-library.php:331
+#: includes/Admin/Views/template-library.php:344
 #: includes/Import/Template.php:267
 msgid "Requires Elementor"
 msgstr ""
 
-#: includes/Admin/Views/template-library.php:345
+#: includes/Admin/Views/template-library.php:347
 msgid "Bundled"
 msgstr ""
 
-#: includes/Admin/Views/template-library.php:345
+#: includes/Admin/Views/template-library.php:347
 msgid "Remote"
 msgstr ""
 
-#: includes/Admin/Views/template-library.php:354
+#: includes/Admin/Views/template-library.php:356
 msgid "Displays on:"
 msgstr ""
 
 #. translators: %s: comma separated list of missing plugins.
-#: includes/Admin/Views/template-library.php:378
+#: includes/Admin/Views/template-library.php:380
 msgid "Not available yet: %s must be active."
 msgstr ""
 
 #. translators: %d: number of existing layouts.
-#: includes/Admin/Views/template-library.php:392
+#: includes/Admin/Views/template-library.php:394
 msgid "Already imported once."
 msgid_plural "Already imported %d times."
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/Admin/Views/template-library.php:397
+#: includes/Admin/Views/template-library.php:399
 msgid "Edit the existing layout"
 msgstr ""
 
@@ -1704,15 +1708,15 @@ msgstr ""
 msgid "Import settings"
 msgstr ""
 
-#: includes/Admin/Views/template-library.php:437
+#: includes/Admin/Views/template-library.php:439
 msgid "Skip duplicates"
 msgstr ""
 
-#: includes/Admin/Views/template-library.php:443
+#: includes/Admin/Views/template-library.php:445
 msgid "Import"
 msgstr ""
 
-#: includes/Admin/Views/template-library.php:459
+#: includes/Admin/Views/template-library.php:461
 msgid "Close preview"
 msgstr ""
 

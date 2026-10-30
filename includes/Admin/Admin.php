@@ -276,6 +276,21 @@ class Admin {
 	 * @param string $hook Hook suffix.
 	 * @return void
 	 */
+	private function asset_version( $relative ) {
+		$file = QEVORA_LAYOUTS_DIR . $relative;
+		$time = file_exists( $file ) ? (int) filemtime( $file ) : 0;
+
+		return QEVORA_LAYOUTS_VERSION . ( $time ? '.' . $time : '' );
+	}
+
+	/**
+	 * Queues admin screens' styles and scripts.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param string $hook Hook suffix.
+	 * @return void
+	 */
 	public function enqueue_assets( $hook ) {
 		if ( ! $this->is_plugin_screen( $hook ) ) {
 			return;
@@ -285,7 +300,7 @@ class Admin {
 			'qevora-layouts-admin',
 			QEVORA_LAYOUTS_URL . 'assets/css/admin.css',
 			array(),
-			QEVORA_LAYOUTS_VERSION
+			$this->asset_version( 'assets/css/admin.css' )
 		);
 
 		$screen   = function_exists( 'get_current_screen' ) ? get_current_screen() : null;
@@ -298,7 +313,7 @@ class Admin {
 			'qevora-layouts-admin',
 			QEVORA_LAYOUTS_URL . 'assets/js/admin.js',
 			array( 'jquery' ),
-			QEVORA_LAYOUTS_VERSION,
+			$this->asset_version( 'assets/js/admin.js' ),
 			true
 		);
 
@@ -366,7 +381,7 @@ class Admin {
 				'qevora-layouts-conditions',
 				QEVORA_LAYOUTS_URL . 'assets/js/conditions.js',
 				array( 'qevora-layouts-admin' ),
-				QEVORA_LAYOUTS_VERSION,
+				$this->asset_version( 'assets/js/conditions.js' ),
 				true
 			);
 
@@ -378,7 +393,7 @@ class Admin {
 				'qevora-layouts-library',
 				QEVORA_LAYOUTS_URL . 'assets/js/library.js',
 				array( 'qevora-layouts-admin' ),
-				QEVORA_LAYOUTS_VERSION,
+				$this->asset_version( 'assets/js/library.js' ),
 				true
 			);
 

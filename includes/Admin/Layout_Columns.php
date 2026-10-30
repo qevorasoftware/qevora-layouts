@@ -11,6 +11,7 @@ namespace QevoraLayouts\Admin;
 use QevoraLayouts\Conditions\Condition_Sanitizer;
 use QevoraLayouts\Core\Capabilities;
 use QevoraLayouts\Core\Layout;
+use QevoraLayouts\Import\Demo_Registry;
 use QevoraLayouts\Core\Layout_Post_Type;
 
 // Exit if accessed directly.
@@ -71,6 +72,7 @@ class Layout_Columns {
 		$custom = array(
 			'cb'            => isset( $columns['cb'] ) ? $columns['cb'] : '<input type="checkbox" />',
 			'title'         => __( 'Layout', 'qevora-layouts' ),
+			'ql_preview'    => __( 'Preview', 'qevora-layouts' ),
 			'ql_type'       => __( 'Type', 'qevora-layouts' ),
 			'ql_conditions' => __( 'Display conditions', 'qevora-layouts' ),
 			'ql_priority'   => __( 'Priority', 'qevora-layouts' ),
@@ -109,6 +111,10 @@ class Layout_Columns {
 		}
 
 		switch ( $column ) {
+			case 'ql_preview':
+				self::render_preview_cell( $layout, (int) $post_id );
+				break;
+
 			case 'ql_type':
 				printf(
 					'<span class="qevora-layouts-badge qevora-layouts-badge--%1$s">%2$s</span>',
@@ -159,6 +165,34 @@ class Layout_Columns {
 	 * @param Layout $layout Layout.
 	 * @return string
 	 */
+		/**
+	 * Prints a small live preview of a demo layout inside the list table.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param Layout $layout  Layout being listed.
+	 * @param int    $post_id Post ID.
+	 * @return void
+	 */
+	private static function render_preview_cell( Layout $layout, $post_id ) {
+		$slug = (string) $layout->demo_slug;
+
+		if ( 'demo' !== $layout->builder || '' === $slug || ! Demo_Registry::exists( $slug ) ) {
+			echo '&mdash;';
+
+			return;
+		}
+
+		$settings = Demo_Registry::get_settings(
+			$slug,
+			(array) get_post_meta( $post_id, Layout_Post_Type::META_DEMO_SETTINGS, true )
+		);
+
+		echo '<div class="qevora-demo-live qevora-demo-live--row" aria-hidden="true"><div class="qevora-demo-live__inner">';
+		echo Demo_Registry::preview_html( $slug, (int) $post_id, $settings ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Bundled demo markup; escaped inside the demo file.
+		echo '</div></div>';
+	}
+
 	private static function placement_label( Layout $layout ) {
 		$placement  = $layout->get_effective_placement();
 		$placements = Layout_Post_Type::get_placements( $layout->type );

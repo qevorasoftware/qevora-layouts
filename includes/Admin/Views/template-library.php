@@ -185,7 +185,7 @@ $qevora_scopes    = Importer::display_scopes();
 
 	<?php $qevora_demos = Demo_Registry::for_display(); ?>
 	<?php if ( ! empty( $qevora_demos ) ) : ?>
-		<div class="card qevora-library__demos">
+		<div class="qevora-library__demos qevora-demos">
 			<h2 class="title"><?php esc_html_e( 'Ready-made demos (rendered by the plugin)', 'qevora-layouts' ); ?></h2>
 			<p>
 				<?php esc_html_e( 'Each card below shows the demo rendering live, straight from its PHP file - what you see here is exactly the header, footer or section your site will display after import. Every demo is one self-contained PHP file (markup, settings, CSS and JavaScript), fully responsive, with no block editor and no page builder; demos with a menu can create a real WordPress menu for you at import.', 'qevora-layouts' ); ?>
@@ -223,7 +223,8 @@ $qevora_scopes    = Importer::display_scopes();
 							</div>
 						</div>
 
-						<div class="qevora-template__body">
+						<div class="qevora-demo-card__info">
+							<div class="qevora-template__body">
 							<h2 class="qevora-template__title"><?php echo esc_html( (string) $qevora_demo['name'] ); ?></h2>
 							<p class="qevora-template__meta">
 								<?php echo esc_html( (string) $qevora_demo['type_label'] ); ?> &middot; <?php esc_html_e( 'PHP demo', 'qevora-layouts' ); ?>
@@ -278,6 +279,7 @@ $qevora_scopes    = Importer::display_scopes();
 								<p class="description qevora-template__message" role="status" aria-live="polite"></p>
 							</form>
 						<?php endif; ?>
+						</div>
 					</article>
 				<?php endforeach; ?>
 			</div>
