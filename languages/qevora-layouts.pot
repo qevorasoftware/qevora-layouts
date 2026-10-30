@@ -1,0 +1,2418 @@
+# Copyright (C) 2026 Qevora Software
+# This file is distributed under the GPL-2.0-or-later license.
+msgid ""
+msgstr ""
+"Project-Id-Version: Qevora Layouts 1.0.0\n"
+"Report-Msgid-Bugs-To: https://github.com/qevorasoftware/qevora-layouts/issues\n"
+"POT-Creation-Date: 2026-10-30T05:19:08+00:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Domain: qevora-layouts\n"
+
+#: includes/Admin/Actions.php:120
+msgid "The layout was cloned as a draft."
+msgstr ""
+
+#: includes/Admin/Actions.php:142
+#: includes/Admin/Actions.php:270
+msgid "No layout was selected."
+msgstr ""
+
+#: includes/Admin/Actions.php:153
+#: includes/Admin/Actions.php:282
+msgid "Your session has expired. Please try again."
+msgstr ""
+
+#: includes/Admin/Actions.php:159
+#: includes/Core/Layout_Repository.php:260
+msgid "You are not allowed to change this layout."
+msgstr ""
+
+#: includes/Admin/Actions.php:174
+msgid "The layout is now enabled."
+msgstr ""
+
+#: includes/Admin/Actions.php:175
+msgid "The layout is now disabled (draft)."
+msgstr ""
+
+#. translators: %d: new cache version.
+#: includes/Admin/Actions.php:195
+msgid "Caches cleared. New cache version: %d."
+msgstr ""
+
+#: includes/Admin/Actions.php:219
+msgid "The remote library returned no templates."
+msgstr ""
+
+#. translators: %d: number of templates.
+#: includes/Admin/Actions.php:230
+msgid "Remote library refreshed: %d templates available."
+msgstr ""
+
+#: includes/Admin/Actions.php:290
+#: includes/Admin/Ajax.php:81
+#: includes/Core/Capabilities.php:142
+msgid "You are not allowed to perform this action."
+msgstr ""
+
+#: includes/Admin/Admin.php:137
+#: includes/Admin/Admin.php:138
+#: includes/Admin/System_Status_Page.php:64
+msgid "Qevora Layouts"
+msgstr ""
+
+#: includes/Admin/Admin.php:152
+#: includes/Admin/Admin.php:153
+#: includes/Core/Layout_Post_Type.php:145
+#: includes/Core/Layout_Post_Type.php:155
+msgid "All Layouts"
+msgstr ""
+
+#: includes/Admin/Admin.php:159
+#: includes/Core/Layout_Post_Type.php:147
+msgid "Add New Layout"
+msgstr ""
+
+#: includes/Admin/Admin.php:160
+#: includes/Core/Layout_Post_Type.php:146
+msgid "Add New"
+msgstr ""
+
+#: includes/Admin/Admin.php:166
+#: includes/Admin/Admin.php:167
+#: includes/Admin/Views/template-library.php:34
+msgid "Template Library"
+msgstr ""
+
+#: includes/Admin/Admin.php:173
+#: includes/Admin/Views/settings.php:23
+msgid "Qevora Layouts Settings"
+msgstr ""
+
+#: includes/Admin/Admin.php:174
+msgid "Settings"
+msgstr ""
+
+#: includes/Admin/Admin.php:180
+#: includes/Admin/Admin.php:181
+#: includes/Admin/Views/system-status.php:24
+msgid "System Status"
+msgstr ""
+
+#: includes/Admin/Admin.php:324
+#: includes/Admin/Meta_Boxes.php:322
+msgid "Select a condition"
+msgstr ""
+
+#: includes/Admin/Admin.php:325
+msgid "Select a value"
+msgstr ""
+
+#: includes/Admin/Admin.php:326
+#: includes/Admin/Meta_Boxes.php:415
+msgid "Comma separated IDs, e.g. 12, 48"
+msgstr ""
+
+#: includes/Admin/Admin.php:327
+msgid "theme_hook_name"
+msgstr ""
+
+#: includes/Admin/Admin.php:328
+#: includes/Admin/Meta_Boxes.php:484
+msgid "Remove"
+msgstr ""
+
+#: includes/Admin/Admin.php:329
+msgid "Searching…"
+msgstr ""
+
+#: includes/Admin/Admin.php:330
+msgid "No results."
+msgstr ""
+
+#: includes/Admin/Admin.php:331
+msgid "Something went wrong. Please try again."
+msgstr ""
+
+#: includes/Admin/Admin.php:332
+msgid "Importing…"
+msgstr ""
+
+#: includes/Admin/Admin.php:333
+msgid "Imported."
+msgstr ""
+
+#: includes/Admin/Admin.php:334
+msgid "Skipped."
+msgstr ""
+
+#: includes/Admin/Admin.php:335
+msgid "The request did not reach the server. Check your connection and try again."
+msgstr ""
+
+#: includes/Admin/Admin.php:336
+msgid "You are not allowed to do this, or your session expired."
+msgstr ""
+
+#: includes/Admin/Admin.php:337
+msgid "Condition added. Choose a condition type."
+msgstr ""
+
+#: includes/Admin/Admin.php:338
+msgid "Condition removed."
+msgstr ""
+
+#: includes/Admin/Admin.php:339
+msgid "Search posts and pages"
+msgstr ""
+
+#: includes/Admin/Admin.php:340
+msgid "Search terms"
+msgstr ""
+
+#: includes/Admin/Admin.php:341
+msgid "Search users"
+msgstr ""
+
+#: includes/Admin/Admin.php:342
+msgid "Type at least two characters…"
+msgstr ""
+
+#: includes/Admin/Admin.php:343
+msgid "Search"
+msgstr ""
+
+#: includes/Admin/Admin.php:344
+msgid "Close"
+msgstr ""
+
+#: includes/Admin/Admin.php:345
+msgid "Type at least two characters to search."
+msgstr ""
+
+#: includes/Admin/Admin.php:346
+msgid "That ID is already in the list."
+msgstr ""
+
+#: includes/Admin/Admin.php:347
+msgid "Added."
+msgstr ""
+
+#: includes/Admin/Admin.php:348
+#: includes/Import/Importer.php:182
+msgid "Only .json template files are accepted."
+msgstr ""
+
+#: includes/Admin/Admin.php:349
+msgid "Ready to import."
+msgstr ""
+
+#: includes/Admin/Admin.php:350
+msgid "Uploading…"
+msgstr ""
+
+#: includes/Admin/Admin.php:351
+msgid "The request could not be sent. Submitting the form directly…"
+msgstr ""
+
+#: includes/Admin/Admin.php:352
+msgid "Open the imported layout"
+msgstr ""
+
+#: includes/Admin/Admin.php:353
+msgid "Open all layouts"
+msgstr ""
+
+#: includes/Admin/Admin.php:354
+msgid "Copied to the clipboard."
+msgstr ""
+
+#: includes/Admin/Admin.php:355
+#: includes/Admin/Views/system-status.php:38
+msgid "Copy status report"
+msgstr ""
+
+#: includes/Admin/Admin.php:356
+msgid "There is nothing to copy."
+msgstr ""
+
+#: includes/Admin/Admin.php:357
+msgid "Copy the text manually from the report box."
+msgstr ""
+
+#: includes/Admin/Admin.php:519
+msgid ""
+"Qevora Layouts: no third-party page builder was detected. Layouts are"
+"built with the WordPress block editor, which needs no extra plugin."
+msgstr ""
+
+#: includes/Admin/Admin.php:523
+msgid ""
+"Elementor is installed; enable the integration in Settings → Integrations"
+"if you want to build layouts with it."
+msgstr ""
+
+#: includes/Admin/Admin.php:532
+msgid ""
+"Qevora Layouts: one or more layouts were built with Elementor, but"
+"Elementor is not active. Those layouts fall back to their stored block"
+"content, which may be empty. Reactivate Elementor or edit the layouts."
+msgstr ""
+
+#: includes/Admin/Admin.php:620
+#: includes/Admin/Admin.php:635
+#: includes/Admin/Admin.php:650
+msgid "You are not allowed to view this page."
+msgstr ""
+
+#: includes/Admin/Ajax.php:158
+msgid "Enter at least two characters to search."
+msgstr ""
+
+#. translators: 1: post title, 2: post type, 3: post ID.
+#. translators: 1: term name, 2: taxonomy, 3: term ID.
+#: includes/Admin/Ajax.php:233
+#: includes/Admin/Ajax.php:290
+msgid "%1$s (%2$s #%3$d)"
+msgstr ""
+
+#. translators: 1: post title, 2: post type, 3: post ID.
+#: includes/Admin/Ajax.php:234
+#: includes/REST/Rest_Controller.php:603
+msgid "(no title)"
+msgstr ""
+
+#. translators: 1: display name, 2: user ID.
+#: includes/Admin/Ajax.php:331
+msgid "%1$s (#%2$d)"
+msgstr ""
+
+#: includes/Admin/Ajax.php:361
+msgid "Caches cleared."
+msgstr ""
+
+#: includes/Admin/Ajax.php:71
+#: includes/Core/Capabilities.php:134
+msgid "Your session has expired. Please reload the page and try again."
+msgstr ""
+
+#: includes/Admin/Import_Handler.php:100
+msgid "The file contains no usable template."
+msgstr ""
+
+#. translators: %s: template name.
+#: includes/Admin/Import_Handler.php:240
+msgid "The template \"%s\" could not be imported."
+msgstr ""
+
+#: includes/Admin/Import_Handler.php:269
+msgid "The import did not finish."
+msgstr ""
+
+#. translators: 1: template name, 2: what happened.
+#: includes/Admin/Import_Handler.php:290
+msgid "%1$s — %2$s"
+msgstr ""
+
+#. translators: 1: number imported, 2: number skipped, 3: number failed.
+#: includes/Admin/Import_Handler.php:319
+msgid "Import finished: %1$d imported, %2$d skipped, %3$d failed."
+msgstr ""
+
+#: includes/Admin/Import_Handler.php:341
+msgid "layout created"
+msgstr ""
+
+#: includes/Admin/Import_Handler.php:342
+msgid "second copy created"
+msgstr ""
+
+#: includes/Admin/Import_Handler.php:343
+msgid "existing layout replaced"
+msgstr ""
+
+#: includes/Admin/Import_Handler.php:344
+msgid "skipped (already imported)"
+msgstr ""
+
+#: includes/Admin/Import_Handler.php:345
+msgid "failed"
+msgstr ""
+
+#: includes/Admin/Import_Handler.php:43
+#: includes/Admin/Views/template-library.php:144
+#: includes/Import/Importer.php:120
+#: includes/Import/Importer.php:276
+#: includes/Import/Importer.php:362
+msgid "You are not allowed to import templates."
+msgstr ""
+
+#: includes/Admin/Import_Handler.php:61
+msgid "The remote template library is disabled."
+msgstr ""
+
+#: includes/Admin/Import_Handler.php:81
+msgid ""
+"Uploading template files is disabled in Settings → Template library and"
+"imports."
+msgstr ""
+
+#: includes/Admin/Import_Handler.php:87
+msgid "Choose a .json template file to import."
+msgstr ""
+
+#. translators: %s: theme hook name.
+#: includes/Admin/Layout_Columns.php:169
+msgid "Hook: %s"
+msgstr ""
+
+#. translators: %s: referenced content title.
+#: includes/Admin/Layout_Columns.php:191
+msgid "Reference: %s"
+msgstr ""
+
+#: includes/Admin/Layout_Columns.php:197
+msgid "Auto detect"
+msgstr ""
+
+#: includes/Admin/Layout_Columns.php:198
+#: includes/Admin/Views/template-library.php:216
+#: includes/Import/Template.php:270
+msgid "Block editor"
+msgstr ""
+
+#: includes/Admin/Layout_Columns.php:199
+#: includes/Admin/Meta_Boxes.php:521
+#: includes/Integrations/Adapters/Elementor_Adapter.php:74
+msgid "Elementor"
+msgstr ""
+
+#: includes/Admin/Layout_Columns.php:215
+msgid "Created here"
+msgstr ""
+
+#: includes/Admin/Layout_Columns.php:219
+msgid "Starter template"
+msgstr ""
+
+#: includes/Admin/Layout_Columns.php:220
+#: includes/Admin/System_Status_Page.php:303
+#: includes/Admin/Views/template-library.php:76
+#: includes/Admin/Views/template-library.php:149
+msgid "Remote library"
+msgstr ""
+
+#: includes/Admin/Layout_Columns.php:221
+msgid "Uploaded file"
+msgstr ""
+
+#: includes/Admin/Layout_Columns.php:224
+#: includes/Admin/Meta_Boxes.php:631
+msgid "Imported"
+msgstr ""
+
+#: includes/Admin/Layout_Columns.php:270
+msgid "Filter by layout type"
+msgstr ""
+
+#: includes/Admin/Layout_Columns.php:276
+msgid "All layout types"
+msgstr ""
+
+#: includes/Admin/Layout_Columns.php:374
+msgid "Disable"
+msgstr ""
+
+#: includes/Admin/Layout_Columns.php:375
+msgid "Enable"
+msgstr ""
+
+#: includes/Admin/Layout_Columns.php:398
+msgid "Clone"
+msgstr ""
+
+#: includes/Admin/Layout_Columns.php:444
+msgid "Change type and priority"
+msgstr ""
+
+#: includes/Admin/Layout_Columns.php:73
+#: includes/Core/Layout_Post_Type.php:144
+msgid "Layout"
+msgstr ""
+
+#: includes/Admin/Layout_Columns.php:74
+msgid "Type"
+msgstr ""
+
+#: includes/Admin/Layout_Columns.php:75
+#: includes/Admin/Meta_Boxes.php:86
+msgid "Display conditions"
+msgstr ""
+
+#: includes/Admin/Layout_Columns.php:76
+#: includes/Admin/Meta_Boxes.php:156
+msgid "Priority"
+msgstr ""
+
+#: includes/Admin/Layout_Columns.php:77
+#: includes/Admin/Meta_Boxes.php:169
+msgid "Placement"
+msgstr ""
+
+#: includes/Admin/Layout_Columns.php:78
+msgid "Built with"
+msgstr ""
+
+#: includes/Admin/Layout_Columns.php:79
+msgid "Source"
+msgstr ""
+
+#: includes/Admin/Layout_Columns.php:80
+msgid "Date"
+msgstr ""
+
+#: includes/Admin/Meta_Boxes.php:104
+msgid "Usage"
+msgstr ""
+
+#: includes/Admin/Meta_Boxes.php:114
+msgid "Imported from"
+msgstr ""
+
+#: includes/Admin/Meta_Boxes.php:137
+msgid "Layout type"
+msgstr ""
+
+#: includes/Admin/Meta_Boxes.php:151
+msgid ""
+"The type decides which placement options are available and where the"
+"layout can render."
+msgstr ""
+
+#: includes/Admin/Meta_Boxes.php:162
+msgid ""
+"When several layouts match, the highest priority wins. Equal priorities"
+"are resolved by condition specificity, then by the oldest layout."
+msgstr ""
+
+#: includes/Admin/Meta_Boxes.php:171
+msgid "Use the plugin default"
+msgstr ""
+
+#: includes/Admin/Meta_Boxes.php:184
+msgid ""
+"The placement decides where the layout is injected. On block themes only"
+"wp_body_open, wp_footer, a custom hook or the manual placement work."
+msgstr ""
+
+#: includes/Admin/Meta_Boxes.php:191
+msgid "Custom hook name"
+msgstr ""
+
+#: includes/Admin/Meta_Boxes.php:195
+msgid "my_theme_before_header"
+msgstr ""
+
+#: includes/Admin/Meta_Boxes.php:200
+msgid "Custom hook priority"
+msgstr ""
+
+#: includes/Admin/Meta_Boxes.php:207
+msgid ""
+"Only used when the placement is \"Custom theme hook\". Enter a hook your"
+"theme fires, for example a GeneratePress, Astra or Kadence hook."
+msgstr ""
+
+#: includes/Admin/Meta_Boxes.php:225
+msgid ""
+"Include: the layout shows on these views. Exclude: the layout never shows"
+"on these views. Exclusions always win. Leave the include list empty to"
+"match the entire site."
+msgstr ""
+
+#: includes/Admin/Meta_Boxes.php:231
+msgid ""
+"Adding and removing conditions needs JavaScript. Existing conditions are"
+"still saved."
+msgstr ""
+
+#: includes/Admin/Meta_Boxes.php:245
+msgid "Include"
+msgstr ""
+
+#: includes/Admin/Meta_Boxes.php:246
+msgid "Exclude"
+msgstr ""
+
+#: includes/Admin/Meta_Boxes.php:273
+msgid "Add exclude condition"
+msgstr ""
+
+#: includes/Admin/Meta_Boxes.php:273
+msgid "Add include condition"
+msgstr ""
+
+#: includes/Admin/Meta_Boxes.php:318
+msgid "Exclude condition"
+msgstr ""
+
+#: includes/Admin/Meta_Boxes.php:318
+msgid "Include condition"
+msgstr ""
+
+#: includes/Admin/Meta_Boxes.php:348
+msgid "Post type"
+msgstr ""
+
+#: includes/Admin/Meta_Boxes.php:351
+msgid "Select a post type"
+msgstr ""
+
+#: includes/Admin/Meta_Boxes.php:370
+#: includes/Conditions/Condition_Registry.php:121
+#: includes/Conditions/Condition_Registry.php:128
+msgid "Taxonomy"
+msgstr ""
+
+#: includes/Admin/Meta_Boxes.php:373
+msgid "Any taxonomy"
+msgstr ""
+
+#: includes/Admin/Meta_Boxes.php:391
+msgid "Post or page IDs"
+msgstr ""
+
+#: includes/Admin/Meta_Boxes.php:395
+msgid "Term IDs"
+msgstr ""
+
+#: includes/Admin/Meta_Boxes.php:423
+#: includes/Admin/Meta_Boxes.php:469
+msgid "Find"
+msgstr ""
+
+#: includes/Admin/Meta_Boxes.php:458
+msgid "Limit to term IDs (optional)"
+msgstr ""
+
+#: includes/Admin/Meta_Boxes.php:464
+msgid "Comma separated term IDs (optional)"
+msgstr ""
+
+#: includes/Admin/Meta_Boxes.php:483
+msgid "Remove this condition"
+msgstr ""
+
+#: includes/Admin/Meta_Boxes.php:515
+msgid "Render content with"
+msgstr ""
+
+#: includes/Admin/Meta_Boxes.php:519
+msgid "Auto detect (recommended)"
+msgstr ""
+
+#: includes/Admin/Meta_Boxes.php:520
+msgid "Block editor content"
+msgstr ""
+
+#: includes/Admin/Meta_Boxes.php:538
+msgid ""
+"Elementor is not active, so layouts built with it cannot be edited or"
+"rendered right now. They fall back to the stored block content."
+msgstr ""
+
+#: includes/Admin/Meta_Boxes.php:548
+msgid "Use the content of this layout"
+msgstr ""
+
+#: includes/Admin/Meta_Boxes.php:554
+msgid "Render another post, page or builder template instead"
+msgstr ""
+
+#: includes/Admin/Meta_Boxes.php:561
+msgid "Referenced post ID"
+msgstr ""
+
+#. translators: %s: referenced post title or a missing notice.
+#: includes/Admin/Meta_Boxes.php:570
+msgid "Currently referencing: %s"
+msgstr ""
+
+#. translators: %s: referenced post title or a missing notice.
+#: includes/Admin/Meta_Boxes.php:571
+msgid "(post not found)"
+msgstr ""
+
+#: includes/Admin/Meta_Boxes.php:579
+msgid ""
+"Referencing is useful when a page or an Elementor library template already"
+"contains the design you want to reuse. Nothing is copied: the layout"
+"renders the referenced content."
+msgstr ""
+
+#: includes/Admin/Meta_Boxes.php:593
+msgid "Insert this layout anywhere with the shortcode:"
+msgstr ""
+
+#: includes/Admin/Meta_Boxes.php:597
+msgid "Layout shortcode"
+msgstr ""
+
+#: includes/Admin/Meta_Boxes.php:600
+msgid "Or add the \"Qevora Layout\" block in the editor."
+msgstr ""
+
+#: includes/Admin/Meta_Boxes.php:602
+msgid "In a theme template:"
+msgstr ""
+
+#: includes/Admin/Meta_Boxes.php:624
+msgid "Template"
+msgstr ""
+
+#: includes/Admin/Meta_Boxes.php:627
+msgid "Origin"
+msgstr ""
+
+#: includes/Admin/Meta_Boxes.php:637
+msgid ""
+"Importing the same template again is skipped by default so layouts are"
+"never overwritten."
+msgstr ""
+
+#: includes/Admin/Meta_Boxes.php:650
+msgid "Bundled starter template"
+msgstr ""
+
+#: includes/Admin/Meta_Boxes.php:651
+msgid "Remote template library"
+msgstr ""
+
+#: includes/Admin/Meta_Boxes.php:652
+msgid "Uploaded template file"
+msgstr ""
+
+#: includes/Admin/Meta_Boxes.php:655
+msgid "Unknown"
+msgstr ""
+
+#: includes/Admin/Meta_Boxes.php:750
+msgid "A layout cannot reference itself. The reference was cleared."
+msgstr ""
+
+#: includes/Admin/Meta_Boxes.php:77
+msgid "Layout type and placement"
+msgstr ""
+
+#: includes/Admin/Meta_Boxes.php:95
+#: includes/Admin/Meta_Boxes.php:543
+msgid "Content source"
+msgstr ""
+
+#: includes/Admin/Settings_Page.php:132
+msgid "Enable header layouts"
+msgstr ""
+
+#: includes/Admin/Settings_Page.php:134
+msgid ""
+"Turn off to stop rendering header layouts everywhere without deleting"
+"them."
+msgstr ""
+
+#: includes/Admin/Settings_Page.php:139
+msgid "Enable footer layouts"
+msgstr ""
+
+#: includes/Admin/Settings_Page.php:141
+msgid ""
+"Turn off to stop rendering footer layouts everywhere without deleting"
+"them."
+msgstr ""
+
+#: includes/Admin/Settings_Page.php:146
+msgid "Enable reusable sections"
+msgstr ""
+
+#: includes/Admin/Settings_Page.php:148
+msgid "Sections render through the shortcode or the Qevora Layout block."
+msgstr ""
+
+#: includes/Admin/Settings_Page.php:153
+msgid "Wrap rendered layouts in a container element"
+msgstr ""
+
+#: includes/Admin/Settings_Page.php:155
+msgid ""
+"Adds a div with qevora-layouts classes. Themes can override the markup in"
+"qevora-layouts/layout-wrapper.php."
+msgstr ""
+
+#: includes/Admin/Settings_Page.php:160
+#: includes/Admin/System_Status_Page.php:98
+msgid "Default header placement"
+msgstr ""
+
+#: includes/Admin/Settings_Page.php:163
+msgid ""
+"wp_body_open works with classic and block themes. get_header only fires in"
+"classic themes that call get_header()."
+msgstr ""
+
+#: includes/Admin/Settings_Page.php:168
+#: includes/Admin/System_Status_Page.php:102
+msgid "Default footer placement"
+msgstr ""
+
+#: includes/Admin/Settings_Page.php:171
+msgid ""
+"get_footer prints before the theme footer markup, wp_footer prints after"
+"it (just before the closing body tag)."
+msgstr ""
+
+#: includes/Admin/Settings_Page.php:178
+msgid "Hide the theme header with these CSS selectors"
+msgstr ""
+
+#: includes/Admin/Settings_Page.php:180
+msgid ""
+"Optional and off by default. Comma separated selectors, for example:"
+".site-header, header#masthead. Applied only on pages where a header layout"
+"renders."
+msgstr ""
+
+#: includes/Admin/Settings_Page.php:186
+msgid "Hide the theme footer with these CSS selectors"
+msgstr ""
+
+#: includes/Admin/Settings_Page.php:188
+msgid ""
+"Optional and off by default. Applied only on pages where a footer layout"
+"renders."
+msgstr ""
+
+#: includes/Admin/Settings_Page.php:194
+msgid "Print the hiding CSS"
+msgstr ""
+
+#: includes/Admin/Settings_Page.php:196
+msgid ""
+"Turn off if you prefer to add the rules to your theme or child theme"
+"stylesheet."
+msgstr ""
+
+#: includes/Admin/Settings_Page.php:203
+msgid "Block editor adapter"
+msgstr ""
+
+#: includes/Admin/Settings_Page.php:205
+msgid ""
+"Renders layout content with WordPress core. Disabling it stops layouts"
+"from rendering unless another adapter is available."
+msgstr ""
+
+#: includes/Admin/Settings_Page.php:210
+msgid "Elementor adapter"
+msgstr ""
+
+#: includes/Admin/Settings_Page.php:212
+msgid ""
+"Renders layouts built with Elementor through the Elementor frontend API."
+"Requires Elementor to be active."
+msgstr ""
+
+#: includes/Admin/Settings_Page.php:217
+msgid "Allow building layouts with Elementor"
+msgstr ""
+
+#: includes/Admin/Settings_Page.php:219
+msgid ""
+"Adds the \"Edit with Elementor\" option to layouts by registering post"
+"type support, the same flag Elementor itself checks."
+msgstr ""
+
+#: includes/Admin/Settings_Page.php:226
+msgid "Allow importing .json template files"
+msgstr ""
+
+#: includes/Admin/Settings_Page.php:228
+msgid ""
+"Files are validated, never stored in wp-content/uploads and never"
+"executed."
+msgstr ""
+
+#: includes/Admin/Settings_Page.php:233
+msgid "Maximum template size (KB)"
+msgstr ""
+
+#: includes/Admin/Settings_Page.php:237
+msgid "Applies to imported template content. 16 to 20480 KB."
+msgstr ""
+
+#: includes/Admin/Settings_Page.php:243
+msgid "When a template was already imported"
+msgstr ""
+
+#: includes/Admin/Settings_Page.php:246
+msgid "Skip it and keep the existing layout (default)"
+msgstr ""
+
+#: includes/Admin/Settings_Page.php:247
+#: includes/Admin/System_Status_Page.php:299
+msgid "Import a second copy"
+msgstr ""
+
+#: includes/Admin/Settings_Page.php:249
+msgid ""
+"Existing layouts are never overwritten silently. You can still replace one"
+"layout explicitly from the library screen."
+msgstr ""
+
+#: includes/Admin/Settings_Page.php:254
+msgid "Enable a remote template library"
+msgstr ""
+
+#: includes/Admin/Settings_Page.php:256
+msgid ""
+"Off by default. There is no built-in remote service; the endpoint below is"
+"the only source used."
+msgstr ""
+
+#: includes/Admin/Settings_Page.php:261
+msgid "Remote library endpoint (https)"
+msgstr ""
+
+#: includes/Admin/Settings_Page.php:263
+msgid ""
+"Must be an https URL returning the documented JSON index. Template"
+"download URLs must be on the same host."
+msgstr ""
+
+#: includes/Admin/Settings_Page.php:271
+msgid "Cache matching layouts"
+msgstr ""
+
+#: includes/Admin/Settings_Page.php:273
+msgid ""
+"Keeps the candidate list in the object cache. It is invalidated"
+"automatically whenever a layout or a setting changes."
+msgstr ""
+
+#: includes/Admin/Settings_Page.php:278
+msgid "Cache lifetime (seconds)"
+msgstr ""
+
+#: includes/Admin/Settings_Page.php:282
+msgid "Between 60 and 86400 seconds."
+msgstr ""
+
+#: includes/Admin/Settings_Page.php:288
+#: includes/Admin/System_Status_Page.php:111
+msgid "Debug mode"
+msgstr ""
+
+#: includes/Admin/Settings_Page.php:290
+msgid ""
+"Writes condition, rendering and import diagnostics to the PHP error log"
+"(and to debug.log when WP_DEBUG_LOG is on). No personal data is logged."
+"Recent messages also appear on the System Status screen."
+msgstr ""
+
+#: includes/Admin/Settings_Page.php:297
+msgid "Delete all plugin data when the plugin is deleted"
+msgstr ""
+
+#: includes/Admin/Settings_Page.php:299
+msgid ""
+"Off by default. When on, deleting the plugin removes every layout, layout"
+"meta and plugin option. Deactivating never deletes anything."
+msgstr ""
+
+#: includes/Admin/Settings_Page.php:400
+msgid "https://example.com/qevora-layouts/index.json"
+msgstr ""
+
+#: includes/Admin/Settings_Page.php:432
+msgid "The settings screen could not be loaded."
+msgstr ""
+
+#: includes/Admin/Settings_Page.php:67
+msgid "Qevora Layouts settings"
+msgstr ""
+
+#: includes/Admin/Settings_Page.php:76
+msgid "Rendering"
+msgstr ""
+
+#: includes/Admin/Settings_Page.php:77
+msgid ""
+"Switch the layout types on or off and choose where they are inserted by"
+"default. Individual layouts can override the placement."
+msgstr ""
+
+#: includes/Admin/Settings_Page.php:80
+msgid "Theme integration"
+msgstr ""
+
+#: includes/Admin/Settings_Page.php:81
+msgid ""
+"Optional helpers for themes that print their own header or footer. Nothing"
+"is removed without your input."
+msgstr ""
+
+#: includes/Admin/Settings_Page.php:84
+msgid "Page builder integrations"
+msgstr ""
+
+#: includes/Admin/Settings_Page.php:85
+msgid ""
+"Integrations are optional. The block editor always works; Elementor is"
+"used only while it is active."
+msgstr ""
+
+#: includes/Admin/Settings_Page.php:88
+msgid "Template library and imports"
+msgstr ""
+
+#: includes/Admin/Settings_Page.php:89
+msgid ""
+"Bundled starter templates need no configuration. A remote library is"
+"optional and must be an https endpoint you control."
+msgstr ""
+
+#: includes/Admin/Settings_Page.php:92
+msgid "Performance and debugging"
+msgstr ""
+
+#: includes/Admin/Settings_Page.php:93
+msgid ""
+"Caching keeps condition matching cheap. Debug mode is off by default and"
+"only writes to the site debug log."
+msgstr ""
+
+#: includes/Admin/Settings_Page.php:96
+msgid "Data"
+msgstr ""
+
+#: includes/Admin/Settings_Page.php:97
+msgid ""
+"Controls what happens when the plugin is deleted. Layouts are ordinary"
+"posts and are never removed on deactivation."
+msgstr ""
+
+#: includes/Admin/System_Status_Page.php:106
+msgid "Cache version"
+msgstr ""
+
+#: includes/Admin/System_Status_Page.php:108
+msgid ""
+"Changes whenever a layout or setting changes. Old cached values are"
+"ignored."
+msgstr ""
+
+#: includes/Admin/System_Status_Page.php:114
+msgid ""
+"Diagnostics are written to the PHP error log. Turn this off on a"
+"production site when you are done."
+msgstr ""
+
+#: includes/Admin/System_Status_Page.php:121
+msgid "WordPress"
+msgstr ""
+
+#: includes/Admin/System_Status_Page.php:124
+msgid "Version"
+msgstr ""
+
+#: includes/Admin/System_Status_Page.php:129
+msgid "Locale"
+msgstr ""
+
+#: includes/Admin/System_Status_Page.php:133
+msgid "Multisite"
+msgstr ""
+
+#: includes/Admin/System_Status_Page.php:137
+msgid "WP_DEBUG"
+msgstr ""
+
+#: includes/Admin/System_Status_Page.php:142
+msgid "WP_DEBUG_LOG"
+msgstr ""
+
+#: includes/Admin/System_Status_Page.php:146
+msgid "Permalinks"
+msgstr ""
+
+#: includes/Admin/System_Status_Page.php:147
+msgid "Plain (default)"
+msgstr ""
+
+#: includes/Admin/System_Status_Page.php:150
+msgid "External object cache"
+msgstr ""
+
+#: includes/Admin/System_Status_Page.php:154
+msgid "WP_MEMORY_LIMIT"
+msgstr ""
+
+#: includes/Admin/System_Status_Page.php:162
+msgid "Server (PHP)"
+msgstr ""
+
+#: includes/Admin/System_Status_Page.php:165
+msgid "PHP version"
+msgstr ""
+
+#: includes/Admin/System_Status_Page.php:170
+msgid "SAPI"
+msgstr ""
+
+#: includes/Admin/System_Status_Page.php:174
+msgid "Memory limit"
+msgstr ""
+
+#: includes/Admin/System_Status_Page.php:178
+msgid "Max upload size"
+msgstr ""
+
+#: includes/Admin/System_Status_Page.php:180
+msgid "Applies to uploaded template files."
+msgstr ""
+
+#: includes/Admin/System_Status_Page.php:183
+msgid "Max post size"
+msgstr ""
+
+#: includes/Admin/System_Status_Page.php:187
+msgid "Max execution time"
+msgstr ""
+
+#: includes/Admin/System_Status_Page.php:191
+msgid "JSON extension"
+msgstr ""
+
+#: includes/Admin/System_Status_Page.php:196
+msgid "mbstring extension"
+msgstr ""
+
+#: includes/Admin/System_Status_Page.php:200
+msgid "OPcache available"
+msgstr ""
+
+#: includes/Admin/System_Status_Page.php:208
+msgid "Active theme"
+msgstr ""
+
+#: includes/Admin/System_Status_Page.php:211
+msgid "Theme"
+msgstr ""
+
+#: includes/Admin/System_Status_Page.php:215
+msgid "Parent theme"
+msgstr ""
+
+#: includes/Admin/System_Status_Page.php:216
+msgid "None (not a child theme)"
+msgstr ""
+
+#: includes/Admin/System_Status_Page.php:219
+msgid "Block theme"
+msgstr ""
+
+#: includes/Admin/System_Status_Page.php:223
+msgid "wp_body_open() available"
+msgstr ""
+
+#: includes/Admin/System_Status_Page.php:224
+msgid "Could not be detected"
+msgstr ""
+
+#: includes/Admin/System_Status_Page.php:227
+msgid ""
+"The theme header.php was not readable. If the header placement does"
+"nothing, use the \"Custom theme hook\" or \"Manual only\" placement."
+msgstr ""
+
+#: includes/Admin/System_Status_Page.php:228
+msgid ""
+"This theme does not call wp_body_open(). Use a custom theme hook or the"
+"manual placement for headers."
+msgstr ""
+
+#: includes/Admin/System_Status_Page.php:231
+msgid "get_header() / get_footer() hooks"
+msgstr ""
+
+#: includes/Admin/System_Status_Page.php:234
+msgid ""
+"Block themes do not fire get_header/get_footer. Use wp_body_open,"
+"wp_footer, a custom hook or the manual placement."
+msgstr ""
+
+#: includes/Admin/System_Status_Page.php:237
+msgid "Theme header selectors to hide"
+msgstr ""
+
+#: includes/Admin/System_Status_Page.php:238
+#: includes/Admin/System_Status_Page.php:242
+msgid "None"
+msgstr ""
+
+#: includes/Admin/System_Status_Page.php:241
+msgid "Theme footer selectors to hide"
+msgstr ""
+
+#: includes/Admin/System_Status_Page.php:257
+msgid "active"
+msgstr ""
+
+#: includes/Admin/System_Status_Page.php:257
+msgid "not active"
+msgstr ""
+
+#: includes/Admin/System_Status_Page.php:266
+msgid "Available"
+msgstr ""
+
+#: includes/Admin/System_Status_Page.php:266
+msgid "Available (%s)"
+msgstr ""
+
+#. translators: %s: builder version.
+#: includes/Admin/System_Status_Page.php:267
+msgid "Not available"
+msgstr ""
+
+#: includes/Admin/System_Status_Page.php:269
+msgid "layouts can be edited with this builder"
+msgstr ""
+
+#: includes/Admin/System_Status_Page.php:276
+msgid "Builders"
+msgstr ""
+
+#: includes/Admin/System_Status_Page.php:277
+msgid "Not resolved yet"
+msgstr ""
+
+#: includes/Admin/System_Status_Page.php:283
+msgid "Builder adapters"
+msgstr ""
+
+#: includes/Admin/System_Status_Page.php:289
+msgid "Uploaded imports allowed"
+msgstr ""
+
+#: includes/Admin/System_Status_Page.php:293
+msgid "Maximum template size"
+msgstr ""
+
+#: includes/Admin/System_Status_Page.php:297
+msgid "Duplicate import policy"
+msgstr ""
+
+#: includes/Admin/System_Status_Page.php:300
+msgid "Skip already imported templates"
+msgstr ""
+
+#: includes/Admin/System_Status_Page.php:304
+#: includes/Admin/Views/template-library.php:276
+msgid "Disabled"
+msgstr ""
+
+#: includes/Admin/System_Status_Page.php:304
+#: includes/Admin/Views/template-library.php:275
+msgid "Enabled"
+msgstr ""
+
+#: includes/Admin/System_Status_Page.php:306
+msgid "Bundled starter templates are always available."
+msgstr ""
+
+#: includes/Admin/System_Status_Page.php:306
+msgid "Requests are limited to the configured https host."
+msgstr ""
+
+#: includes/Admin/System_Status_Page.php:314
+msgid "Remote host"
+msgstr ""
+
+#: includes/Admin/System_Status_Page.php:321
+msgid "Template library"
+msgstr ""
+
+#: includes/Admin/System_Status_Page.php:330
+msgid "Active"
+msgstr ""
+
+#: includes/Admin/System_Status_Page.php:332
+msgid ""
+"Another plugin can render a header or footer. If you see duplicates,"
+"disable one of them or hide the theme markup."
+msgstr ""
+
+#: includes/Admin/System_Status_Page.php:338
+msgid "Known header/footer plugins"
+msgstr ""
+
+#: includes/Admin/System_Status_Page.php:339
+msgid "None detected"
+msgstr ""
+
+#: includes/Admin/System_Status_Page.php:346
+msgid "Possible conflicts"
+msgstr ""
+
+#: includes/Admin/System_Status_Page.php:372
+msgid "The system status screen could not be loaded."
+msgstr ""
+
+#: includes/Admin/System_Status_Page.php:67
+msgid "Plugin version"
+msgstr ""
+
+#: includes/Admin/System_Status_Page.php:71
+msgid "Layouts (total)"
+msgstr ""
+
+#: includes/Admin/System_Status_Page.php:75
+msgid "Layouts enabled"
+msgstr ""
+
+#: includes/Admin/System_Status_Page.php:79
+msgid "Headers / footers / sections"
+msgstr ""
+
+#: includes/Admin/System_Status_Page.php:88
+msgid "Header rendering"
+msgstr ""
+
+#: includes/Admin/System_Status_Page.php:93
+msgid "Footer rendering"
+msgstr ""
+
+#: includes/Admin/Template_Library_Page.php:53
+msgid "The template library screen could not be loaded."
+msgstr ""
+
+#: includes/Admin/Views/settings.php:26
+msgid ""
+"These settings control how layouts render, which builders are used and how"
+"templates are imported. Every layout can override the placement"
+"individually."
+msgstr ""
+
+#: includes/Admin/Views/settings.php:34
+msgid "Save settings"
+msgstr ""
+
+#: includes/Admin/Views/settings.php:40
+msgid "Getting started"
+msgstr ""
+
+#: includes/Admin/Views/settings.php:44
+msgid "Create a layout"
+msgstr ""
+
+#: includes/Admin/Views/settings.php:49
+msgid "Manage all layouts"
+msgstr ""
+
+#: includes/Admin/Views/settings.php:54
+msgid "Import a starter template"
+msgstr ""
+
+#: includes/Admin/Views/settings.php:59
+msgid "Check the system status"
+msgstr ""
+
+#: includes/Admin/Views/settings.php:66
+msgid "About theme headers"
+msgstr ""
+
+#: includes/Admin/Views/settings.php:68
+msgid ""
+"This plugin never removes your theme header or footer on its own. A layout"
+"is inserted at the placement you choose, and only the CSS selectors you"
+"enter in \"Theme integration\" hide the theme markup."
+msgstr ""
+
+#: includes/Admin/Views/settings.php:71
+msgid ""
+"If you see two headers, either hide the theme one with the selectors"
+"above, switch the layout placement to \"Manual only\" and call the"
+"template tag in your theme, or ask your theme for a hook name and use the"
+"\"Custom theme hook\" placement."
+msgstr ""
+
+#: includes/Admin/Views/system-status.php:101
+msgid "Needs attention"
+msgstr ""
+
+#: includes/Admin/Views/system-status.php:112
+msgid "Troubleshooting"
+msgstr ""
+
+#: includes/Admin/Views/system-status.php:114
+msgid ""
+"A layout does not appear: check that it is published (enabled), that its"
+"display conditions include the current view, and that header or footer"
+"rendering is not switched off in Settings."
+msgstr ""
+
+#: includes/Admin/Views/system-status.php:115
+msgid ""
+"Two headers appear: your theme still prints its own header. Add the theme"
+"header selector to Settings → Theme integration, or set the layout"
+"placement to \"Manual only\" and call qevora_layouts_the_header() in a"
+"child theme."
+msgstr ""
+
+#: includes/Admin/Views/system-status.php:116
+msgid ""
+"Nothing changed after an edit: click \"Clear layout caches\" above, then"
+"reload the page. Page caches and CDNs also need to be purged."
+msgstr ""
+
+#: includes/Admin/Views/system-status.php:117
+msgid ""
+"A block theme: get_header and get_footer do not fire. Use wp_body_open,"
+"wp_footer, a custom hook or the manual placement."
+msgstr ""
+
+#: includes/Admin/Views/system-status.php:118
+msgid ""
+"Import failed: read the message shown on the Template Library screen; it"
+"names the exact rule the file broke."
+msgstr ""
+
+#: includes/Admin/Views/system-status.php:119
+msgid ""
+"Deeper diagnostics: enable Debug mode in Settings, reproduce the problem,"
+"then read the messages below and in your PHP error log."
+msgstr ""
+
+#: includes/Admin/Views/system-status.php:124
+msgid "Debug messages (this request)"
+msgstr ""
+
+#: includes/Admin/Views/system-status.php:127
+msgid ""
+"Debug mode is off, or nothing was logged during this request. Messages are"
+"also written to the PHP error log when debug mode is on."
+msgstr ""
+
+#: includes/Admin/Views/system-status.php:132
+msgid "Time (UTC)"
+msgstr ""
+
+#: includes/Admin/Views/system-status.php:133
+msgid "Level"
+msgstr ""
+
+#: includes/Admin/Views/system-status.php:134
+msgid "Message"
+msgstr ""
+
+#: includes/Admin/Views/system-status.php:27
+msgid "Clear layout caches"
+msgstr ""
+
+#: includes/Admin/Views/system-status.php:33
+msgid ""
+"This page is only visible to administrators. It contains no secrets or"
+"tokens. Share the copy below with your developer or with support, never in"
+"a public place."
+msgstr ""
+
+#: includes/Admin/Views/system-status.php:41
+msgid "Show as text"
+msgstr ""
+
+#: includes/Admin/Views/system-status.php:46
+msgid "Status report as plain text"
+msgstr ""
+
+#: includes/Admin/Views/system-status.php:63
+msgid "Setting"
+msgstr ""
+
+#: includes/Admin/Views/system-status.php:64
+msgid "Value"
+msgstr ""
+
+#: includes/Admin/Views/system-status.php:74
+msgid "No"
+msgstr ""
+
+#: includes/Admin/Views/system-status.php:74
+msgid "Yes"
+msgstr ""
+
+#: includes/Admin/Views/system-status.php:98
+msgid "OK"
+msgstr ""
+
+#: includes/Admin/Views/template-library.php:106
+msgid "Template file (.json)"
+msgstr ""
+
+#: includes/Admin/Views/template-library.php:111
+#: includes/Admin/Views/template-library.php:273
+msgid "Import as"
+msgstr ""
+
+#: includes/Admin/Views/template-library.php:113
+msgid "Enabled (published)"
+msgstr ""
+
+#: includes/Admin/Views/template-library.php:114
+msgid "Disabled (draft)"
+msgstr ""
+
+#: includes/Admin/Views/template-library.php:119
+#: includes/Admin/Views/template-library.php:279
+msgid "If already imported"
+msgstr ""
+
+#: includes/Admin/Views/template-library.php:121
+msgid "Skip"
+msgstr ""
+
+#: includes/Admin/Views/template-library.php:122
+#: includes/Admin/Views/template-library.php:282
+msgid "Import a copy"
+msgstr ""
+
+#: includes/Admin/Views/template-library.php:127
+msgid "Upload and import"
+msgstr ""
+
+#. translators: %d: maximum template size in kilobytes.
+#: includes/Admin/Views/template-library.php:136
+msgid ""
+"Files are validated before anything is created and are never stored on the"
+"server. Maximum size: %d KB."
+msgstr ""
+
+#: includes/Admin/Views/template-library.php:153
+msgid ""
+"Disabled. Bundled starter templates need no network access. To use your"
+"own library, enable it and enter an https endpoint in Settings."
+msgstr ""
+
+#: includes/Admin/Views/template-library.php:156
+msgid "Open settings"
+msgstr ""
+
+#. translators: %s: remote library host.
+#: includes/Admin/Views/template-library.php:165
+msgid "Enabled for %s. Requests are limited to this https host."
+msgstr ""
+
+#: includes/Admin/Views/template-library.php:177
+msgid "No templates to show"
+msgstr ""
+
+#: includes/Admin/Views/template-library.php:179
+msgid ""
+"Either no bundled starter templates were found, or the current filters"
+"match nothing. Bundled templates live in the plugin folder"
+"templates/starter/ and can be added with the"
+"qevora_layouts_bundled_template_files filter."
+msgstr ""
+
+#: includes/Admin/Views/template-library.php:182
+msgid "Open import settings"
+msgstr ""
+
+#: includes/Admin/Views/template-library.php:216
+#: includes/Import/Template.php:267
+msgid "Requires Elementor"
+msgstr ""
+
+#: includes/Admin/Views/template-library.php:219
+msgid "Remote"
+msgstr ""
+
+#. translators: %s: comma separated list of missing plugins.
+#: includes/Admin/Views/template-library.php:241
+msgid "Not available yet: %s must be active."
+msgstr ""
+
+#. translators: %d: number of existing layouts.
+#: includes/Admin/Views/template-library.php:255
+msgid "Already imported once."
+msgid_plural "Already imported %d times."
+msgstr[0] ""
+msgstr[1] ""
+
+#: includes/Admin/Views/template-library.php:260
+msgid "Edit the existing layout"
+msgstr ""
+
+#: includes/Admin/Views/template-library.php:281
+msgid "Skip duplicates"
+msgstr ""
+
+#: includes/Admin/Views/template-library.php:287
+msgid "Import"
+msgstr ""
+
+#: includes/Admin/Views/template-library.php:37
+msgid "Import settings"
+msgstr ""
+
+#: includes/Admin/Views/template-library.php:43
+msgid ""
+"Import a starter template to create a new layout. Imports never overwrite"
+"an existing layout: a template that was imported before is skipped unless"
+"you choose to import a second copy."
+msgstr ""
+
+#: includes/Admin/Views/template-library.php:48
+msgid "Library diagnostics"
+msgstr ""
+
+#: includes/Admin/Views/template-library.php:62
+msgid "Filter by type"
+msgstr ""
+
+#: includes/Admin/Views/template-library.php:64
+msgid "All types"
+msgstr ""
+
+#: includes/Admin/Views/template-library.php:72
+msgid "Filter by source"
+msgstr ""
+
+#: includes/Admin/Views/template-library.php:74
+msgid "All sources"
+msgstr ""
+
+#: includes/Admin/Views/template-library.php:75
+#: includes/Admin/Views/template-library.php:219
+msgid "Bundled"
+msgstr ""
+
+#: includes/Admin/Views/template-library.php:79
+#: includes/Admin/Views/template-library.php:80
+msgid "Search templates"
+msgstr ""
+
+#: includes/Admin/Views/template-library.php:82
+msgid "Filter"
+msgstr ""
+
+#: includes/Admin/Views/template-library.php:87
+msgid "Refresh remote library"
+msgstr ""
+
+#: includes/Admin/Views/template-library.php:94
+msgid "Import a template file"
+msgstr ""
+
+#: includes/Admin/Views/template-library.php:98
+msgid "File uploads are disabled in Settings → Template library and imports."
+msgstr ""
+
+#: includes/Conditions/Condition_Registry.php:103
+msgid "Specific posts"
+msgstr ""
+
+#: includes/Conditions/Condition_Registry.php:104
+msgid "One or more posts selected by ID."
+msgstr ""
+
+#: includes/Conditions/Condition_Registry.php:110
+msgid "Specific pages"
+msgstr ""
+
+#: includes/Conditions/Condition_Registry.php:111
+msgid "One or more pages selected by ID."
+msgstr ""
+
+#: includes/Conditions/Condition_Registry.php:117
+msgid "Taxonomy archive"
+msgstr ""
+
+#: includes/Conditions/Condition_Registry.php:118
+msgid "Archives of a taxonomy, optionally limited to specific terms."
+msgstr ""
+
+#: includes/Conditions/Condition_Registry.php:124
+msgid "Terms (archive and content)"
+msgstr ""
+
+#: includes/Conditions/Condition_Registry.php:125
+msgid ""
+"Term archives of the selected terms plus singular content assigned to"
+"them, including child terms."
+msgstr ""
+
+#: includes/Conditions/Condition_Registry.php:131
+msgid "Author"
+msgstr ""
+
+#: includes/Conditions/Condition_Registry.php:132
+msgid "Author archives and singular content written by the selected users."
+msgstr ""
+
+#: includes/Conditions/Condition_Registry.php:135
+#: includes/Conditions/Condition_Registry.php:142
+#: includes/Conditions/Condition_Registry.php:149
+#: includes/Conditions/Condition_Registry.php:156
+msgid "Users"
+msgstr ""
+
+#: includes/Conditions/Condition_Registry.php:138
+msgid "Logged in users"
+msgstr ""
+
+#: includes/Conditions/Condition_Registry.php:139
+msgid "Only shown to visitors who are signed in."
+msgstr ""
+
+#: includes/Conditions/Condition_Registry.php:145
+msgid "Logged out visitors"
+msgstr ""
+
+#: includes/Conditions/Condition_Registry.php:146
+msgid "Only shown to visitors who are not signed in."
+msgstr ""
+
+#: includes/Conditions/Condition_Registry.php:152
+msgid "User role"
+msgstr ""
+
+#: includes/Conditions/Condition_Registry.php:153
+msgid "Only shown to logged in users holding one of the selected roles."
+msgstr ""
+
+#: includes/Conditions/Condition_Registry.php:253
+msgid "Other"
+msgstr ""
+
+#: includes/Conditions/Condition_Registry.php:40
+#: includes/Conditions/Condition_Sanitizer.php:338
+msgid "Entire site"
+msgstr ""
+
+#: includes/Conditions/Condition_Registry.php:41
+msgid "Match every frontend request."
+msgstr ""
+
+#: includes/Conditions/Condition_Registry.php:44
+#: includes/Conditions/Condition_Registry.php:51
+#: includes/Conditions/Condition_Registry.php:58
+#: includes/Conditions/Condition_Registry.php:65
+#: includes/Conditions/Condition_Registry.php:72
+#: includes/Conditions/Condition_Registry.php:79
+#: includes/Conditions/Condition_Registry.php:86
+msgid "Basic"
+msgstr ""
+
+#: includes/Conditions/Condition_Registry.php:47
+msgid "Front page"
+msgstr ""
+
+#: includes/Conditions/Condition_Registry.php:48
+msgid ""
+"The page shown at the site root, whether it is a static page or the posts"
+"page."
+msgstr ""
+
+#: includes/Conditions/Condition_Registry.php:54
+msgid "Posts page (blog)"
+msgstr ""
+
+#: includes/Conditions/Condition_Registry.php:55
+msgid "The page assigned under Settings → Reading → Posts page."
+msgstr ""
+
+#: includes/Conditions/Condition_Registry.php:61
+msgid "All singular content"
+msgstr ""
+
+#: includes/Conditions/Condition_Registry.php:62
+msgid "Any single post, page or attachment."
+msgstr ""
+
+#: includes/Conditions/Condition_Registry.php:68
+msgid "All archives"
+msgstr ""
+
+#: includes/Conditions/Condition_Registry.php:69
+msgid "Post type, taxonomy, author and date archives."
+msgstr ""
+
+#: includes/Conditions/Condition_Registry.php:75
+msgid "Search results"
+msgstr ""
+
+#: includes/Conditions/Condition_Registry.php:76
+msgid "The search results listing."
+msgstr ""
+
+#: includes/Conditions/Condition_Registry.php:82
+msgid "404 page"
+msgstr ""
+
+#: includes/Conditions/Condition_Registry.php:83
+msgid "Requests that do not match any content."
+msgstr ""
+
+#: includes/Conditions/Condition_Registry.php:89
+msgid "Singular post type"
+msgstr ""
+
+#: includes/Conditions/Condition_Registry.php:90
+msgid "Single entries of one post type."
+msgstr ""
+
+#: includes/Conditions/Condition_Registry.php:93
+#: includes/Conditions/Condition_Registry.php:100
+#: includes/Conditions/Condition_Registry.php:107
+#: includes/Conditions/Condition_Registry.php:114
+msgid "Content"
+msgstr ""
+
+#: includes/Conditions/Condition_Registry.php:96
+msgid "Post type archive"
+msgstr ""
+
+#: includes/Conditions/Condition_Registry.php:97
+msgid "The archive listing of one post type."
+msgstr ""
+
+#. translators: %d: number of additional conditions.
+#: includes/Conditions/Condition_Sanitizer.php:354
+msgid "+%d more"
+msgid_plural "+%d more"
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: %d: number of excluded conditions.
+#: includes/Conditions/Condition_Sanitizer.php:360
+msgid "%d exclusion"
+msgid_plural "%d exclusions"
+msgstr[0] ""
+msgstr[1] ""
+
+#: includes/Core/Activator.php:49
+msgid "Qevora Layouts could not be activated"
+msgstr ""
+
+#: includes/Core/Layout_Post_Type.php:143
+msgid "Layouts"
+msgstr ""
+
+#: includes/Core/Layout_Post_Type.php:148
+msgid "Edit Layout"
+msgstr ""
+
+#: includes/Core/Layout_Post_Type.php:149
+msgid "New Layout"
+msgstr ""
+
+#: includes/Core/Layout_Post_Type.php:150
+msgid "View Layout"
+msgstr ""
+
+#: includes/Core/Layout_Post_Type.php:151
+msgid "View Layouts"
+msgstr ""
+
+#: includes/Core/Layout_Post_Type.php:152
+msgid "Search Layouts"
+msgstr ""
+
+#: includes/Core/Layout_Post_Type.php:153
+msgid "No layouts found."
+msgstr ""
+
+#: includes/Core/Layout_Post_Type.php:154
+msgid "No layouts found in Trash."
+msgstr ""
+
+#: includes/Core/Layout_Post_Type.php:156
+msgid "Layout Archives"
+msgstr ""
+
+#: includes/Core/Layout_Post_Type.php:157
+msgid "Layout Attributes"
+msgstr ""
+
+#: includes/Core/Layout_Post_Type.php:158
+msgid "Insert into layout"
+msgstr ""
+
+#: includes/Core/Layout_Post_Type.php:159
+msgid "Uploaded to this layout"
+msgstr ""
+
+#: includes/Core/Layout_Post_Type.php:160
+msgid "Filter layouts list"
+msgstr ""
+
+#: includes/Core/Layout_Post_Type.php:161
+msgid "Layouts list navigation"
+msgstr ""
+
+#: includes/Core/Layout_Post_Type.php:162
+msgid "Layouts list"
+msgstr ""
+
+#: includes/Core/Layout_Post_Type.php:163
+msgid "Layout published."
+msgstr ""
+
+#: includes/Core/Layout_Post_Type.php:164
+msgid "Layout reverted to draft."
+msgstr ""
+
+#: includes/Core/Layout_Post_Type.php:169
+msgid "Headers, footers and reusable layout templates managed by Qevora Layouts."
+msgstr ""
+
+#: includes/Core/Layout_Post_Type.php:300
+msgid "Qevora Layouts metadata."
+msgstr ""
+
+#: includes/Core/Layout_Post_Type.php:338
+msgid "Header"
+msgstr ""
+
+#: includes/Core/Layout_Post_Type.php:339
+msgid "A header layout rendered near the top of the page."
+msgstr ""
+
+#: includes/Core/Layout_Post_Type.php:342
+msgid "Footer"
+msgstr ""
+
+#: includes/Core/Layout_Post_Type.php:343
+msgid "A footer layout rendered near the bottom of the page."
+msgstr ""
+
+#: includes/Core/Layout_Post_Type.php:346
+msgid "Reusable Section"
+msgstr ""
+
+#: includes/Core/Layout_Post_Type.php:347
+msgid "A reusable block of content inserted with a shortcode or a block."
+msgstr ""
+
+#: includes/Core/Layout_Post_Type.php:417
+msgid "Start of the theme footer (get_footer)"
+msgstr ""
+
+#: includes/Core/Layout_Post_Type.php:418
+msgid "End of the page, after the theme footer (wp_footer)"
+msgstr ""
+
+#: includes/Core/Layout_Post_Type.php:419
+#: includes/Core/Layout_Post_Type.php:425
+msgid "Top of the body (wp_body_open)"
+msgstr ""
+
+#: includes/Core/Layout_Post_Type.php:420
+#: includes/Core/Layout_Post_Type.php:427
+msgid "Custom theme hook"
+msgstr ""
+
+#: includes/Core/Layout_Post_Type.php:421
+#: includes/Core/Layout_Post_Type.php:428
+msgid "Manual only (shortcode, block or template tag)"
+msgstr ""
+
+#: includes/Core/Layout_Post_Type.php:426
+msgid "Start of the theme header (get_header)"
+msgstr ""
+
+#: includes/Core/Layout_Repository.php:256
+#: includes/Core/Layout_Repository.php:299
+#: includes/Frontend/Renderer.php:121
+#: includes/REST/Rest_Controller.php:391
+msgid "Layout not found."
+msgstr ""
+
+#: includes/Core/Layout_Repository.php:303
+msgid "You are not allowed to duplicate this layout."
+msgstr ""
+
+#. translators: %s: original layout title.
+#: includes/Core/Layout_Repository.php:367
+msgid "%s (copy)"
+msgstr ""
+
+#: includes/Core/Layout_Repository.php:389
+msgid "You are not allowed to delete this layout."
+msgstr ""
+
+#: includes/Core/Layout_Repository.php:395
+msgid "The layout could not be deleted."
+msgstr ""
+
+#: includes/Core/Layout_Repository.php:74
+msgid "You are not allowed to edit this layout."
+msgstr ""
+
+#: includes/Core/Layout_Repository.php:82
+msgid "You are not allowed to create layouts."
+msgstr ""
+
+#: includes/Core/Layout_Repository.php:95
+#: includes/Core/Layout_Repository.php:364
+msgid "Untitled layout"
+msgstr ""
+
+#: includes/Core/Plugin.php:311
+msgid "Cloning is not allowed."
+msgstr ""
+
+#: includes/Core/Plugin.php:322
+msgid "Unserializing is not allowed."
+msgstr ""
+
+#: includes/Frontend/Layout_Block.php:138
+msgid "Qevora Layouts: select a layout in the block settings."
+msgstr ""
+
+#: includes/Frontend/Renderer.php:115
+msgid "A valid layout ID is required."
+msgstr ""
+
+#: includes/Frontend/Renderer.php:136
+msgid "This layout is not published."
+msgstr ""
+
+#: includes/Frontend/Shortcode.php:122
+msgid "Qevora Layouts:"
+msgstr ""
+
+#: includes/Frontend/Shortcode.php:87
+msgid "No layout found for this shortcode."
+msgstr ""
+
+#: includes/Import/Importer.php:103
+msgid "The JSON payload must be an object or an array of templates."
+msgstr ""
+
+#: includes/Import/Importer.php:133
+msgid "The uploaded file could not be verified."
+msgstr ""
+
+#. translators: %d: maximum file size in kilobytes.
+#: includes/Import/Importer.php:144
+msgid "The file is larger than the allowed %d KB."
+msgstr ""
+
+#: includes/Import/Importer.php:153
+#: includes/Import/Importer.php:186
+msgid "The uploaded file could not be read."
+msgstr ""
+
+#: includes/Import/Importer.php:169
+#: includes/Import/Importer.php:208
+msgid "No file was uploaded."
+msgstr ""
+
+#: includes/Import/Importer.php:204
+msgid "The file is larger than this server allows."
+msgstr ""
+
+#: includes/Import/Importer.php:206
+msgid "The file was only partially uploaded. Please try again."
+msgstr ""
+
+#: includes/Import/Importer.php:211
+msgid "WordPress could not store the uploaded file. Please contact your host."
+msgstr ""
+
+#: includes/Import/Importer.php:213
+msgid "A PHP extension stopped the upload."
+msgstr ""
+
+#: includes/Import/Importer.php:215
+msgid "The file could not be uploaded."
+msgstr ""
+
+#: includes/Import/Importer.php:295
+msgid "Invalid template object."
+msgstr ""
+
+#: includes/Import/Importer.php:384
+msgid "You are not allowed to overwrite that layout."
+msgstr ""
+
+#. translators: %s: template name.
+#: includes/Import/Importer.php:410
+msgid "\"%s\" was imported before and already exists. Nothing was changed."
+msgstr ""
+
+#. translators: %s: template name.
+#: includes/Import/Importer.php:432
+msgid "\"%s\" already existed, a second copy was created."
+msgstr ""
+
+#: includes/Import/Importer.php:491
+msgid "The template library is not available."
+msgstr ""
+
+#: includes/Import/Importer.php:497
+msgid "Unknown template."
+msgstr ""
+
+#: includes/Import/Importer.php:505
+msgid "That template could not be found."
+msgstr ""
+
+#: includes/Import/Importer.php:81
+msgid "The template file is empty."
+msgstr ""
+
+#: includes/Import/Importer.php:86
+msgid "Template files must not contain PHP code."
+msgstr ""
+
+#. translators: %s: JSON error message.
+#: includes/Import/Importer.php:96
+msgid "The file is not valid JSON: %s"
+msgstr ""
+
+#: includes/Import/Remote_Source.php:146
+msgid "This template has no download URL."
+msgstr ""
+
+#: includes/Import/Remote_Source.php:152
+msgid "The template download URL is not on the configured library host."
+msgstr ""
+
+#: includes/Import/Remote_Source.php:202
+msgid "Only https URLs on the configured library host are allowed."
+msgstr ""
+
+#. translators: %s: transport error message.
+#: includes/Import/Remote_Source.php:237
+msgid "The template library could not be reached: %s"
+msgstr ""
+
+#. translators: %d: HTTP status code.
+#: includes/Import/Remote_Source.php:250
+msgid "The template library returned HTTP status %d."
+msgstr ""
+
+#: includes/Import/Remote_Source.php:259
+msgid "The template library returned an unexpected content type."
+msgstr ""
+
+#: includes/Import/Remote_Source.php:265
+msgid "The template library response is too large."
+msgstr ""
+
+#: includes/Import/Remote_Source.php:92
+msgid ""
+"The remote template library is disabled. Enable it and set an https"
+"endpoint in Settings → Template Library."
+msgstr ""
+
+#. translators: %s: template identifier.
+#: includes/Import/Template_Library.php:126
+msgid "Duplicate bundled template \"%s\" was skipped."
+msgstr ""
+
+#: includes/Import/Template_Library.php:161
+msgid "The bundled template file could not be read."
+msgstr ""
+
+#: includes/Import/Template_Library.php:167
+msgid "The bundled template file is too large and was skipped."
+msgstr ""
+
+#. translators: 1: template file name, 2: problem description.
+#: includes/Import/Template_Library.php:229
+msgid "Bundled template \"%1$s\": %2$s"
+msgstr ""
+
+#. translators: %s: template identifier.
+#: includes/Import/Template_Library.php:294
+msgid ""
+"Remote template \"%s\" was ignored because a bundled template uses the"
+"same identifier."
+msgstr ""
+
+#. translators: %s: list of supported layout types.
+#: includes/Import/Template_Validator.php:105
+msgid "Unknown layout type. Supported types: %s."
+msgstr ""
+
+#: includes/Import/Template_Validator.php:116
+msgid "The template is missing an identifier."
+msgstr ""
+
+#: includes/Import/Template_Validator.php:122
+msgid "The template had no identifier, one was generated from its name."
+msgstr ""
+
+#: includes/Import/Template_Validator.php:130
+msgid ""
+"Elementor template files cannot be imported here. Import them in Elementor"
+"→ Templates → Saved Templates and then reference the template from a"
+"layout (Layout → Content source → Reference existing content)."
+msgstr ""
+
+#: includes/Import/Template_Validator.php:140
+msgid "The template content must be a string."
+msgstr ""
+
+#: includes/Import/Template_Validator.php:149
+msgid "The template content is empty."
+msgstr ""
+
+#. translators: %d: maximum size in kilobytes.
+#: includes/Import/Template_Validator.php:155
+msgid "The template content is larger than the allowed %d KB."
+msgstr ""
+
+#. translators: %s: comma separated list of rejected patterns.
+#: includes/Import/Template_Validator.php:166
+msgid "The template contains code that is not allowed in layouts: %s."
+msgstr ""
+
+#: includes/Import/Template_Validator.php:177
+msgid ""
+"Some markup was removed because your account is not allowed to publish"
+"unfiltered HTML."
+msgstr ""
+
+#: includes/Import/Template_Validator.php:188
+msgid ""
+"Some display conditions were removed because they are unknown or"
+"incomplete."
+msgstr ""
+
+#. translators: %s: comma separated list of ignored keys.
+#: includes/Import/Template_Validator.php:208
+msgid "Ignored unknown template fields: %s."
+msgstr ""
+
+#: includes/Import/Template_Validator.php:264
+msgid "No templates found in this file."
+msgstr ""
+
+#. translators: 1: template position in the file, 2: warning message.
+#. translators: 1: template position in the file, 2: error message.
+#: includes/Import/Template_Validator.php:280
+#: includes/Import/Template_Validator.php:290
+msgid "Template #%1$d: %2$s"
+msgstr ""
+
+#. translators: %s: duplicated template identifier.
+#: includes/Import/Template_Validator.php:302
+msgid "The file contains the template \"%s\" more than once."
+msgstr ""
+
+#: includes/Import/Template_Validator.php:386
+msgid "PHP tags"
+msgstr ""
+
+#: includes/Import/Template_Validator.php:387
+msgid "script elements"
+msgstr ""
+
+#: includes/Import/Template_Validator.php:388
+msgid "javascript: URLs"
+msgstr ""
+
+#: includes/Import/Template_Validator.php:389
+msgid "data: HTML URLs"
+msgstr ""
+
+#: includes/Import/Template_Validator.php:390
+msgid "iframes"
+msgstr ""
+
+#: includes/Import/Template_Validator.php:391
+msgid "object/embed elements"
+msgstr ""
+
+#: includes/Import/Template_Validator.php:392
+msgid "inline event handlers"
+msgstr ""
+
+#: includes/Import/Template_Validator.php:445
+msgid ""
+"The template download URL was ignored because the template is not from a"
+"remote library."
+msgstr ""
+
+#: includes/Import/Template_Validator.php:454
+msgid ""
+"The template download URL was rejected because it is not a valid https"
+"URL."
+msgstr ""
+
+#: includes/Import/Template_Validator.php:486
+msgid "The template preview URL was rejected and will not be shown."
+msgstr ""
+
+#: includes/Import/Template_Validator.php:495
+msgid "The template preview was ignored because it is not an https URL."
+msgstr ""
+
+#: includes/Import/Template_Validator.php:503
+msgid "The template preview path was rejected."
+msgstr ""
+
+#: includes/Import/Template_Validator.php:512
+msgid "The template preview file does not exist and will not be shown."
+msgstr ""
+
+#. translators: %s: requirement key such as "php".
+#: includes/Import/Template_Validator.php:586
+msgid "Ignored an invalid \"%s\" requirement."
+msgstr ""
+
+#. translators: %s: plugin file reference.
+#: includes/Import/Template_Validator.php:609
+msgid "Ignored an invalid plugin requirement \"%s\"."
+msgstr ""
+
+#: includes/Import/Template_Validator.php:77
+msgid "The template file does not contain a valid object."
+msgstr ""
+
+#. translators: 1: schema found in the file, 2: schema supported by this version.
+#: includes/Import/Template_Validator.php:84
+msgid "Unsupported template schema \"%1$s\". This version supports \"%2$s\"."
+msgstr ""
+
+#: includes/Import/Template_Validator.php:94
+msgid "The template is missing a name."
+msgstr ""
+
+#: includes/Integrations/Adapters/Block_Adapter.php:47
+msgid "Block editor (Gutenberg)"
+msgstr ""
+
+#. translators: %s: minimum supported Elementor version.
+#: includes/Integrations/Adapters/Elementor_Adapter.php:122
+msgid "Elementor %s or newer"
+msgstr ""
+
+#: includes/REST/Rest_Controller.php:104
+msgid "Filter by source: bundled or remote."
+msgstr ""
+
+#: includes/REST/Rest_Controller.php:111
+msgid "Search term."
+msgstr ""
+
+#: includes/REST/Rest_Controller.php:131
+msgid "Template identifier from the library."
+msgstr ""
+
+#: includes/REST/Rest_Controller.php:137
+msgid "Template source."
+msgstr ""
+
+#: includes/REST/Rest_Controller.php:144
+msgid "What to do when the template was imported before."
+msgstr ""
+
+#: includes/REST/Rest_Controller.php:151
+msgid "Post status of the imported layout."
+msgstr ""
+
+#: includes/REST/Rest_Controller.php:158
+msgid "Layout ID to replace. Requires edit permission on that layout."
+msgstr ""
+
+#: includes/REST/Rest_Controller.php:178
+msgid "What to search for."
+msgstr ""
+
+#: includes/REST/Rest_Controller.php:185
+msgid "Search term (at least two characters)."
+msgstr ""
+
+#: includes/REST/Rest_Controller.php:192
+msgid "Optional post type filter."
+msgstr ""
+
+#: includes/REST/Rest_Controller.php:198
+msgid "Optional taxonomy filter."
+msgstr ""
+
+#: includes/REST/Rest_Controller.php:218
+msgid "Report format."
+msgstr ""
+
+#: includes/REST/Rest_Controller.php:240
+msgid "Sorry, you are not allowed to read layouts."
+msgstr ""
+
+#: includes/REST/Rest_Controller.php:253
+msgid "Sorry, you are not allowed to import templates."
+msgstr ""
+
+#: includes/REST/Rest_Controller.php:266
+msgid "Sorry, you are not allowed to view the system status."
+msgstr ""
+
+#: includes/REST/Rest_Controller.php:286
+msgid "Filter by post status."
+msgstr ""
+
+#: includes/REST/Rest_Controller.php:293
+msgid "Search in layout titles."
+msgstr ""
+
+#: includes/REST/Rest_Controller.php:299
+msgid "Maximum number of items to return."
+msgstr ""
+
+#: includes/REST/Rest_Controller.php:307
+msgid "Page of results."
+msgstr ""
+
+#: includes/REST/Rest_Controller.php:395
+msgid "Sorry, you are not allowed to read this layout."
+msgstr ""
+
+#: includes/REST/Rest_Controller.php:532
+msgid "Enter at least two characters."
+msgstr ""
+
+#: includes/REST/Rest_Controller.php:77
+msgid "Layout ID."
+msgstr ""
+
+#: includes/REST/Rest_Controller.php:98
+#: includes/REST/Rest_Controller.php:279
+msgid "Filter by layout type."
+msgstr ""
+
+#. translators: 1: required PHP version, 2: current PHP version.
+#: includes/Support/Requirements.php:64
+msgid "Qevora Layouts requires PHP %1$s or newer. This site runs PHP %2$s."
+msgstr ""
+
+#. translators: 1: required WordPress version, 2: current WordPress version.
+#: includes/Support/Requirements.php:71
+msgid ""
+"Qevora Layouts requires WordPress %1$s or newer. This site runs WordPress"
+"%2$s."
+msgstr ""
+
+#: includes/Support/Requirements.php:91
+msgid "Qevora Layouts is inactive:"
+msgstr ""

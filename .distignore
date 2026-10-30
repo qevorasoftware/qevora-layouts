@@ -1,0 +1,35 @@
+# Paths excluded from the distributable plugin ZIP.
+# One pattern per line. A trailing slash means "this directory and everything
+# below it"; a leading asterisk is a file-name glob; anything else matches a
+# file or directory at any depth.
+#
+# Used by tools/build-zip.sh.
+
+# Version control and repository metadata
+.git/
+.gitignore
+.gitattributes
+.github/
+
+# Development only
+tests/
+tools/
+release/
+dist/
+node_modules/
+vendor/
+
+# Editors, OS and tooling noise
+.DS_Store
+Thumbs.db
+*.log
+*.swp
+.idea/
+.vscode/
+.phpunit.result.cache
+.phpcs-cache
+.distignore
+
+# Archives
+*.zip
+*.tar.gz
